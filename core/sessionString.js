@@ -1,8 +1,11 @@
 const {WAConnection, Browsers} = require ('@adiwajshing/baileys')
 const fs = require('fs')
 const chalk = require('chalk')
+const config = require('../config');
 
-const conn = new WAConnection;
+const conn = new WAConnection();
+
+exports.WhatsApp = conn;
 
 exports.saveSession = async () => {
 
@@ -15,6 +18,16 @@ exports.saveSession = async () => {
 
     var sass = JSON.stringify(conn.base64EncodedAuthInfo());
     var stringSession = Buffer.from(sass).toString('base64');
-    console.log(chalk.green.bold("Your string session ->"), stringSession)
+    console.log(chalk.greenBright.bold("Your string session ->"), stringSession)
+    if(config.HEROKU === false){
+        if (!fs.existsSync('./config.env')) {
+            fs.writeFileSync('./config.env', `STRING_SESSION="${stringSession}"`);
+        }
+    }
     process.exit(1);
+}
+
+exports.restoreSession = function(sessionString) {
+    var dec = JSON.parse(Buffer.from(sessionString, 'base64').toString('utf-8'));
+    return dec;
 }
