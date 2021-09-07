@@ -3,10 +3,11 @@ const fs = require('fs')
 const config = require('./config')
 const banner = require('./lib/banner');
 const chalk = require('chalk');
+const wa = require('./core/helper')
 
 const client = conn.WhatsApp;
 
-async function BotsApp() {
+async function main() {
     
     client.logger.level = 'debug'
     console.log(banner);
@@ -17,7 +18,8 @@ async function BotsApp() {
         if (err instanceof TypeError || err.message === "given authInfo is null"){
             if(config.STRING_SESSION === ''){
                 console.log(
-                    chalk.redBright.bold("Please create a String Session first using command -> " + chalk.yellowBright.bold("node qr.js")));
+                    chalk.redBright.bold("Please create a String Session first using command -> " + chalk.yellowBright.bold("node qr.js"))
+                    );
             }
         }
         else {
@@ -25,10 +27,16 @@ async function BotsApp() {
         }
     }
     await client.connect()
-    client.on('chat-update', async (upd) => {
-        console.log(upd)
+    client.on('chat-update', async chat => {
+        if (!chat.hasNewMessage) return
+        if (!chat.messages) return
+        var sender = chat.messages.all()[0].key.remoteJid;
+        const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
+        var BotsApp = wa.resolve(chat.messages.all()[0], client, groupMetadata);
+        console.log(BotsApp);
+        console.log(JSON.stringify(BotsApp));
     })
 }
 
 console.log(config.STRING_SESSION);
-BotsApp();
+main();

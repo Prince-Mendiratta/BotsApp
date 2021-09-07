@@ -6,7 +6,8 @@ if (fs.existsSync('config.env')){
 
 const env = {
     STRING_SESSION: process.env.STRING_SESSION === undefined ? '' : process.env.STRING_SESSION,
-    HEROKU: process.env.HEROKU === undefined ? false : true
+    HEROKU: process.env.HEROKU === undefined ? false : true,
+    PREFIX: process.env.PREFIX === undefined ? /^[.?!]/g : process.env.PREFIX
 }
 
 module.exports = env
