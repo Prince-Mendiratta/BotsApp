@@ -3,7 +3,7 @@ const fs = require('fs')
 const config = require('./config')
 const banner = require('./lib/banner');
 const chalk = require('chalk');
-const wa = require('./core/helper')
+const wa = require('./core/helper');
 
 const client = conn.WhatsApp;
 
@@ -11,22 +11,28 @@ async function main() {
     
     client.logger.level = 'debug'
     console.log(banner);
-    var session = conn.restoreSession(config.STRING_SESSION)
     try{
+        var session = conn.restoreSession(config.STRING_SESSION)
         client.loadAuthInfo(session)
     } catch(err) {
-        if (err instanceof TypeError || err.message === "given authInfo is null"){
-            if(config.STRING_SESSION === ''){
-                console.log(
-                    chalk.redBright.bold("Please create a String Session first using command -> " + chalk.yellowBright.bold("node qr.js"))
-                    );
-            }
+        if (err instanceof TypeError || err instanceof SyntaxError){
+            console.log(
+                chalk.redBright.bold("Incorrect Session String. Please authenticate again using command -> "),
+                chalk.yellowBright.bold("npm start")
+            );
+            console.debug("[DEBUG] " + err);
+            fs.writeFileSync('./config.env', `STRING_SESSION=""`);
+            process.exit(0);
         }
         else {
-            console.log(chalk.redBright.bold(err))
+            console.log(
+                chalk.redBright.bold("SOMETHING WENT WRONG.\n"),
+                chalk.redBright.bold("[DEBUG] " + err)
+            );
+            process.exit(0)
         }
     }
-    await client.connect()
+    await client.connect();
     client.on('chat-update', async chat => {
         if (!chat.hasNewMessage) return
         if (!chat.messages) return
