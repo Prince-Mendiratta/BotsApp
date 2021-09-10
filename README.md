@@ -1,4 +1,11 @@
-<div align="center">
-    <h1>BotsApp</h1>
-    <h2>Your Personal Assisstant, on WhatsApp!</h2>
-</div>
+# BotsApp
+## Your Personal Assisstant, on WhatsApp!
+
+## Starting the bot
+
+```bash
+git clone https://github.com/DTU-DCODER/BotsApp.git
+cd BotsApp
+npm install
+npm start
+```
