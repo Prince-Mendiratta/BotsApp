@@ -15,7 +15,7 @@ async function main() {
         var session = conn.restoreSession(config.STRING_SESSION)
         client.loadAuthInfo(session)
     } catch(err) {
-        if (err instanceof TypeError || err instanceof SyntaxError){
+        if (err instanceof TypeError || err.message === "given authInfo is null" || err instanceof SyntaxError){
             console.log(
                 chalk.redBright.bold("Incorrect Session String. Please authenticate again using command -> "),
                 chalk.yellowBright.bold("npm start")
@@ -37,6 +37,7 @@ async function main() {
         if (!chat.hasNewMessage) return
         if (!chat.messages) return
         var sender = chat.messages.all()[0].key.remoteJid;
+        console.log(client);
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat.messages.all()[0], client, groupMetadata);
         console.log(BotsApp);

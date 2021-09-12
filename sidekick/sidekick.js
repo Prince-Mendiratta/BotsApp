@@ -1,8 +1,8 @@
 class BotsApp{
-    constructor(start, mimeType, type, body, isCmd, commandName, from, owner, logGroup, isGroup, isPm, sender, groupName, groupMembers, groupAdmins, groupId, isBotGroupAdmin, isSenderGroupAdmin){
-        this.start = start;
+    constructor(mimeType, type, isReply, body, isCmd, commandName, from, owner, logGroup, isGroup, isPm, sender, groupName, groupMembers, groupAdmins, groupId, isBotGroupAdmin, isSenderGroupAdmin){
         this.mimeType = mimeType;
         this.type = type;
+        this.isReply = isReply;
         this.body = body;
         this.isCmd = isCmd;
         this.commandName = commandName;
@@ -19,9 +19,6 @@ class BotsApp{
         this.isBotGroupAdmin = isBotGroupAdmin;
         this.isSenderGroupAdmin = isSenderGroupAdmin;
     }
-
-    set setStartTime(unixTime){
-        var date = new Date(unixTime * 1000);
-        this.start = date;
-    }
 }
+
+module.exports = BotsApp;
