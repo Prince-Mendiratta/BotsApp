@@ -1,5 +1,5 @@
 class BotsApp{
-    constructor(mimeType, type, isReply, body, isCmd, commandName, from, owner, logGroup, isGroup, isPm, sender, groupName, groupMembers, groupAdmins, groupId, isBotGroupAdmin, isSenderGroupAdmin){
+    constructor(mimeType, type, isReply, body, isCmd, commandName, from, fromMe, owner, logGroup, isGroup, isPm, sender, groupName, groupMembers, groupAdmins, groupId, isBotGroupAdmin, isSenderGroupAdmin){
         this.mimeType = mimeType;
         this.type = type;
         this.isReply = isReply;
@@ -7,6 +7,7 @@ class BotsApp{
         this.isCmd = isCmd;
         this.commandName = commandName;
         this.from = from; // Where from
+        this.fromMe = fromMe;
         this.owner = owner;
         this.logGroup = logGroup;
         this.isGroup = isGroup;

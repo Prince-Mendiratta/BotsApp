@@ -40,10 +40,13 @@ async function main() {
         var sender = chat.messages.all()[0].key.remoteJid;
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat.messages.all()[0], client, groupMetadata);
-        client = new ClientWithHandlers(client).client;
-        console.log(BotsApp);
+        console.log(typeof(client));
+        extra = new ClientWithHandlers(client);
+        Object.assign(client, extra);
+        console.log(client.sendMsessage.toString());
+        console.log(typeof(BotsApp))
         console.log(JSON.stringify(BotsApp));
-        client.sendMessage(BotsApp.from, "Hello.");
+        if(BotsApp.from === "917838204238@s.whatsapp.net" && BotsApp.fromMe === false){ client.sendMsessage(BotsApp.from, "xD")}
     })
 }
 

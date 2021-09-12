@@ -1,14 +1,15 @@
 const { MessageType, Mimetype } = require('@adiwajshing/baileys')
 
 
-class ClientWithHandlers{
+class Handlers{
+
     constructor(client){
-        this.client = client;
+        this.sendMsessage = this.sendMsessage;
     }
 
-    sendMessage(id, content){
-        return this.client.sendMessage(id, content, MessageType.text);
+    sendMsessage(id, content){
+        this.sendMessage(id, content, MessageType.text);
     }
 }
 
-module.exports = ClientWithHandlers;
+module.exports = Handlers;
