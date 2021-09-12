@@ -6,12 +6,12 @@ class BotsApp{
         this.body = body;
         this.isCmd = isCmd;
         this.commandName = commandName;
-        this.from = from;
+        this.from = from; // Where from
         this.owner = owner;
         this.logGroup = logGroup;
         this.isGroup = isGroup;
         this.isPm = isPm;
-        this.sender = sender;
+        this.sender = sender; // Sender if group
         this.groupName = groupName;
         this.groupMembers = groupMembers;
         this.groupAdmins = groupAdmins;

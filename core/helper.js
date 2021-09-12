@@ -13,7 +13,7 @@ exports.resolve = function(messageInstance, client, groupMetadata) {
     BotsApp.body = BotsApp.mimeType === 'conversation' ? messageInstance.message.conversation : (BotsApp.mimeType == 'imageMessage') ? messageInstance.message.imageMessage.caption : (BotsApp.mimeType == 'videoMessage') ? messageInstance.message.videoMessage.caption : (BotsApp.mimeType == 'extendedTextMessage') ? messageInstance.message.extendedTextMessage.text : '';
     BotsApp.isCmd = config.PREFIX.test(BotsApp.body);
     BotsApp.commandName = BotsApp.isCmd ? BotsApp.body.slice(1).trim().split(/ +/).shift().toLowerCase() : '';
-    BotsApp.from = messageInstance.key.remoteJid;
+    BotsApp.from = messageInstance.key.remoteJid || '';
     BotsApp.owner = client.user.jid;
     BotsApp.logGroup = client.user.jid;
     BotsApp.isGroup = BotsApp.from.endsWith('@g.us');

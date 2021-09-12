@@ -4,8 +4,9 @@ const config = require('./config')
 const banner = require('./lib/banner');
 const chalk = require('chalk');
 const wa = require('./core/helper');
+const ClientWithHandlers = require('./core/utils')
 
-const client = conn.WhatsApp;
+var client = conn.WhatsApp;
 
 async function main() {
     
@@ -37,13 +38,14 @@ async function main() {
         if (!chat.hasNewMessage) return
         if (!chat.messages) return
         var sender = chat.messages.all()[0].key.remoteJid;
-        console.log(client);
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat.messages.all()[0], client, groupMetadata);
+        client = new ClientWithHandlers(client).client;
         console.log(BotsApp);
         console.log(JSON.stringify(BotsApp));
+        client.sendMessage(BotsApp.from, "Hello.");
     })
 }
 
 console.log(config.STRING_SESSION);
-main();
+main().catch(err => console.log('[INFO] : %s', chalk.redBright.bold(err)));
