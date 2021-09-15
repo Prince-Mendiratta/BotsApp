@@ -5,13 +5,14 @@ var BotsAppClass = require("../sidekick/sidekick")
 
 exports.resolve = function(messageInstance, client, groupMetadata) {
     var BotsApp = new BotsAppClass();
+    var prefixRegex = config.PREFIX;
     console.log(messageInstance);
     console.log(JSON.stringify(messageInstance));
     BotsApp.mimeType = messageInstance.message ? Object.keys(messageInstance.message)[0] : null;
     BotsApp.type = BotsApp.mimeType === 'imageMessage' ? 'image' : (BotsApp.mimeType === 'videoMessage') ? 'video' : (BotsApp.mimeType === 'conversation' || BotsApp.mimeType == 'extendedTextMessage') ? 'text' : (BotsApp.mimeType === 'audioMessage') ? 'audio' : (BotsApp.mimeType === 'stickerMessage') ? 'sticker' : '';
     BotsApp.isReply = BotsApp.mimeType === 'extendedTextMessage';
     BotsApp.body = BotsApp.mimeType === 'conversation' ? messageInstance.message.conversation : (BotsApp.mimeType == 'imageMessage') ? messageInstance.message.imageMessage.caption : (BotsApp.mimeType == 'videoMessage') ? messageInstance.message.videoMessage.caption : (BotsApp.mimeType == 'extendedTextMessage') ? messageInstance.message.extendedTextMessage.text : '';
-    BotsApp.isCmd = config.PREFIX.test(BotsApp.body);
+    BotsApp.isCmd = prefixRegex.test(BotsApp.body);
     BotsApp.commandName = BotsApp.isCmd ? BotsApp.body.slice(1).trim().split(/ +/).shift().toLowerCase() : '';
     BotsApp.from = messageInstance.key.remoteJid || '';
     BotsApp.fromMe = messageInstance.key.fromMe;
