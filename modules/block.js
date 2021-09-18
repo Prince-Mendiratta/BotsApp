@@ -3,65 +3,68 @@ const { MessageType } = require("@adiwajshing/baileys");
 module.exports = {
     name: "block",
     description: "block contact",
-    extendedDescription:
-        "Send '.block' in a group chat as a reply or in personal chat to block that particular contact.",
+    extendedDescription: "Add number to the blocklist.",
     async handle(client, chat, BotsApp, args) {
-        var JID = "";
-        var numberOfArguments = args.length;
-        var blockType = "add";
+      var JID = "";
+      var jidNumber;
 
-        // Defining blocktype
-        if (numberOfArguments >= 1) {
-            if (args[0] === "add" || args[0] === "remove") {
-                blockType = args[0];
-            } else {
-                client.sendMessage(
-                    BotsApp.from,
-                    "oops - Invalid First attribute - \nTry : *add/remove* :(",
-                    MessageType.text
-                );
-                return;
-            }
-        }
+      if (args.length > 0) {
+          if (isNaN(args[0]) || args[0][0] === "+") {
+              if (args[0][0] === "@" || args[0][0] === "+") {
+                  jidNumber = args[0].substring(1, args[0].length + 1);
+              } else {
+                  client.sendMessage(
+                      BotsApp.from,
+                      "Enter valid contact number",
+                      MessageType.text
+                  );
+                  return;
+              }
+          } else {
+              jidNumber = args[0];
+          }
+          if (jidNumber.length < 10 || jidNumber.length > 13) {
+              client.sendMessage(
+                  BotsApp.from,
+                  "Enter valid contact number",
+                  MessageType.text
+              );
+              return;
+          } else if (jidNumber.length === 10) {
+              jidNumber = "91" + jidNumber;
+          }
+          JID = jidNumber + "@s.whatsapp.net";
+      } else if (!BotsApp.isGroup) {
+          JID = BotsApp.from;
+          jidNumber = JID.substring(0, JID.indexOf("@"));
+      } else {
+          if (BotsApp.isReply) {
+              JID =
+                  chat.messages.all()[0].message.extendedTextMessage
+                      .contextInfo.participant;
 
-        // Defining JID
-        if (numberOfArguments >= 2) {
-            if (args[1].match(/^\d{12}$/)) {
-                JID = args[1] + "@s.whatsapp.net";
-            } else {
-                client.sendMessage(
-                    BotsApp.from,
-                    "oops - Invalid Contact number - \nValid format: *XXYYYYYYYYYY* {XX - country code , YYYYYYYYYY - Phone number} :(",
-                    MessageType.text
-                );
-                return;
-            }
-        } else {
-            if (BotsApp.isGroup) {
-                if (BotsApp.isReply) {
-                    JID =
-                        chat.messages.all()[0].message.extendedTextMessage
-                            .contextInfo.participant;
-                } else {
-                    client.sendMessage(
-                        BotsApp.from,
-                        "oops - Invalid usecase - \n*Tag a message to proceed or Add number as second attribute* :(",
-                        MessageType.text
-                    );
-                    return;
-                }
-            } else {
-                JID = BotsApp.from;
-            }
-        }
+              jidNumber = JID.substring(0, JID.indexOf("@"));
+          } else {
+              client.sendMessage(
+                  BotsApp.from,
+                  "Tag a message or enter number",
+                  MessageType.text
+              );
+              return;
+          }
+      }
 
-        client.blockUser(JID, blockType);
+        client.blockUser(JID, "add");
         console.log(
-            "Command to " +
-                blockType +
+            "Command to add " +
                 " " +
-                JID.slice(2, 12) +
-                " to/from blockList successfully executed"
+                jidNumber +
+                " to blockList successfully executed"
+        );
+        client.sendMessage(
+            BotsApp.from,
+            "*" + jidNumber + " blocked successfully.*",
+            MessageType.text
         );
     },
 };
