@@ -10,43 +10,33 @@ module.exports = {
         var numberOfArguments = args.length;
         var blockType = "add";
 
-        if (numberOfArguments > 2) {
-            client.sendMessage(
-                BotsApp.from,
-                "*oops - Number of Arguments exceeded - Try Again :(*",
-                MessageType.text
-            );
-            return;
-        }
-
+        // Defining blocktype
         if (numberOfArguments >= 1) {
             if (args[0] === "add" || args[0] === "remove") {
                 blockType = args[0];
             } else {
                 client.sendMessage(
                     BotsApp.from,
-                    "*oops - Invalid attribute - Try again :(*",
+                    "oops - Invalid First attribute - \nTry : *add/remove* :(",
                     MessageType.text
                 );
                 return;
             }
         }
 
-        // Case 1- 2 arguments
-        if (numberOfArguments === 2) {
+        // Defining JID
+        if (numberOfArguments >= 2) {
             if (args[1].match(/^\d{12}$/)) {
-                var jidNumber = args[1];
+                JID = args[1] + "@s.whatsapp.net";
             } else {
                 client.sendMessage(
                     BotsApp.from,
-                    "*oops - Invalid Contact number - Try Again :(*",
+                    "oops - Invalid Contact number - \nValid format: *XXYYYYYYYYYY* {XX - country code , YYYYYYYYYY - Phone number} :(",
                     MessageType.text
                 );
                 return;
             }
-        }
-        // Case 2- less than two argument
-        else {
+        } else {
             if (BotsApp.isGroup) {
                 if (BotsApp.isReply) {
                     JID =
@@ -55,7 +45,7 @@ module.exports = {
                 } else {
                     client.sendMessage(
                         BotsApp.from,
-                        "*oops - Invalid usecase - Try again :(*",
+                        "oops - Invalid usecase - \n*Tag a message to proceed or Add number as second attribute* :(",
                         MessageType.text
                     );
                     return;
