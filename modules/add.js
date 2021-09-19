@@ -15,28 +15,35 @@ module.exports = {
             return;
         }
         if (!args[0]) {
-            client.sendMessage(BotsApp.from, "*Enter the Number you want to add like '9712345678'.*", MessageType.text);
+            client.sendMessage(BotsApp.from, "*Enter the Number you want to add like '9712345678' .*", MessageType.text);
             return;
         }
-        try {
-            if (args[0].length != 0 || isNaN(args[0])) {
-                client.sendMessage(BotsApp.from, "*Enter a valid Number like '9712345678'.*", MessageType.text);
+        try { 
+            let number;
+            if (isNaN(args[0])) {
+                client.sendMessage(BotsApp.from, "*Enter a valid Number like '9712345678' for Non-Indian Numbers also enter the country code without any symbols and spaces.*", MessageType.text);
                 return;
             }
-            else {
-                const number = '91' + args[0]
-                const request = client.groupAdd(BotsApp.from, [BotsApp.owner, number + '@s.whatsapp.net'])
-                const response = await request;
-                if(response[number + '@c.us'] != 200){
-                    client.sendMessage(BotsApp.from, "*The number you're trying to add cannot be added for around 24 hours.*", MessageType.text)
-                }
+            if (args[0].length == 10 && !isNaN(args[0])) {
+                number = '91' + args[0];
             }
+            else{
+                number = args[0];
+            }
+            const request = client.groupAdd(BotsApp.from, [BotsApp.owner, number + '@s.whatsapp.net'])
+            const response = await request;
+            if (response[number + '@c.us'] != 200) {
+                client.sendMessage(BotsApp.from, "*The number you're trying to add cannot be added for around 24 hours.*", MessageType.text)
+                return;
+            }
+
         } catch (err) {
-            if(err.status == 400){
+            if (err.status == 400) {
                 client.sendMessage(BotsApp.from, "*The number you're trying to add is not available on WhatsApp.*", MessageType.text)
+                return;
             }
             console.log(chalk.red("[ERROR] ", err));
         }
-        return 0;
+        return;
     }
 }

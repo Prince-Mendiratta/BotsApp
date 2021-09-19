@@ -8,11 +8,20 @@ module.exports = {
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             client.sendMessage(BotsApp.from, "*This is not a group.😑*", MessageType.text);
-            return 0;
+            return;
         }
         if (!BotsApp.isBotGroupAdmin) {
             client.sendMessage(BotsApp.from, "*I am not group admin.*", MessageType.text);
-            return 0;
+            return;
+        }
+        if (args[0][0] == '@') {
+            const number = args[0].substring(1);
+           if(isNaN(number)){
+            client.sendMessage(BotsApp.from, "*Reply to the person you want to remove or tag them. 😈*", MessageType.text);
+            return;
+           }
+            client.groupRemove(BotsApp.from, [number + '@s.whatsapp.net'])
+            return;
         }
         if (BotsApp.isReply) {
             let PersonToRemove = chat.messages.all()[0].message.extendedTextMessage.contextInfo.participant;
@@ -23,10 +32,10 @@ module.exports = {
             } catch (err) {
                 console.log(chalk.red("[ERROR] ", err));
             }
-            return 0;
+            return;
         }
-        client.sendMessage(BotsApp.from, "*Reply to the person you want to remove. 😈*", MessageType.text);
-        return 0;
+        client.sendMessage(BotsApp.from, "*Reply to the person you want to remove or tag them. 😈*", MessageType.text);
+        return;
     }
 
 }
