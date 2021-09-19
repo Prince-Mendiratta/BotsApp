@@ -1,0 +1,67 @@
+[33mcommit c1237dc58978eafec926413f5a04011e84eb95d6[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Wed Sep 15 20:56:31 2021 +0530
+
+    import modules
+    
+    Signed-off-by: Prince Mendiratta <prince.mendi@gmail.com>
+
+[33mcommit c04119f8055642ffabd6cd7633202aaa797c1aad[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Mon Sep 13 01:33:12 2021 +0530
+
+    Add methods to client object
+    
+    Signed-off-by: Prince Mendiratta <prince.mendi@gmail.com>
+
+[33mcommit a3e1e5ef731327847428eaea77d36c9f491bc9be[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Mon Sep 13 00:06:06 2021 +0530
+
+    Client with ClientWithHandlers Class
+    
+    Signed-off-by: Prince Mendiratta <prince.mendi@gmail.com>
+
+[33mcommit 37dd213c18310be17ec0d809bb580da6f8d1afba[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Sun Sep 12 20:52:29 2021 +0530
+
+    Fix class constructor
+    
+    Signed-off-by: Prince Mendiratta <prince.mendi@gmail.com>
+
+[33mcommit 6fdc92c27da471ac266acc86a5ac498576dfa3a5[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Fri Sep 10 14:11:19 2021 +0530
+
+    Improve Session management
+    
+    Signed-off-by: Prince Mendiratta <prince.mendi@gmail.com>
+
+[33mcommit 1030b4041370084bbdb621a222bbc1198b11ddef[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Fri Sep 10 14:10:52 2021 +0530
+
+    Add CHANGELOG & README
+    
+    Signed-off-by: Prince Mendiratta <prince.mendi@gmail.com>
+
+[33mcommit 2d77a367c3cb8b524229817a7231a893d70ceb2a[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Wed Sep 8 02:05:34 2021 +0530
+
+    Add Sidekick class
+    
+    Signed-off-by: Prince Mendiratta <prince.mendi@gmail.com>
+
+[33mcommit 830ff5b4a0bf8f54ff7fff3f90e710f862335a03[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Wed Jun 2 01:46:21 2021 +0530
+
+    Restore session from string in config.env
+
+[33mcommit 1ed9d7d58d0450f751be0dd4d55841581849e372[m
+Author: Prince Mendiratta <prince.mendi@gmail.com>
+Date:   Tue Jun 1 15:03:56 2021 +0530
+
+    Add method to generate String Session

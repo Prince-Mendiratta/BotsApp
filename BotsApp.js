@@ -43,6 +43,7 @@ async function main() {
     client.on('open', async () => {
         console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
         console.log(chalk.whiteBright.bold("[INFO] Installing Plugins... Please wait."));
+        // moduleFiles will store the files in the module folder ending with .js
         var moduleFiles = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
         for(var file of moduleFiles){
             const command = require(join(__dirname, 'modules', `${file}`));
@@ -73,7 +74,6 @@ async function main() {
                 return;
             }
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
-            console.log(args);
             console.log("-------------------------------------------")
             try{
                 command.handle(client, chat, BotsApp, args);
