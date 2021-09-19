@@ -74,7 +74,7 @@ async function main() {
             }
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
             console.log("ARGS ->" + args);
-            args.forEach(arg => console.log("arg -> " + arg  + "type -> " + typeof(arg)));
+            args.forEach(arg => console.log("arg -> " + arg  + "  type -> " + typeof(arg)));
             console.log("-------------------------------------------")
             try{
                 command.handle(client, chat, BotsApp, args);
