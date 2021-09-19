@@ -20,8 +20,8 @@ module.exports = {
         }
         try { 
             let number;
-            if (isNaN(args[0])) {
-                client.sendMessage(BotsApp.from, "*Enter a valid Number like '9712345678' for Non-Indian Numbers also enter the country code without any symbols and spaces.*", MessageType.text);
+            if (isNaN(args[0]) || args[0][0] === '+') {
+                client.sendMessage(BotsApp.from, "*Enter a valid Number like '9712345678'.* For Non-Indian number, enter in international format without any spaces or special characters.\n```For example, 17842534789.```", MessageType.text);
                 return;
             }
             if (args[0].length == 10 && !isNaN(args[0])) {
@@ -30,16 +30,22 @@ module.exports = {
             else{
                 number = args[0];
             }
-            const request = client.groupAdd(BotsApp.from, [BotsApp.owner, number + '@s.whatsapp.net'])
+            const request = client.groupAdd(BotsApp.from, [BotsApp.owner, number + '@s.whatsapp.net']);
             const response = await request;
-            if (response[number + '@c.us'] != 200) {
+            if (response[number + '@c.us'] == 408) {
                 client.sendMessage(BotsApp.from, "*The number you're trying to add cannot be added for around 24 hours.*", MessageType.text)
+                console.log(response)
+                return;
+            }else if(response[number + '@c.us'] == 409){
+                client.sendMessage(BotsApp.from, "*The number you're trying to add is already present in the group.*", MessageType.text);
                 return;
             }
+            client.sendMessage(BotsApp.from, ("```" + number + " was added successfuly.!```"), MessageType.text)
 
         } catch (err) {
+            console.log(err)
             if (err.status == 400) {
-                client.sendMessage(BotsApp.from, "*The number you're trying to add is not available on WhatsApp.*", MessageType.text)
+                client.sendMessage(BotsApp.from, "*The number you're trying to add is not available on WhatsApp. Please check the number again.*", MessageType.text)
                 return;
             }
             console.log(chalk.red("[ERROR] ", err));

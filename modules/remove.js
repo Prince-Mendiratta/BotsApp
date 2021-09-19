@@ -16,10 +16,10 @@ module.exports = {
         }
         if (args[0][0] == '@') {
             const number = args[0].substring(1);
-           if(isNaN(number)){
-            client.sendMessage(BotsApp.from, "*Reply to the person you want to remove or tag them. 😈*", MessageType.text);
+            if(isNaN(number)){
+                client.sendMessage(BotsApp.from, "*Reply to the person you want to remove or tag them. 😈*", MessageType.text);
             return;
-           }
+            }
             client.groupRemove(BotsApp.from, [number + '@s.whatsapp.net'])
             return;
         }
