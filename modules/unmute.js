@@ -7,7 +7,7 @@ module.exports = {
     extendedDescription: 'Unmute non-admin members of the group.',
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
-            client.sendMessage(BotsApp.from, "*.unmute* command is only applicable for a group chat.", MessageType.text)
+            client.sendMessage(BotsApp.from, "*.unmute*  ```command is only applicable for a group chat.```", MessageType.text)
             return;
         }
         if(!BotsApp.isBotGroupAdmin) {
