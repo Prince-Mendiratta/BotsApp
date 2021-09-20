@@ -73,7 +73,7 @@ async function main() {
                 return;
             }
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
-            console.log("ARGS ->" + args);
+            console.log("ARGS -> " + args);
             args.forEach(arg => console.log("arg -> " + arg  + "  type -> " + typeof(arg)));
             console.log("-------------------------------------------")
             try{
