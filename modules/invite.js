@@ -1,4 +1,6 @@
-const { MessageType } = require("@adiwajshing/baileys")
+const {
+    MessageType
+} = require("@adiwajshing/baileys")
 
 module.exports = {
     name: "invite",
@@ -14,6 +16,10 @@ module.exports = {
             return;
         }
         const code = await client.groupInviteCode(BotsApp.from);
+        if (BotsApp.isReply) {
+            client.sendMessage(chat.messages.all()[0].message.extendedTextMessage.contextInfo.participant, 'https://chat.whatsapp.com/' + code, MessageType.text);
+            return;
+        }
         client.sendMessage(BotsApp.from, 'https://chat.whatsapp.com/' + code, MessageType.text);
         return;
     }
