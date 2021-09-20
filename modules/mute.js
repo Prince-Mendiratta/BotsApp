@@ -17,7 +17,7 @@ module.exports = {
 
         if(isNaN(args[0])) {
             client.groupSettingChange(BotsApp.from, GroupSettingChange.messageSend, true)
-            client.sendMessage(BotsApp.from, "Chat permissions changed to  *admin only*.", MessageType.text)
+            client.sendMessage(BotsApp.from, "```Chat permissions changed to``` *admin only*.", MessageType.text)
             console.log("Chat permissions changed to *admin only*.")
         } else {
             console.log(chalk.magentaBright(typeof(parseInt(args[0]))))
