@@ -1,3 +1,5 @@
+const { GroupSettingChange, MessageType } = require('@adiwajshing/baileys');
+
 module.exports = {
     name: 'mute',
     description: 'Mute',
