@@ -13,26 +13,33 @@ module.exports = {
             client.sendMessage(BotsApp.from, "```Sorry, dont have the permission to do so since I am not an admin.```", MessageType.text);
             return;
         }
-        if(isNaN(args[0])) {
+        if(!args[0]) {
             client.groupSettingChange(BotsApp.from, GroupSettingChange.messageSend, true);
             client.sendMessage(BotsApp.from, "```Chat permissions changed to```  *admin only*.", MessageType.text);
             console.log("```Chat permissions changed to```  *admin only*.");
             return;
-        } 
+        } else if(isNaN(args[0])){
+            client.sendMessage(BotsApp.from, "Please mention how long you want to mute the chat. For example,\n*.mute 10 s* to mute for 10 seconds.", MessageType.text);
+            return;
+        }
 
         var duration;
+        var type = "minutes";
         if(args[1] === 's') { 
             duration = args[0] * 1000;
+            type = "seconds";
         } else if(args[1] === 'm') {
             duration = args[0] * 60 * 1000;
+            type = "seconds";
         } else if(args[1] === 'h') {
             duration = args[0] * 60 * 60 * 1000;
+            type = "seconds";
         } else {
             duration = args[0] * 60 * 1000; // default to minutes
         }
 
         client.groupSettingChange(BotsApp.from, GroupSettingChange.messageSend, true);
-        client.sendMessage(BotsApp.from, "```Chat permissions changed to```  *admin only*.", MessageType.text);
+        client.sendMessage(BotsApp.from, "```Chat permissions changed to```  *admin only*  ```for " + args[0] + " " + type + ".```", MessageType.text);
         setTimeout(() => {
             client.groupSettingChange(BotsApp.from, GroupSettingChange.messageSend, false);
             client.sendMessage(BotsApp.from, "```Chat permissions changed to```  *all group members*.", MessageType.text);
