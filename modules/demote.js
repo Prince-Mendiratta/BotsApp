@@ -1,6 +1,6 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const chalk = require("chalk");
-const number = require("../sidekick/helper");
+const number = require("../sidekick/input-sanitization");
 module.exports = {
   name: "demote",
   description: "Demote",
@@ -27,7 +27,7 @@ module.exports = {
         if (!args.length > 0) {
             var contact = reply.contextInfo.participant.split("@")[0];
         } else {
-            var contact = await number.helper(args, client, BotsApp);
+            var contact = await number.getCleanedContact(args, client, BotsApp);
         }
 
         var admin = false;
@@ -59,29 +59,25 @@ module.exports = {
                 );
                 return;
             }
-        } else {
+        } if(!isMember && contact.length>=10 && contact.length <13) {
             client.sendMessage(
                 BotsApp.from,
-                "*Enter valid contact number*",
+                "*Person is not in the group*",
                 MessageType.text
             );
             return;
-        }
-    } catch (err) {
-        if (typeof contact == "undefined" || err instanceof TypeError) {
-            console.log(
-                chalk.redBright.bold(
-                    "Please reply to the person for promotion " + err
-                )
-            );
-            client.sendMessage(
-                BotsApp.from,
-                "*Please reply to someone for promotion*",
-                MessageType.text
-            );
-        } else {
-            console.log(err);
-        }
+          }
+    } catch(err){
+              if(typeof(contact) == 'undefined' || err instanceof TypeError){
+                if(reply == null && typeof(args[0])=='undefined'){  
+                console.log(
+                      chalk.redBright.bold("Please reply or tag the person for promotion: " + err));
+                      client.sendMessage(BotsApp.from, "*Please reply or tag / enter contact of the person to be demoted*", MessageType.text);
+                }  
+              }
+              else{
+                  console.log(err);
+              }
     }
 },
 };
