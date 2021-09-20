@@ -15,6 +15,6 @@ module.exports = {
             return;
         }
         client.groupSettingChange(BotsApp.from, GroupSettingChange.messageSend, false)
-        client.sendMessage(BotsApp.from, "Chat permissions changed to *all group members*.", MessageType.text)
+        client.sendMessage(BotsApp.from, "```Chat permissions changed to```  *all group members*.", MessageType.text)
     }
 }
