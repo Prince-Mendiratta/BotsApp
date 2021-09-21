@@ -1,4 +1,5 @@
-const { MessageType } = require("@adiwajshing/baileys")
+const { MessageType } = require("@adiwajshing/baileys");
+
 exports.getCleanedContact = async (args,client,BotsApp) => {
     var jidNumber = '';
     var countryCode = '';
