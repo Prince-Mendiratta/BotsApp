@@ -4,7 +4,7 @@ const { handle } = require('./add');
 module.exports = {
     name: 'admins',
     description: "Tag admins",
-    extendedDescription: "Tag all the admins of the group.",
+    extendedDescription: "Tag all admins of the group.",
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
             client.sendMessage(BotsApp.from, "*.admin*  ```command is only applicable for group chats.```", MessageType.text);
