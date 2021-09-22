@@ -19,7 +19,7 @@ module.exports = {
             console.log("```Chat permissions changed to```  *admin only*.");
             return;
         } else if(isNaN(args[0])){
-            client.sendMessage(BotsApp.from, "Please mention how long you want to mute the chat. For example,\n*.mute 10 s* to mute for 10 seconds.", MessageType.text);
+            client.sendMessage(BotsApp.from, "```Please mention the duration for which you want to mute the chat. For example,\n``` *.mute 10 s*  ```to mute for 10 seconds.```", MessageType.text);
             return;
         }
 
