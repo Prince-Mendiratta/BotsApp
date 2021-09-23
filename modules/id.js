@@ -1,10 +1,12 @@
 const { MessageType } = require("@adiwajshing/baileys")
+const Reply =require("../lib/db.js").id;
+
 
 module.exports = {
     name: "alive",
-    description: "OOF",
-    extendedDescription: "Not OOOf",
+    description: Reply.DESCRIPTION,
+    extendedDescription: Reply.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args){
-        client.sendMessage(BotsApp.from, "I'm alive.", MessageType.text);
+        client.sendMessage(BotsApp.from, Reply.ALIVE_MESSAGE, MessageType.text);
     }
 }
