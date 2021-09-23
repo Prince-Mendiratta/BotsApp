@@ -23,8 +23,8 @@ module.exports = {
             });
             return;
         }
-        if (BotsApp.body.length > ".tagall".length) {
-            client.sendMessage(BotsApp.from, BotsApp.body.substring(7), MessageType.text, {
+        if (args.length) {
+            client.sendMessage(BotsApp.from, args.join(" "), MessageType.text, {
                 contextInfo: {
                     mentionedJid: members
                 }
