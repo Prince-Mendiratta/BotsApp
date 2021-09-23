@@ -9,7 +9,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
             countryCode = BotsApp.owner.substring(-28,-26);
             if (jidNumber.length < 10 || jidNumber.length > 13) {
                 client.sendMessage(
-                    BotsApp.from,
+                    BotsApp.chatId,
                     "*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",
                     MessageType.text
                 );
@@ -20,7 +20,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
             }
         }
         else {
-            client.sendMessage(BotsApp.from,"*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",MessageType.text);
+            client.sendMessage(BotsApp.chatId,"*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",MessageType.text);
             return;
         }
     } else {
@@ -28,7 +28,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
     }
     if (jidNumber.length < 10 || jidNumber.length > 13) {
         client.sendMessage(
-            BotsApp.from,"*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",MessageType.text);
+            BotsApp.chatId,"*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",MessageType.text);
         return;
     } else if (jidNumber.length === 10) {
         jidNumber = BotsApp.owner.substring(-28,-26) + jidNumber;

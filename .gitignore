@@ -4,3 +4,4 @@ build/Release
 *.env
 .env.test
 package-lock.json
+tmp/*.*
