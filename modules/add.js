@@ -41,7 +41,7 @@ module.exports = {
                 client.sendMessage(BotsApp.chatId, STRINGS.add.ALREADY_MEMBER, MessageType.text);
                 return;
             }
-            client.sendMessage(BotsApp.chatId, ("```" + number + " was added successfuly.!```"), MessageType.text)
+            client.sendMessage(BotsApp.chatId, ("```" + number + STRINGS.add.SUCCESS + "```"), MessageType.text)
 
         } catch (err) {
             console.log(err)
