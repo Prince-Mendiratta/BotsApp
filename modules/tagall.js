@@ -2,13 +2,15 @@ const {
     MessageType
 } = require('@adiwajshing/baileys');
 
+const STRINGS =require("../lib/db.js");
+
 module.exports = {
     name: 'tagall',
-    description: "Tag all",
-    extendedDescription: "Tag all members of the group.",
+    description:STRINGS.tagall.DESCRIPTION ,
+    extendedDescription: STRINGS.tagall.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
-            client.sendMessage(BotsApp.from, "*.tagall*  ```command is only applicable for group chats.```", MessageType.text);
+            client.sendMessage(BotsApp.from, STRINGS.general.NOT_A_GROUP, MessageType.text);
             return;
         }
         let members = [];
@@ -32,7 +34,7 @@ module.exports = {
             return;
         }
 
-        client.sendMessage(BotsApp.from, "*Everyone!*", MessageType.text, {
+        client.sendMessage(BotsApp.from,STRINGS.tagall.TAG_MESSAGE, MessageType.text, {
             contextInfo: {
                 mentionedJid: members
             }
