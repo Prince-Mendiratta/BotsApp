@@ -9,7 +9,7 @@ module.exports = {
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             client.sendMessage(
-                BotsApp.from,
+                BotsApp.chatId,
                 "*This is not a group*",
                 MessageType.text
             );
@@ -17,13 +17,13 @@ module.exports = {
         }
         if (!BotsApp.isBotGroupAdmin) {
             client.sendMessage(
-                BotsApp.from,
+                BotsApp.chatId,
                 "*I am not group admin*",
                 MessageType.text
             );
             return;
         }
-        const reply = chat.messages.all()[0].message.extendedTextMessage;
+        const reply = chat.message.extendedTextMessage;
         try {
             if (!args.length > 0) {
                 var contact = reply.contextInfo.participant.split("@")[0];
@@ -45,16 +45,16 @@ module.exports = {
             if (isMember) {
                 if (admin == true) {
                     const arr = [contact + "@s.whatsapp.net"];
-                    client.groupDemoteAdmin(BotsApp.from, arr);
+                    client.groupDemoteAdmin(BotsApp.chatId, arr);
                     client.sendMessage(
-                        BotsApp.from,
+                        BotsApp.chatId,
                         "*" + contact + " is demoted from admin*",
                         MessageType.text
                     );
                     return;
                 } else {
                     client.sendMessage(
-                        BotsApp.from,
+                        BotsApp.chatId,
                         "*" + contact + " was not an admin*",
                         MessageType.text
                     );
@@ -63,7 +63,7 @@ module.exports = {
             }
             if (!isMember && contact.length >= 10 && contact.length < 13) {
                 client.sendMessage(
-                    BotsApp.from,
+                    BotsApp.chatId,
                     "*Person is not in the group*",
                     MessageType.text
                 );
@@ -74,7 +74,7 @@ module.exports = {
                 if (reply == null && typeof(args[0]) == 'undefined') {
                     console.log(
                         chalk.redBright.bold("Please reply or tag the person for promotion: " + err));
-                    client.sendMessage(BotsApp.from, "*Please reply or tag / enter contact of the person to be demoted*", MessageType.text);
+                    client.sendMessage(BotsApp.chatId, "*Please reply or tag / enter contact of the person to be demoted*", MessageType.text);
                 }
             } else {
                 console.log(err);

@@ -61,15 +61,19 @@ async function main() {
         if (!chat.hasNewMessage) return
         if (!chat.messages) return
         console.log("-------------------------------------------")
-        var sender = chat.messages.all()[0].key.remoteJid;
+        chat = chat.messages.all()[0];
+        var sender = chat.key.remoteJid;
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
-        var BotsApp = wa.resolve(chat.messages.all()[0], client, groupMetadata);
+        var BotsApp = wa.resolve(chat, client, groupMetadata);
         console.log(BotsApp);
-        // if(BotsApp.from === "917838204238@s.whatsapp.net" && BotsApp.fromMe === false){ client.sendMessage(BotsApp.from, "xD", MessageType.text)}
+        // const loc = await client.downloadAndSaveMediaMessage(chat, './tmp/media_in_xxxxx');
+        // console.log(loc);
+        // console.log(fs.readFileSync(loc));
+        // if(BotsApp.chatId === "917838204238@s.whatsapp.net" && BotsApp.fromMe === false){ client.sendMessage(BotsApp.chatId, chat.message.imageMessage.jpegThumbnail, MessageType.image);}
         if(BotsApp.isCmd){
             const command = commandHandler.get(BotsApp.commandName);
             if(!command){
-                client.sendMessage(BotsApp.from, "Woops, incorrect command! Use .help for command list.", MessageType.text);
+                client.sendMessage(BotsApp.chatId, "Woops, incorrect command! Use .help for command list.", MessageType.text);
                 return;
             }
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
