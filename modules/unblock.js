@@ -1,5 +1,5 @@
 const { MessageType } = require("@adiwajshing/baileys");
-const Reply =require("../Database/db.js").unblock;
+const Reply =require("../lib/db.js").unblock;
 
 module.exports = {
     name: "unblock",

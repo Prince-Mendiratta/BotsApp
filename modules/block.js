@@ -1,5 +1,5 @@
 const { MessageType } = require("@adiwajshing/baileys");
-const Reply =require("../Database/db.js").block;
+const Reply =require("../lib/db.js").block;
 
 module.exports = {
     name: "block",
