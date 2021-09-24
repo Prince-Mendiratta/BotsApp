@@ -17,7 +17,16 @@ module.exports = {
         }
 
         if(!BotsApp.isReply) {
-            client.sendMessage(BotsApp.chatId, message, MessageType.text, {contextInfo: {mentionedJid: BotsApp.groupAdmins}});
+            client.sendMessage(
+                BotsApp.chatId, 
+                message, 
+                MessageType.text, 
+                {
+                   contextInfo: {
+                      mentionedJid: BotsApp.groupAdmins
+                    }
+                }
+            );
             return;
         }
         
@@ -25,7 +34,14 @@ module.exports = {
             BotsApp.chatId, 
             message, 
             MessageType.text, 
-            {contextInfo: {stanzaId: BotsApp.replyMessageId, participant: BotsApp.replyParticipant, quotedMessage: {conversation: BotsApp.replyMessage}, mentionedJid: BotsApp.groupAdmins}}
+            {
+                contextInfo: { 
+                    stanzaId: BotsApp.replyMessageId, 
+                    participant: BotsApp.replyParticipant, 
+                    quotedMessage: {conversation: BotsApp.replyMessage}, 
+                    mentionedJid: BotsApp.groupAdmins
+                } 
+            }
         );
     }
 };
