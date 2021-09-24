@@ -1,6 +1,6 @@
 const { MessageType } = require("@adiwajshing/baileys")
 const chalk = require('chalk');
-const STRINGS =require("../lib/db.js");
+const STRINGS = require("../lib/db.js");
 
 module.exports = {
     name: "remove",
@@ -15,15 +15,6 @@ module.exports = {
             client.sendMessage(BotsApp.chatId, STRINGS.general.BOT_NOT_ADMIN, MessageType.text);
             return;
         }
-        if (args[0][0] == '@') {
-            const number = args[0].substring(1);
-            if(isNaN(number)){
-                client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
-            return;
-            }
-            client.groupRemove(BotsApp.chatId, [number + '@s.whatsapp.net'])
-            return;
-        }
         if (BotsApp.isReply) {
             let PersonToRemove = chat.message.extendedTextMessage.contextInfo.participant;
             try {
@@ -33,6 +24,19 @@ module.exports = {
             } catch (err) {
                 console.log(chalk.red("[ERROR] ", err));
             }
+            return;
+        }
+        if (!args[0]) {
+            client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
+            return;
+        }
+        if (args[0][0] == '@') {
+            const number = args[0].substring(1);
+            if (isNaN(number)) {
+                client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
+                return;
+            }
+            client.groupRemove(BotsApp.chatId, [number + '@s.whatsapp.net'])
             return;
         }
         client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
