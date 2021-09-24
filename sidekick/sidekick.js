@@ -1,7 +1,7 @@
 class BotsApp {
     constructor(
         mimeType, type, isReply, body, isCmd, commandName, chatId, fromMe, owner, logGroup,
-        isGroup, isPm, sender, groupName, groupMembers, groupAdmins, groupId, isBotGroupAdmin, isSenderGroupAdmin, replyMessage,
+        isGroup, isPm, sender, groupName, groupMembers, groupAdmins, groupId, isBotGroupAdmin, isSenderGroupAdmin, replyMessageId, replyMessage, 
         replyParticipant, isImage, isReplyImage, imageCaption, isGIF, isReplyGIF, isSticker, isReplySticker, isReplyVideo, isReplyAudio, isVideo, isAudio) {
         this.mimeType = mimeType;
         this.type = type;
@@ -11,8 +11,9 @@ class BotsApp {
         this.owner = owner;
         this.sender = sender; // The person who sent the message in the group.
         this.isReply = isReply;
-        this.replyMessage = replyMessage;
+        this.replyMessageId = replyMessageId;
         this.replyParticipant = replyParticipant;
+        this.replyMessage = replyMessage;
         this.isGroup = isGroup;
         this.isPm = isPm;
         this.isImage = isImage;
