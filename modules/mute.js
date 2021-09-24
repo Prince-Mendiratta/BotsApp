@@ -1,25 +1,27 @@
 const { GroupSettingChange, MessageType } = require('@adiwajshing/baileys');
+const Strings = require('../lib/db');
+const ID = Strings.mute;
 
 module.exports = {
     name: 'mute',
-    description: 'Mute',
-    extendedDescription: "Mute non-admin members of the group.",
+    description: ID.DESCRIPTION,
+    extendedDescription: ID.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
-            client.sendMessage(BotsApp.chatId, "*.mute*  ```command is only applicable in a group chat.```", MessageType.text);
+            client.sendMessage(BotsApp.chatId, ID.NOT_GROUP_CHAT, MessageType.text);
             return;
         }
         if(!BotsApp.isBotGroupAdmin) {
-            client.sendMessage(BotsApp.chatId, "```Sorry, dont have the permission to do so since I am not an admin.```", MessageType.text);
+            client.sendMessage(BotsApp.chatId, ID.NOT_ADMIN, MessageType.text);
             return;
         }
         if(!args[0]) {
             client.groupSettingChange(BotsApp.chatId, GroupSettingChange.messageSend, true);
-            client.sendMessage(BotsApp.chatId, "```Chat permissions changed to```  *admin only*.", MessageType.text);
-            console.log("```Chat permissions changed to```  *admin only*.");
+            client.sendMessage(BotsApp.chatId, ID.CHAT_ADMIN_ONLY, MessageType.text);
+            console.log(ID.CHAT_ADMIN_ONLY);
             return;
         } else if(isNaN(args[0])){
-            client.sendMessage(BotsApp.chatId, "Please mention how long you want to mute the chat. For example,\n*.mute 10 s* to mute for 10 seconds.", MessageType.text);
+            client.sendMessage(BotsApp.chatId, ID.MENTION_DURATION, MessageType.text);
             return;
         }
 
@@ -42,7 +44,7 @@ module.exports = {
         client.sendMessage(BotsApp.chatId, "```Chat permissions changed to```  *admin only*  ```for " + args[0] + " " + type + ".```", MessageType.text);
         setTimeout(() => {
             client.groupSettingChange(BotsApp.chatId, GroupSettingChange.messageSend, false);
-            client.sendMessage(BotsApp.chatId, "```Chat permissions changed to```  *all group members*.", MessageType.text);
+            client.sendMessage(BotsApp.chatId, ID.CHAT_ALL_MEMBERS, MessageType.text);
         }, duration);
     }
 };
