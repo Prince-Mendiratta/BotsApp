@@ -1,27 +1,27 @@
 const { GroupSettingChange, MessageType } = require('@adiwajshing/baileys');
 const Strings = require('../lib/db');
-const ID = Strings.mute;
+const MUTE = Strings.mute;
 
 module.exports = {
     name: 'mute',
-    description: ID.DESCRIPTION,
-    extendedDescription: ID.EXTENDED_DESCRIPTION,
+    description: MUTE.DESCRIPTION,
+    extendedDescription: MUTE.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
-            client.sendMessage(BotsApp.chatId, ID.NOT_GROUP_CHAT, MessageType.text);
+            client.sendMessage(BotsApp.chatId, MUTE.NOT_GROUP_CHAT, MessageType.text);
             return;
         }
         if(!BotsApp.isBotGroupAdmin) {
-            client.sendMessage(BotsApp.chatId, ID.NOT_ADMIN, MessageType.text);
+            client.sendMessage(BotsApp.chatId, MUTE.NOT_ADMIN, MessageType.text);
             return;
         }
         if(!args[0]) {
             client.groupSettingChange(BotsApp.chatId, GroupSettingChange.messageSend, true);
-            client.sendMessage(BotsApp.chatId, ID.CHAT_ADMIN_ONLY, MessageType.text);
-            console.log(ID.CHAT_ADMIN_ONLY);
+            client.sendMessage(BotsApp.chatId, MUTE.CHAT_ADMIN_ONLY, MessageType.text);
+            console.log(MUTE.CHAT_ADMIN_ONLY);
             return;
         } else if(isNaN(args[0])){
-            client.sendMessage(BotsApp.chatId, ID.MENTION_DURATION, MessageType.text);
+            client.sendMessage(BotsApp.chatId, MUTE.MENTION_DURATION, MessageType.text);
             return;
         }
 
@@ -44,7 +44,7 @@ module.exports = {
         client.sendMessage(BotsApp.chatId, "```Chat permissions changed to```  *admin only*  ```for " + args[0] + " " + type + ".```", MessageType.text);
         setTimeout(() => {
             client.groupSettingChange(BotsApp.chatId, GroupSettingChange.messageSend, false);
-            client.sendMessage(BotsApp.chatId, ID.CHAT_ALL_MEMBERS, MessageType.text);
+            client.sendMessage(BotsApp.chatId, MUTE.CHAT_ALL_MEMBERS, MessageType.text);
         }, duration);
     }
 };

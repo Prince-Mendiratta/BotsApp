@@ -1,16 +1,16 @@
 const { MessageType } = require('@adiwajshing/baileys');
 const Strings = require('../lib/db');
-const ID = Strings.admins;
+const ADMINS = Strings.admins;
 
 module.exports = {
     name: 'admins',
-    description: ID.DESCRIPTION,
-    extendedDescription: ID.EXTENDED_DESCRIPTION,
+    description: ADMINS.DESCRIPTION,
+    extendedDescription: ADMINS.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
             client.sendMessage(
                 BotsApp.chatId, 
-               ID.NOT_GROUP_CHAT,
+                ADMINS.NOT_GROUP_CHAT,
                 MessageType.text
             );
             return;
