@@ -1,12 +1,13 @@
 const { MessageType } = require("@adiwajshing/baileys")
 const Strings = require("../lib/db")
-const ID = Strings.add
+const format = require('python-format-js');
+const alive = Strings.alive
 
 module.exports = {
     name: "alive",
-    description: ID.DESCRIPTION,
-    extendedDescription: ID.EXTENDED_DESCRIPTION,
+    description: alive.DESCRIPTION,
+    extendedDescription: alive.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args){
-        client.sendMessage(BotsApp.from, ID.EXTENDED_DESCRIPTION, MessageType.text);
+        client.sendMessage(BotsApp.chatId, alive.ALIVE_MSG.format("Prince"), MessageType.text);
     }
 }
