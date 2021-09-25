@@ -72,14 +72,22 @@ async function main() {
         // if(BotsApp.chatId === "917838204238@s.whatsapp.net" && BotsApp.fromMe === false){ client.sendMessage(BotsApp.chatId, chat.message.imageMessage.jpegThumbnail, MessageType.image);}
         if(BotsApp.isCmd){
             const command = commandHandler.get(BotsApp.commandName);
-            if(!command){
-                client.sendMessage(BotsApp.chatId, "Woops, incorrect command! Use .help for command list.", MessageType.text);
-                return;
-            }
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
             console.log("ARGS -> " + args);
             args.forEach(arg => console.log("arg -> " + arg  + "  type -> " + typeof(arg)));
             console.log("-------------------------------------------")
+            if(!command){
+                client.sendMessage(BotsApp.chatId, "Woops, incorrect command! Use .help for command list.", MessageType.text);
+                return;
+            }else if (command && BotsApp.commandName == "help"){
+                try{
+                    command.handle(client, chat, BotsApp, args, commandHandler);
+                    return;
+                }catch(err){
+                    console.log(chalk.red("[ERROR] ", err));
+                    return;
+                }
+            }
             try{
                 command.handle(client, chat, BotsApp, args);
             }catch(err){
