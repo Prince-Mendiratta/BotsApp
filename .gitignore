@@ -5,3 +5,4 @@ build/Release
 .env.test
 package-lock.json
 tmp/*.*
+.vs/

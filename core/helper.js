@@ -1,5 +1,6 @@
 const fs = require('fs')
 const config = require('../config')
+
 var BotsAppClass = require("../sidekick/sidekick")
 
 
@@ -14,8 +15,9 @@ exports.resolve = function(messageInstance, client, groupMetadata) {
     BotsApp.owner = client.user.jid || '';
     BotsApp.mimeType = messageInstance.message ? Object.keys(messageInstance.message)[0] : null;
     BotsApp.type = BotsApp.mimeType === 'imageMessage' ? 'image' : (BotsApp.mimeType === 'videoMessage') ? 'video' : (BotsApp.mimeType === 'conversation' || BotsApp.mimeType == 'extendedTextMessage') ? 'text' : (BotsApp.mimeType === 'audioMessage') ? 'audio' : (BotsApp.mimeType === 'stickerMessage') ? 'sticker' : '';
-    BotsApp.isReply = BotsApp.mimeType === 'extendedTextMessage';
-    // BotsApp.replyMessage = (BotsApp.isReply && messageInstance.message.extendedTextMessage.contextInfo) ? messageInstance.message.extendedTextMessage.contextInfo.quotedMessage.conversation : ''; TO DO - replied to an extended text
+    BotsApp.isReply = (BotsApp.mimeType === 'extendedTextMessage' && messageInstance.message.extendedTextMessage.hasOwnProperty('contextInfo') && messageInstance.message.extendedTextMessage.contextInfo.hasOwnProperty('stanzaId'));
+    BotsApp.replyMessageId = (BotsApp.isReply && messageInstance.message.extendedTextMessage.contextInfo) ? messageInstance.message.extendedTextMessage.contextInfo.stanzaId : '';
+    BotsApp.replyMessage = (BotsApp.isReply && messageInstance.message.extendedTextMessage.contextInfo) ? messageInstance.message.extendedTextMessage.contextInfo.quotedMessage.conversation : '';
     BotsApp.replyParticipant = (BotsApp.isReply && messageInstance.message.extendedTextMessage.contextInfo) ? messageInstance.message.extendedTextMessage.contextInfo.participant : '';
     BotsApp.body = BotsApp.mimeType === 'conversation' ? messageInstance.message.conversation : (BotsApp.mimeType == 'imageMessage') ? messageInstance.message.imageMessage.caption : (BotsApp.mimeType == 'videoMessage') ? messageInstance.message.videoMessage.caption : (BotsApp.mimeType == 'extendedTextMessage') ? messageInstance.message.extendedTextMessage.text : (BotsApp.mimeType == 'buttonsResponseMessage') ? messageInstance.message.buttonsResponseMessage.selectedDisplayText :'';
     BotsApp.isCmd = prefixRegex.test(BotsApp.body);
