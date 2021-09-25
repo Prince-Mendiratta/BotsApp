@@ -1,12 +1,18 @@
 const { MessageType } = require('@adiwajshing/baileys');
+const Strings = require('../lib/db');
+const ADMINS = Strings.admins;
 
 module.exports = {
     name: 'admins',
-    description: "Tag admins",
-    extendedDescription: "Tag all admins of the group.",
+    description: ADMINS.DESCRIPTION,
+    extendedDescription: ADMINS.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
-            client.sendMessage(BotsApp.chatId, "*.admins*  ```command is only applicable for group chats.```", MessageType.text);
+            client.sendMessage(
+                BotsApp.chatId, 
+                ADMINS.NOT_GROUP_CHAT,
+                MessageType.text
+            );
             return;
         }
 
