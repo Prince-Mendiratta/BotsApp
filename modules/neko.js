@@ -28,7 +28,7 @@ module.exports = {
         await client.sendMessage(BotsApp.chatId, neko_url, MessageType.text);
     } catch (err) {
         if(json.result == undefined){
-            client.sendMessage(BotsApp.chatId, "*Please try again later*", MessageType.text)
+            client.sendMessage(BotsApp.chatId, REPLY.TRY_LATER, MessageType.text)
         }
         else{
             await client.sendMessage(BotsApp.chatId, "ERROR", MessageType.text);

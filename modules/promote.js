@@ -46,7 +46,7 @@ module.exports = {
                     client.sendMessage(BotsApp.chatId, "*" + contact + " is already an admin*", MessageType.text);
                 }
             }
-            if (!isMember && contact.length >= 10 && contact.length < 13) {
+            if (!isMember) {
 
                 client.sendMessage(
                     BotsApp.chatId,

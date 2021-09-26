@@ -71,7 +71,7 @@ module.exports = {
                 return;
             }
         } catch (err) {
-            if (typeof(contact) == 'undefined' || err instanceof TypeError) {
+            if (err instanceof TypeError) {
                 if (reply == null && typeof(args[0]) == 'undefined') {
                     console.log(
                         chalk.redBright.bold(REPLY.MESSAGE_NOT_TAGGED + err));
