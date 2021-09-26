@@ -11,9 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/baileys": "^3.5.0",
-    "axios": "^0.21.4",
     "chalk": "^4.1.1",
     "dotenv": "^10.0.0",
+    "got": "^11.8.2",
+    "nodemon": "^2.0.13",
     "python-format-js": "^1.3.9"
   }
 }

@@ -1,7 +1,7 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const chalk = require("chalk");
 const number = require("../sidekick/input-sanitization");
-const String = require("../lib/db.js")
+const String = require("../lib/db.js");
 const REPLY = String.demote;
 module.exports = {
     name: "demote",
@@ -62,7 +62,7 @@ module.exports = {
                     return;
                 }
             }
-            if (!isMember && contact.length >= 10 && contact.length < 13) {
+            if (!isMember) {
                 client.sendMessage(
                     BotsApp.chatId,
                     REPLY.PERSON_NOT_IN_GROUP,
@@ -77,7 +77,11 @@ module.exports = {
                         chalk.redBright.bold(REPLY.MESSAGE_NOT_TAGGED + err));
                     client.sendMessage(BotsApp.chatId, REPLY.MESSAGE_NOT_TAGGED, MessageType.text);
                 }
-            } else {
+            }   
+            else if(err === "NumberInvalid"){
+                client.sendMessage(BotsApp.chatId, "Number invalid " + args[0], MessageType.text);
+            }
+            else {
                 console.log(err);
             }
         }

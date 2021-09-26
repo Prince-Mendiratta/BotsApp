@@ -1,7 +1,7 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const chalk = require("chalk");
 const number = require("../sidekick/input-sanitization");
-const String = require("../lib/db.js")
+const String = require("../lib/db.js");
 const REPLY = String.promote;
 module.exports = {
     name: "promote",
@@ -57,14 +57,20 @@ module.exports = {
             }
 
         } catch (err) {
-            if (typeof(contact) == 'undefined' || err instanceof TypeError) {
+            console.log(err, typeof(err))
+
+            if (err instanceof TypeError) {
                 if (reply == null && typeof(args[0]) == 'undefined') {
                     console.log(
                         chalk.redBright.bold(REPLY.MESSAGE_NOT_TAGGED + err));
                     client.sendMessage(BotsApp.chatId, REPLY.MESSAGE_NOT_TAGGED, MessageType.text);
                 }
-
-            } else {
+                
+            } 
+            else if(err === "NumberInvalid"){
+                client.sendMessage(BotsApp.chatId, "Number invalid " + args[0], MessageType.text);
+            }
+            else {
                 console.log(err);
             }
         }
