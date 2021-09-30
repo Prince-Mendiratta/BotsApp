@@ -1,16 +1,17 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const chalk = require("chalk");
 const number = require("../sidekick/input-sanitization");
-
+const String = require("../lib/db.js");
+const REPLY = String.demote;
 module.exports = {
     name: "demote",
-    description: "Demote",
-    extendedDescription: "Demote member from admin",
+    description: REPLY.DESCRIPTION,
+    extendedDescription: REPLY.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             client.sendMessage(
                 BotsApp.chatId,
-                "*This is not a group*",
+                REPLY.NOT_A_GROUP,
                 MessageType.text
             );
             return;
@@ -18,7 +19,7 @@ module.exports = {
         if (!BotsApp.isBotGroupAdmin) {
             client.sendMessage(
                 BotsApp.chatId,
-                "*I am not group admin*",
+                REPLY.BOT_NOT_ADMIN,
                 MessageType.text
             );
             return;
@@ -61,22 +62,26 @@ module.exports = {
                     return;
                 }
             }
-            if (!isMember && contact.length >= 10 && contact.length < 13) {
+            if (!isMember) {
                 client.sendMessage(
                     BotsApp.chatId,
-                    "*Person is not in the group*",
+                    REPLY.PERSON_NOT_IN_GROUP,
                     MessageType.text
                 );
                 return;
             }
         } catch (err) {
-            if (typeof(contact) == 'undefined' || err instanceof TypeError) {
+            if (err instanceof TypeError) {
                 if (reply == null && typeof(args[0]) == 'undefined') {
                     console.log(
-                        chalk.redBright.bold("Please reply or tag the person for promotion: " + err));
-                    client.sendMessage(BotsApp.chatId, "*Please reply or tag / enter contact of the person to be demoted*", MessageType.text);
+                        chalk.redBright.bold(REPLY.MESSAGE_NOT_TAGGED + err));
+                    client.sendMessage(BotsApp.chatId, REPLY.MESSAGE_NOT_TAGGED, MessageType.text);
                 }
-            } else {
+            }   
+            else if(err === "NumberInvalid"){
+                client.sendMessage(BotsApp.chatId, "Number invalid " + args[0], MessageType.text);
+            }
+            else {
                 console.log(err);
             }
         }
