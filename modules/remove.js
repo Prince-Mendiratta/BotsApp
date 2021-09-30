@@ -1,26 +1,18 @@
 const { MessageType } = require("@adiwajshing/baileys")
 const chalk = require('chalk');
+const STRINGS = require("../lib/db.js");
 
 module.exports = {
     name: "remove",
-    description: "OOF",
-    extendedDescription: "Not OOOf",
+    description: STRINGS.remove.DESCRIPTION,
+    extendedDescription: STRINGS.remove.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
-            client.sendMessage(BotsApp.chatId, "*This is not a group.😑*", MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.general.NOT_A_GROUP, MessageType.text);
             return;
         }
         if (!BotsApp.isBotGroupAdmin) {
-            client.sendMessage(BotsApp.chatId, "*I am not group admin.*", MessageType.text);
-            return;
-        }
-        if (args[0][0] == '@') {
-            const number = args[0].substring(1);
-            if(isNaN(number)){
-                client.sendMessage(BotsApp.chatId, "*Reply to the person you want to remove or tag them. 😈*", MessageType.text);
-            return;
-            }
-            client.groupRemove(BotsApp.chatId, [number + '@s.whatsapp.net'])
+            client.sendMessage(BotsApp.chatId, STRINGS.general.BOT_NOT_ADMIN, MessageType.text);
             return;
         }
         if (BotsApp.isReply) {
@@ -34,7 +26,20 @@ module.exports = {
             }
             return;
         }
-        client.sendMessage(BotsApp.chatId, "*Reply to the person you want to remove or tag them. 😈*", MessageType.text);
+        if (!args[0]) {
+            client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
+            return;
+        }
+        if (args[0][0] == '@') {
+            const number = args[0].substring(1);
+            if (isNaN(number)) {
+                client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
+                return;
+            }
+            client.groupRemove(BotsApp.chatId, [number + '@s.whatsapp.net'])
+            return;
+        }
+        client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
         return;
     }
 

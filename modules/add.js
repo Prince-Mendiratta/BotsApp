@@ -1,51 +1,58 @@
 const { MessageType } = require("@adiwajshing/baileys")
 const chalk = require('chalk');
+const STRINGS = require("../lib/db.js");
 
 module.exports = {
     name: "add",
-    description: "OOF",
-    extendedDescription: "Not OOOf",
+    description: STRINGS.add.DESCRIPTION,
+    extendedDescription: STRINGS.add.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
-            client.sendMessage(BotsApp.chatId, "*This is not a group. 😑*", MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.general.NOT_A_GROUP, MessageType.text);
             return;
         }
         if (!BotsApp.isBotGroupAdmin) {
-            client.sendMessage(BotsApp.chatId, "*I am not group admin.*", MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.general.BOT_NOT_ADMIN, MessageType.text);
             return;
         }
         if (!args[0]) {
-            client.sendMessage(BotsApp.chatId, "*Enter the Number you want to add like '9712345678' .*", MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.add.NO_ARG_ERROR, MessageType.text);
             return;
         }
-        try { 
+        try {
             let number;
-            if (isNaN(args[0]) || args[0][0] === '+') {
-                client.sendMessage(BotsApp.chatId, "*Enter a valid Number like '9712345678'.* For Non-Indian number, enter in international format without any spaces or special characters.\n```For example, 17842534789.```", MessageType.text);
+            if (isNaN(args[0]) || args[0][0] === '+' || args[0].length < 10) {
+                client.sendMessage(BotsApp.chatId, STRINGS.add.NUMBER_SYNTAX_ERROR, MessageType.text);
                 return;
             }
             if (args[0].length == 10 && !isNaN(args[0])) {
                 number = '91' + args[0];
             }
-            else{
+            else {
                 number = args[0];
             }
-            const request = client.groupAdd(BotsApp.chatId, [BotsApp.owner, number + '@s.whatsapp.net']);
-            const response = await request;
-            if (response[number + '@c.us'] == 408) {
-                client.sendMessage(BotsApp.chatId, "*The number you're trying to add cannot be added for around 24 hours.*", MessageType.text)
-                console.log(response)
-                return;
-            }else if(response[number + '@c.us'] == 409){
-                client.sendMessage(BotsApp.chatId, "*The number you're trying to add is already present in the group.*", MessageType.text);
+            const exists = await client.isOnWhatsApp(number +'@s.whatsapp.net')
+            if (!exists) {
+                client.sendMessage(BotsApp.chatId, STRINGS.add.NOT_ON_WHATSAPP, MessageType.text);
                 return;
             }
-            client.sendMessage(BotsApp.chatId, ("```" + number + " was added successfuly.!```"), MessageType.text)
+            const request = client.groupAdd(BotsApp.chatId, [BotsApp.owner, number+'@s.whatsapp.net']);
+            const response = await request;
+           
+            if (response[number + '@c.us'] == 408) {
+                client.sendMessage(BotsApp.chatId, STRINGS.add.NO_24HR_BAN, MessageType.text)
+                console.log(response)
+                return;
+            } else if (response[number + '@c.us'] == 409) {
+                client.sendMessage(BotsApp.chatId, STRINGS.add.ALREADY_MEMBER, MessageType.text);
+                return;
+            }
+            client.sendMessage(BotsApp.chatId, ("```" + number + STRINGS.add.SUCCESS + "```"), MessageType.text)
 
         } catch (err) {
             console.log(err)
             if (err.status == 400) {
-                client.sendMessage(BotsApp.chatId, "*The number you're trying to add is not available on WhatsApp. Please check the number again.*", MessageType.text)
+                client.sendMessage(BotsApp.chatId, STRINGS.add.NOT_ON_WHATSAPP, MessageType.text)
                 return;
             }
             console.log(chalk.red("[ERROR] ", err));
