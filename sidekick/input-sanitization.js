@@ -1,5 +1,6 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const config = require('../config')
+const fs = require("fs");
 
 exports.getCleanedContact = async (args,client,BotsApp) => {
     var jidNumber = '';
@@ -42,3 +43,15 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
     // isOnWhatsApp is not working
     return jidNumber;
 }
+
+
+exports.deleteFiles = async (...locations) => {
+    for (location of locations) {
+        fs.unlink(location, (err) => {
+            if (err) console.log(err);
+            else {
+                console.log("\nDeleted file at: " + location);
+            }
+        });
+    }
+};
