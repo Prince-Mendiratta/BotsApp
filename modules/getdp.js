@@ -8,46 +8,22 @@ module.exports = {
     description: GETDP.DESCRIPTION,
     extendedDescription: GETDP.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
-        if(!BotsApp.isGroup) {
-            let url = await client.getProfilePicture();
-            client.sendMessage(
-                BotsApp.chatId, 
-                {url: url}, 
-                MessageType.image, 
-                { mimetype: Mimetype.image, caption: GETDP.BOT_IMAGE_CAPTION}
-            );
-        }
-
-        let url = await client.getProfilePicture(BotsApp.chatId);
+        const processing = await client.sendMessage(BotsApp.chatId, "```Getting display picture...```", MessageType.text);
         try {
-            client.sendMessage(
+            let url = await client.getProfilePicture(BotsApp.chatId);
+            await client.sendMessage(
                 BotsApp.chatId, 
                 {url: url}, 
                 MessageType.image, 
-                { mimetype: Mimetype.image, caption: GETDP.GROUP_IMAGE_CAPTION}
+                {mimetype: Mimetype.jpeg, caption: GETDP.IMAGE_CAPTION}
             );
+            return client.deleteMessage(BotsApp.chatId, {id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true});
         } catch(err) {
             console.log(chalk.red('[ERROR]', err));
+            if(err.status == 404) {
+                await client.sendMessage(BotsApp.chatId, "```Display picture not found. Upload an image and try again.```", MessageType.text)
+            }
+            return client.deleteMessage(BotsApp.chatId, {id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true});
         }
-        
     }
 };
-
-
-// downloadAndSaveMediaMessage
-// downloadAndSaveMediaMessage(message: WebMessageInfo, filename: string, attachExtension?: boolean): Promise<string>
-// Inherited from Base.downloadAndSaveMediaMessage
-
-// Defined in src/WAConnection/6.MessagesSend.ts:442
-// Securely downloads the media from the message
-// ---------------------------------------------
-// getProfilePicture
-// getProfilePicture(jid: string): Promise<string>
-// Inherited from Base.getProfilePicture
-
-// Defined in src/WAConnection/4.Events.ts:415
-// Get the URL to download the profile picture of a person/group
-
-// Parameters
-// jid: string
-// Returns Promise<string>
