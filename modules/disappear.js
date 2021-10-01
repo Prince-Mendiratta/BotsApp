@@ -5,23 +5,38 @@ const STRINGS = require("../lib/db.js");
 
 module.exports = {
     name: "disappear",
-    description: "",
-    extendedDescription: "",
+    description: STRINGS.disappear.DESCRIPTION,
+    extendedDescription:STRINGS.disappear.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
+        var time = 7 * 24 * 60 * 60;
         if (BotsApp.isGroup) {
-            if (!BotsApp.isBotGroupAdmin) {
-                client.sendMessage(BotsApp.chatId, STRINGS.general.BOT_NOT_ADMIN, MessageType.text);
-                return;
-            }
+            if (chat.message.extendedTextMessage == null){
+                try {
+                    await client.toggleDisappearingMessages(
+                        BotsApp.chatId,
+                        time
+                    )
+                } catch (err) {
+                    console.log(err);
+                }
+            }  
+            else{
+                try {
+                    await client.toggleDisappearingMessages(
+                        BotsApp.chatId,
+                        0
+                    )
+                } catch (err) {
+                    console.log(err);
+                }
+            } 
+            return;
         }
-        if (args[0] == 'on') {
+        if (chat.message.extendedTextMessage.contextInfo.expiration == 0) {
             var time = 7 * 24 * 60 * 60;
         }
-        else if (args[0] == 'off') {
+        else {
             var time = 0;
-        } else {
-            client.sendMessage(BotsApp.chatId, STRINGS.disappear.CMD_ERR, MessageType.text);
-            return;
         }
         try {
             await client.toggleDisappearingMessages(
@@ -31,5 +46,8 @@ module.exports = {
         } catch (err) {
             console.log(err);
         }
+        return;
     }
 }
+
+
