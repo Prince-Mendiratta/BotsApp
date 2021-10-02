@@ -1,5 +1,6 @@
 const fs = require('fs')
 const config = require('../config')
+const chalk = require('chalk')
 
 var BotsAppClass = require("../sidekick/sidekick")
 
@@ -7,7 +8,11 @@ var BotsAppClass = require("../sidekick/sidekick")
 exports.resolve = function(messageInstance, client, groupMetadata) {
     var BotsApp = new BotsAppClass();
     var prefixRegex = config.PREFIX;
-    var jsonMessage = JSON.stringify(messageInstance)
+    try{
+        var jsonMessage = JSON.stringify(messageInstance)
+    }catch(err){
+        console.log(chalk.redBright("[ERROR] Something went wrong. ", err))
+    }
     console.log(messageInstance);
     console.log(jsonMessage);
     BotsApp.chatId = messageInstance.key.remoteJid || '';

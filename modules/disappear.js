@@ -9,6 +9,10 @@ module.exports = {
     extendedDescription:STRINGS.disappear.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         var time = 7 * 24 * 60 * 60;
+        if (BotsApp.isPm){
+            client.sendMessage(BotsApp.chatId, STRINGS.general.NOT_A_GROUP, MessageType.text);
+            return;
+        }
         if (BotsApp.isGroup) {
             if (chat.message.extendedTextMessage == null){
                 try {
