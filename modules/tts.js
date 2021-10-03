@@ -1,4 +1,5 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys")
+const format = require('python-format-js');
 const googleTTS = require('google-tts-api');
 const STRINGS = require("../lib/db.js");
 
@@ -7,6 +8,7 @@ module.exports = {
     description: STRINGS.tts.DESCRIPTION,
     extendedDescription: STRINGS.tts.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
+        const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.tts.PROCESSING, MessageType.text);
         let text = '';
         let langCode = "en";
         for (var i = 0; i < args.length; i++) {
@@ -16,19 +18,23 @@ module.exports = {
             }
             text += args[i] + " ";
         }
-        const url = googleTTS.getAudioUrl(text, {
-            lang: langCode,
-            slow: false,
-            host: 'https://translate.google.com',
-        });
-        console.log(url);
-        try {
-            await client.sendMessage(BotsApp.chatId, { url: url }, MessageType.audio, { mimetype: Mimetype.mp4Audio });
+        if(text.length > 200){
+            await client.sendMessage(BotsApp.chatId, STRINGS.tts.TOO_LONG.format(text.length), MessageType.text);
+        }else{
+            try {
+                const url = googleTTS.getAudioUrl(text, {
+                    lang: langCode,
+                    slow: false,
+                    host: 'https://translate.google.com',
+                });
+                console.log(url);
+                await client.sendMessage(BotsApp.chatId, { url: url }, MessageType.audio, { mimetype: Mimetype.mp4Audio });
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
-        catch (err) {
-            console.log(err);
-        }
-        return;
+        return await client.deleteMessage (BotsApp.chatId, {id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true});
     }
 }
 
