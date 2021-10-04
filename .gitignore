@@ -6,3 +6,4 @@ build/Release
 package-lock.json
 tmp/*.*
 .vs/
+lib/db.js

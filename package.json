@@ -13,6 +13,7 @@
         "@adiwajshing/baileys": "^3.5.0",
         "chalk": "^4.1.1",
         "dotenv": "^10.0.0",
+        "google-tts-api": "^2.0.2",
         "got": "^11.8.2",
         "fluent-ffmpeg": "^2.1.2",
         "jsdom": "^17.0.0",
