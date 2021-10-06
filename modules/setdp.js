@@ -3,7 +3,7 @@ const fs = require('fs');
 const ffmpeg = require("fluent-ffmpeg");
 const inputSanitization = require("../sidekick/input-sanitization");
 const String = require("../lib/db.js");
-const REPLY = String.changepic;
+const REPLY = String.setdp;
 
 module.exports = {
   name: "setdp",
