@@ -47,12 +47,13 @@ module.exports = {
                         );
                         inputSanitization.deleteFiles(filePath, stickerPath);
                         inputSanitization.performanceTime(startTime);
-                        return await client.deleteMessage(BotsApp.chatId, {
+                        await client.deleteMessage(BotsApp.chatId, {
                             id: downloading.key.id,
                             remoteJid: BotsApp.chatId,
                             fromMe: true,
                         });
                     });
+                return; 
             }
             await ffmpeg(filePath)
                 .duration(8)
@@ -79,12 +80,13 @@ module.exports = {
                     );
                     inputSanitization.deleteFiles(filePath, stickerPath);
                     inputSanitization.performanceTime(startTime);
-                    return await client.deleteMessage(BotsApp.chatId, {
+                    await client.deleteMessage(BotsApp.chatId, {
                         id: downloading.key.id,
                         remoteJid: BotsApp.chatId,
                         fromMe: true,
                     });
                 });
+            return; 
         };
 
         // User sends media message along with command in caption
