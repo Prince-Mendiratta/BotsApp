@@ -57,6 +57,16 @@ async function main() {
 
 
     await client.connect();
+    await client.connect();
+    client.on('group-participants-update', async update => {
+        
+        if (!update.action === "add") return
+        console.log("-------------------"+ "GROUP PARTICIPANT UPDATE" + "-------------------" );
+        console.log(update.participants);
+        console.log(update.action);
+        
+    });
+
     client.on('chat-update', async chat => {
         if (!chat.hasNewMessage) return
         if (!chat.messages) return
