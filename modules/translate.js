@@ -22,7 +22,7 @@ module.exports = {
         }
         if (text.length > 4000) {
             await client.sendMessage(BotsApp.chatId, STRINGS.translate.TOO_LONG.format(text.length), MessageType.text);
-            return;
+            return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
         }
         await translate(text, {
             to: language
