@@ -41,6 +41,7 @@ async function main() {
     })
 
     client.on('open', async () => {
+        console.log(chalk.greenBright.bold("[INFO] Connecting to Database."))
         console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
         console.log(chalk.whiteBright.bold("[INFO] Installing Plugins... Please wait."));
         var moduleFiles = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
@@ -57,15 +58,14 @@ async function main() {
 
 
     await client.connect();
-    await client.connect();
-    client.on('group-participants-update', async update => {
+    // client.on('group-participants-update', async update => {
         
-        if (!update.action === "add") return
-        console.log("-------------------"+ "GROUP PARTICIPANT UPDATE" + "-------------------" );
-        console.log(update.participants);
-        console.log(update.action);
+    //     if (!update.action === "add") return;
+    //     console.log("-------------------"+ "GROUP PARTICIPANT UPDATE" + "-------------------" );
+    //     console.log(update.participants);
+    //     console.log(update.action);
         
-    });
+    // });
 
     client.on('chat-update', async chat => {
         if (!chat.hasNewMessage) return

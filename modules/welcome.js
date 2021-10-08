@@ -1,7 +1,7 @@
 const { MessageType } = require('@adiwajshing/baileys');
 const Strings = require('../lib/db');
 const config = require('../config')
-const { DataTypes, Sequelize, Model } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
 const MUTE = Strings.mute;
 const sql = require('../database/greetings');
@@ -9,6 +9,7 @@ const { Greetings, setWelcome } = require('../database/greetings');
 // const { Greetings } = require('../database/greetings');
 var sqlite = require('sqlite3').verbose()
 var db = new sqlite.Database('BotsApp.db')
+
 module.exports = {
     name: 'welcome',
     description: MUTE.DESCRIPTION,
