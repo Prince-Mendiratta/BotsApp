@@ -6,32 +6,53 @@ const STRINGS = require("../lib/db")
 const format = require('python-format-js');
 
 module.exports = {
-    name: "translate",
-    description: STRINGS.translate.DESCRIPTION,
-    extendedDescription: STRINGS.translate.EXTENDED_DESCRIPTION,
+    name: "tr",
+    description: STRINGS.tr.DESCRIPTION,
+    extendedDescription: STRINGS.tr.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
-        const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.translate.PROCESSING, MessageType.text);
+        const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.tr.PROCESSING, MessageType.text);
         var text = '';
-        var language = 'Hindi';
-        for (var i = 0; i < args.length; i++) {
-            if (args[i] == '|') {
-                language = args[i + 1];
-                break;
+        var language = '';
+        if(args.length == 0){
+            await client.sendMessage(BotsApp.chatId, STRINGS.tr.EXTENDED_DESCRIPTION, MessageType.text);
+            return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
+        }
+        if(!BotsApp.isReply){
+            try{
+                var body = BotsApp.body.split("|")
+                console.log(BotsApp.body[0])
+                text = body[0].replace(BotsApp.body[0] + BotsApp.commandName + " ", "");
+                var i = 0;
+                while(body[1].split(" ")[i] == ""){
+                    i++;
+                }
+                language = body[1].split(" ")[i];
+            }catch(err){
+                if(err instanceof TypeError){
+                    text = BotsApp.body.replace(BotsApp.body[0] + BotsApp.commandName + " ", "");
+                    language = 'English'
+                }
+                console.log(err)
             }
-            text += args[i] + " ";
+        }else if(BotsApp.replyMessage){
+            text = BotsApp.replyMessage;
+            language = args[0];
+        }else{
+            await client.sendMessage(BotsApp.chatId, STRINGS.tr.INVALID_REPLY, MessageType.text);
+            return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
         }
         if (text.length > 4000) {
-            await client.sendMessage(BotsApp.chatId, STRINGS.translate.TOO_LONG.format(text.length), MessageType.text);
+            await client.sendMessage(BotsApp.chatId, STRINGS.tr.TOO_LONG.format(text.length), MessageType.text);
             return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
         }
         await translate(text, {
             to: language
         }).then(res => {
             console.log(res);
-            client.sendMessage(BotsApp.chatId, res.text, MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.tr.SUCCESS.format(res.from.language.iso, language, res.text), MessageType.text);
         }).catch(err => {
             console.error(err);
-            client.sendMessage(BotsApp.chatId, STRINGS.translate.LANGUAGE_NOT_SUPPORTED, MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.tr.LANGUAGE_NOT_SUPPORTED, MessageType.text);
         });
         return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
     }

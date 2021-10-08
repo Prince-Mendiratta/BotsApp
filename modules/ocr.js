@@ -2,6 +2,7 @@ const { MessageType } = require("@adiwajshing/baileys")
 const ocrSpace = require('ocr-space-api-wrapper')
 const STRINGS=require("../lib/db.js")
 const fs = require('fs');
+const config = require('../config')
 
 module.exports = {
     name: "ocr",
@@ -21,7 +22,7 @@ module.exports = {
                 fileName
             );
             try {
-                const text = await ocrSpace(filePath, { apiKey: '9ffb44def388957' })
+                const text = await ocrSpace(filePath, { apiKey: config.OCR_API_KEY })
                 console.log(text);
                 client.sendMessage(BotsApp.chatId, text.ParsedResults[0].ParsedText, MessageType.text);
             } catch (error) {
@@ -44,11 +45,11 @@ module.exports = {
                 fileName
             );
             try {
-                const text = await ocrSpace(filePath, { apiKey: '9ffb44def388957' })
+                const text = await ocrSpace(filePath, { apiKey: config.OCR_API_KEY })
                 console.log(text);
                 client.sendMessage(BotsApp.chatId, text.ParsedResults[0].ParsedText, MessageType.text);
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
             fs.unlinkSync(filePath);
             return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
