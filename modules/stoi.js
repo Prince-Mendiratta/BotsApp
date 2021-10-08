@@ -30,7 +30,7 @@ module.exports = {
                 replyChat,
                 fileName
             );
-            const imagePath = "./tmp/image-" + stickerId + ".jpeg";
+            const imagePath = "./tmp/image-" + stickerId + ".png";
             try {
                 await ffmpeg(filePath)
                     .save(imagePath)
