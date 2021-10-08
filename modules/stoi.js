@@ -1,4 +1,4 @@
-const { MessageType, MimetypeMap } = require("@adiwajshing/baileys");
+const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const ffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
 const inputSanitization = require("../sidekick/input-sanitization");
@@ -38,7 +38,7 @@ module.exports = {
                         console.log("-------------------\nERROR " + err.message +"\n-------------------");
                         client.sendMessage(
                             BotsApp.chatId,
-                            STOI.ANIMATED_STICKER_ERROR,
+                            STOI.ERROR,
                             MessageType.text
                         );
                         inputSanitization.deleteFiles(filePath);
@@ -54,7 +54,8 @@ module.exports = {
                         await client.sendMessage(
                             BotsApp.chatId,
                             fs.readFileSync(imagePath),
-                            MessageType.image
+                            MessageType.image,
+                            {mimetype: Mimetype.png}
                         );
                         inputSanitization.deleteFiles(filePath, imagePath);
                         inputSanitization.performanceTime(startTime);
@@ -69,50 +70,22 @@ module.exports = {
             }
         };
 
-        // Function to check if sticker is animated
-        const isAnimated = async (chatObject) => {
-            if (chatObject.message.stickerMessage.isAnimated === true) {
-                client.sendMessage(
-                    BotsApp.chatId,
-                    STOI.ANIMATED_STICKER_ERROR,
-                    MessageType.text
-                );
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        // User sends media message along with command in caption
-        if (BotsApp.isSticker) {
-            var replyChatObject = {
-                message: chat.message,
-            };
-            // if (isAnimated(replyChatObject)) {
-            //     console.log(
-            //         "-----------Process terminated because tagged sticker is animated----------"
-            //     );
-            //     return;
-            // }
-            var stickerId = chat.key.id;
-            convertToImage(stickerId, replyChatObject);
-        }
-        // Replied to a sticker
-        else if (BotsApp.isReplySticker) {
+        if(BotsApp.isReplySticker && !BotsApp.isReplyAnimatedSticker){
             var replyChatObject = {
                 message:
                     chat.message.extendedTextMessage.contextInfo.quotedMessage,
             };
-
-            // if (isAnimated(replyChatObject)) {
-            //     console.log(
-            //         "-----------Process terminated because tagged sticker is animated----------"
-            //     );
-            //     return;
-            // }
             var stickerId =
                 chat.message.extendedTextMessage.contextInfo.stanzaId;
             convertToImage(stickerId, replyChatObject);
+        } else if(BotsApp.isReplyAnimatedSticker){
+            client.sendMessage(
+                BotsApp.chatId,
+                STOI.TAG_A_VALID_STICKER_MESSAGE,
+                MessageType.text
+            );
+            inputSanitization.performanceTime(startTime);
+            return;
         } else {
             client.sendMessage(
                 BotsApp.chatId,

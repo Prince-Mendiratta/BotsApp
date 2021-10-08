@@ -34,6 +34,7 @@ exports.resolve = function(messageInstance, client, groupMetadata) {
     BotsApp.isReplyGIF = BotsApp.isReply ? (jsonMessage.indexOf("videoMessage") !== -1 && messageInstance.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.gifPlayback) : false;
     BotsApp.isSticker = BotsApp.type === 'sticker';
     BotsApp.isReplySticker = BotsApp.isReply ? jsonMessage.indexOf("stickerMessage") !== -1 : false;
+    BotsApp.isReplyAnimatedSticker = BotsApp.isReplySticker ? messageInstance.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated :false;
     BotsApp.isVideo = (BotsApp.type === 'video' && !messageInstance.message.videoMessage.gifPlayback);
     BotsApp.isReplyVideo = BotsApp.isReply ? (jsonMessage.indexOf("videoMessage") !== -1 && !messageInstance.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.gifPlayback) : false;
     BotsApp.isAudio = BotsApp.type === 'audio';
