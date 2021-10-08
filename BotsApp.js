@@ -6,6 +6,8 @@ const banner = require('./lib/banner');
 const chalk = require('chalk');
 const wa = require('./core/helper');
 const { MessageType } = require('@adiwajshing/baileys');
+const greeting = require('./database/greeting');
+const sequelize = config.DATABASE;
 
 var client = conn.WhatsApp;
 
@@ -41,8 +43,16 @@ async function main() {
     })
 
     client.on('open', async () => {
-        console.log(chalk.greenBright.bold("[INFO] Connecting to Database."))
-        console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
+        console.log(chalk.yellowBright.bold("[INFO] Connecting to Database."))
+        try {
+            await sequelize.authenticate();
+            console.log(chalk.greenBright.bold('[INFO] Connection has been established successfully.'));
+        } catch (error) {
+            console.error('[ERROR] Unable to connect to the database:', error);
+        }
+        console.log(chalk.yellowBright.bold("[INFO] Syncing Database..."));
+        await sequelize.sync({ alter: true });
+        console.log(chalk.greenBright.bold("[INFO] All models were synchronized successfully."));
         console.log(chalk.whiteBright.bold("[INFO] Installing Plugins... Please wait."));
         var moduleFiles = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
         for(var file of moduleFiles){
@@ -53,6 +63,7 @@ async function main() {
             )
             commandHandler.set(command.name, command);
         }
+        console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
         console.log(chalk.green.bold("[INFO] Plugins Installed Successfully. The bot is ready to use."));
     })
 

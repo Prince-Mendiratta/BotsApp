@@ -1,28 +1,25 @@
 const config = require('../config')
-
 const { DataTypes, Sequelize, Model } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
-const Greetings = sequelize.define('Greetings', {
-            // Model attributes are defined here
-            chat: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                
-              },
-              welcome: {
-                  type: DataTypes.TEXT,
-                  allowNull: false
-              },
-              goodbye: {
-                  type: DataTypes.TEXT,
-                  //allowNull: false
-              }
-            }, {
-            // Other model options go here
-            sequelize, // We need to pass the connection instance
-            modelName: 'Greetings' // We need to choose the model name
-            });
-            console.log(Greetings === sequelize.models.Greetings);
+const sequelize = config.DATABASE;
+
+const Greeting = sequelize.define('Greeting', {
+    chat:{
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    greetingType: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    welcome: {
+        type: DataTypes.TEXT
+    },
+    goodbye: {
+        type: DataTypes.TEXT
+    }
+    }, {
+        tableName: "Greetings"
+});
 
 async function getMessage(jid= null) {
     
@@ -83,7 +80,7 @@ async function deleteMessage(jid = null, tip = 'welcome') {
 }
 
 module.exports = {
-    Greetings: Greetings,
+    Greeting: Greeting,
     getMessage: getMessage,
     setWelcome: setWelcome,
     setGoodbye: setGoodbye,
