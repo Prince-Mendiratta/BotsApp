@@ -2,7 +2,8 @@ class BotsApp {
     constructor(
         mimeType, type, isReply, body, isCmd, commandName, chatId, fromMe, owner, logGroup,
         isGroup, isPm, sender, groupName, groupMembers, groupAdmins, groupId, isBotGroupAdmin, isSenderGroupAdmin, replyMessageId, replyMessage, 
-        replyParticipant, isImage, isReplyImage, imageCaption, isGIF, isReplyGIF, isSticker, isReplySticker, isReplyVideo, isReplyAudio, isVideo, isAudio) {
+        replyParticipant, isImage, isReplyImage, imageCaption, isGIF, isReplyGIF, isSticker, isReplySticker, isReplyVideo, isReplyAudio,
+        isVideo, isAudio, isReplyAnimatedSticker) {
         this.mimeType = mimeType;
         this.type = type;
         this.body = body;
@@ -24,6 +25,7 @@ class BotsApp {
         this.isReplyGIF = isReplyGIF;
         this.isSticker = isSticker;
         this.isReplySticker = isReplySticker;
+        this.isReplyAnimatedSticker = isReplyAnimatedSticker;
         this.isVideo = isVideo;
         this.isReplyVideo = isReplyVideo;
         this.isAudio = isAudio;
