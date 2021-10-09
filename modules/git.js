@@ -16,6 +16,10 @@ module.exports = {
             user_name = BotsApp.replyMessage;
         }
         else {
+            if (args.length == 0) {
+                client.sendMessage(BotsApp.chatId, STRINGS.git.NO_ARG_ERROR, MessageType.text);
+                return;
+            }
             user_name = args[0];
         }
         try {
