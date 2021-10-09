@@ -6,9 +6,9 @@ const STRINGS = require("../lib/db")
 const got = require("got");
 
 module.exports = {
-    name: "git",
-    description: STRINGS.git.DESCRIPTION,
-    extendedDescription: STRINGS.git.EXTENDED_DESCRIPTION,
+    name: "github",
+    description: STRINGS.github.DESCRIPTION,
+    extendedDescription: STRINGS.github.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         let user_name = "";
         if (BotsApp.isReply) {
@@ -16,7 +16,7 @@ module.exports = {
         }
         else {
             if (args.length == 0) {
-                client.sendMessage(BotsApp.chatId, STRINGS.git.NO_ARG_ERROR, MessageType.text);
+                client.sendMessage(BotsApp.chatId, STRINGS.github.NO_ARG_ERROR, MessageType.text);
                 return;
             }
             user_name = args[0];
@@ -49,7 +49,7 @@ module.exports = {
         }
         catch (err) {
             console.log(err);
-            client.sendMessage(BotsApp.chatId, STRINGS.git.ERROR_MSG, MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.github.ERROR_MSG, MessageType.text);
         }
         return;
     }
