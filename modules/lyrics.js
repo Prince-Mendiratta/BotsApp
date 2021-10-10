@@ -24,7 +24,7 @@ module.exports = {
             let Response = await got(`https://some-random-api.ml/lyrics/?title=${song}`);
             let data = JSON.parse(Response.body)
             console.log(data);
-            let caption = "*Title :* " + data.title + "\n*Title :* " + data.author + "\n*Lyrics :*\n" + data.lyrics;
+            let caption = "*Title :* " + data.title + "\n*Author :* " + data.author + "\n*Lyrics :*\n" + data.lyrics;
             await client.deleteMessage(BotsApp.chatId, {
                 id: proccessing.key.id,
                 remoteJid: BotsApp.chatId,
