@@ -1,32 +1,35 @@
-const config = require('../config')
-const { DataTypes, Sequelize, Model } = require('sequelize');
+const config = require("../config");
+const { DataTypes } = require("sequelize");
 const sequelize = config.DATABASE;
 
-const Greeting = sequelize.define('Greeting', {
-    chat:{
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    greetingType: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    welcome: {
-        type: DataTypes.TEXT
-    },
-    goodbye: {
-        type: DataTypes.TEXT
-    }
+const Greeting = sequelize.define(
+    "Greeting", {
+        chat: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        switched: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "ON",
+        },
+        greetingType: {
+            type: DataTypes.TEXT,
+        },
+        message: {
+            type: DataTypes.TEXT,
+        },
     }, {
-        tableName: "Greetings"
-});
+        tableName: "Greetings",
+    }
+);
 
-async function getMessage(jid= null) {
-    
-    var Msg = await Greetings.findAll({
+async function getMessage(jid = null, type) {
+    var Msg = await Greeting.findAll({
         where: {
             chat: jid,
-        }
+            greetingType: type,
+        },
     });
 
     if (Msg.length < 1) {
@@ -36,54 +39,84 @@ async function getMessage(jid= null) {
     }
 }
 
-async function setWelcome(jid = null, text = null ) {
-    
-   
-    await Greetings.sync()
-        const [ created] = await Greetings.findOrCreate({
-        where: { chat : jid },
-        defaults: {
-          welcome : text
-        }
-      });
-      
-
-// catch(err){
-//     console.log("ERROR: " + err); 
-// }
-   
-}
-async function setGoodbye(jid , tip = 'goodbye', text = null) {
-    var Msg = await Greetings.findAll({
+async function checkSettings(jid = null, type) {
+    var Msg = await Greeting.findAll({
         where: {
             chat: jid,
-            
-        }
+            greetingType: type,
+        },
     });
 
     if (Msg.length < 1) {
-        return await Greetings.create({ chat: jid, goodbye:text });
+        return false;
     } else {
-        return await Msg[0].update({ chat: jid,  goodbye:text });
+        if (Msg[0].dataValues.switched === "ON") {
+            return "ON";
+        } else {
+            return "OFF";
+        }
     }
 }
 
-async function deleteMessage(jid = null, tip = 'welcome') {
-    var Msg = await Greetings.findAll({
+async function changeSettings(groupJid = null, isWorking) {
+    await Greeting.update({
+        switched: isWorking
+    }, {
+        where: {
+            chat: groupJid,
+        },
+    });
+}
+
+async function setWelcome(jid = null, text = null) {
+    Greeting.findOrCreate({
         where: {
             chat: jid,
-            
-        }
+            greetingType: "welcome",
+        },
+        defaults: {
+            chat: jid,
+            switched: "ON",
+            greetingType: "welcome",
+            message: text,
+        },
     });
+}
+async function setGoodbye(jid, text = null) {
+    Greeting.findOrCreate({
+        where: {
+            chat: jid,
+            greetingType: "goodbye",
+        },
+        defaults: {
+            chat: jid,
+            switched: "ON",
+            greetingType: "goodbye",
+            message: text,
+        },
+    });
+}
 
-    return await Msg[0].destroy();
+async function deleteMessage(jid = null, type = null) {
+    var Msg = await Greeting.findAll({
+        where: {
+            chat: jid,
+            greetingType: type,
+        },
+    });
+    if (Msg.length < 1) {
+        return false;
+    } else {
+        return await Msg[0].destroy();
+    }
 }
 
 module.exports = {
     Greeting: Greeting,
     getMessage: getMessage,
+    changeSettings: changeSettings,
+    checkSettings: checkSettings,
     setWelcome: setWelcome,
     setGoodbye: setGoodbye,
-    deleteMessage: deleteMessage
+    deleteMessage: deleteMessage,
 };
-

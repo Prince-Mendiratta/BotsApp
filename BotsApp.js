@@ -6,7 +6,7 @@ const banner = require('./lib/banner');
 const chalk = require('chalk');
 const wa = require('./core/helper');
 const { MessageType } = require('@adiwajshing/baileys');
-const greeting = require('./database/greeting');
+const Greetings = require('./database/greeting');
 const sequelize = config.DATABASE;
 
 var client = conn.WhatsApp;
@@ -69,14 +69,38 @@ async function main() {
 
 
     await client.connect();
-    // client.on('group-participants-update', async update => {
-        
-    //     if (!update.action === "add") return;
-    //     console.log("-------------------"+ "GROUP PARTICIPANT UPDATE" + "-------------------" );
-    //     console.log(update.participants);
-    //     console.log(update.action);
-        
-    // });
+    client.on('group-participants-update', async update => {
+        console.log("-------------------"+ "GROUP PARTICIPANT UPDATE" + "-------------------" );
+        console.log(update.participants);
+        console.log(update.action);
+        console.log(update.jid);
+        var groupId = update.jid;
+
+        try{
+            if(update.action === 'add'){
+                var enable = await Greetings.getMessage(groupId,"welcome");
+                var Msg = await Greetings.getMessage(BotsApp.chatId, "welcome");
+                if(enable === false || enable === "OFF"){
+                    return;
+                }
+
+                client.sendMessage(groupId, Msg.message, MessageType.text);
+                return;
+            }
+            else if(update.action === 'remove'){
+                var enable = await Greetings.changeSettings(groupId, "goodbye");
+                var Msg = await Greetings.getMessage(BotsApp.chatId, "goodbye");
+                if(enable === false || enable === "OFF"){
+                    return;
+                }
+                client.sendMessage(groupId, Msg.message, MessageType.text);
+                return;
+            }
+        }
+        catch(err){
+            console.log("Greeting message are off");
+        }
+    });
 
     client.on('chat-update', async chat => {
         if (!chat.hasNewMessage) return
