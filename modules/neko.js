@@ -16,7 +16,7 @@ module.exports = {
     const proccessing = await client.sendMessage(BotsApp.chatId, REPLY.PROCESSING, MessageType.text);
     try {
         var json = {
-            content: args.join(" ")
+            content: BotsApp.body.replace(BotsApp.body[0] + BotsApp.commandName + " ", "")
         }
         let text = await got.post("https://nekobin.com/api/documents", {
             json
