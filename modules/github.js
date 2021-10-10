@@ -22,6 +22,11 @@ module.exports = {
             user_name = args[0];
         }
         try {
+            var fetching = await client.sendMessage(
+                BotsApp.chatId,
+                STRINGS.github.FETCHING,
+                MessageType.text
+            );
             let userResponse = await got("https://api.github.com/users/" + user_name);
             let user = JSON.parse(userResponse.body)
             Object.keys(user).forEach(function (key) {
@@ -46,11 +51,20 @@ module.exports = {
                 MessageType.image,
                 { mimetype: Mimetype.image, caption: caption }
             );
+            return await client.deleteMessage(BotsApp.chatId, {
+                id: fetching.key.id,
+                remoteJid: BotsApp.chatId,
+                fromMe: true,
+            });
         }
         catch (err) {
             console.log(err);
             client.sendMessage(BotsApp.chatId, STRINGS.github.ERROR_MSG, MessageType.text);
+            return await client.deleteMessage(BotsApp.chatId, {
+                id: fetching.key.id,
+                remoteJid: BotsApp.chatId,
+                fromMe: true,
+            });
         }
-        return;
     }
 }
