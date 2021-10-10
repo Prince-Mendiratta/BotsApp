@@ -20,6 +20,7 @@
         "jsdom": "^17.0.0",
         "nodemon": "^2.0.13",
         "ocr-space-api-wrapper": "^1.0.6",
-        "python-format-js": "^1.3.9"
+        "python-format-js": "^1.3.9",
+        "unofficial-carbon-now": "^1.0.3"
     }
 }
