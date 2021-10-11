@@ -15,8 +15,14 @@ module.exports = {
             client.sendMessage(BotsApp.chatId, STRINGS.general.BOT_NOT_ADMIN, MessageType.text);
             return;
         }
+        let owner = BotsApp.chatId.split("-")[0];
         if (BotsApp.isReply) {
             let PersonToRemove = chat.message.extendedTextMessage.contextInfo.participant;
+            if(PersonToRemove === owner + "@s.whatsapp.net"){
+                client.sendMessage(BotsApp.chatId, "*" + owner + " is the owner of the group*", MessageType.text);
+                return;
+            }
+
             try {
                 if (PersonToRemove) {
                     client.groupRemove(BotsApp.chatId, [PersonToRemove])
@@ -36,8 +42,16 @@ module.exports = {
                 client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
                 return;
             }
-            client.groupRemove(BotsApp.chatId, [number + '@s.whatsapp.net'])
-            return;
+
+            if(!number === owner + "@s.whatsapp.net"){
+                client.groupRemove(BotsApp.chatId, [number + '@s.whatsapp.net'])
+                return;
+            }
+            else{
+                client.sendMessage(BotsApp.chatId, "*" + owner + " is the owner of the group*", MessageType.text);
+                return;
+            }
+ 
         }
         client.sendMessage(BotsApp.chatId, STRINGS.remove.INPUT_ERROR, MessageType.text);
         return;
