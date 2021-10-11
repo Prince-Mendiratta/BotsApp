@@ -7,8 +7,8 @@ const STRINGS = require("../lib/db")
 
 module.exports = {
     name: "lyrics",
-    description: STRINGS.DESCRIPTION,
-    extendedDescription: STRINGS.EXTENDED_DESCRIPTION,
+    description: STRINGS.lyrics.DESCRIPTION,
+    extendedDescription: STRINGS.lyrics.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         var song = "";
         if (BotsApp.isReply) {
