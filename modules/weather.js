@@ -1,16 +1,11 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const ffmpeg = require("fluent-ffmpeg");
-const fs = require("fs");
 const inputSanitization = require("../sidekick/input-sanitization");
-const { JSDOM } = require("jsdom");
-const { window } = new JSDOM();
 const https = require("https");
 const config = require("../config");
 
 const SerpApi = require("google-search-results-nodejs");
-const search = new SerpApi.GoogleSearch(
-    config.SERPAPI_API_KEY
-);
+const search = new SerpApi.GoogleSearch(config.SERPAPI_API_KEY);
 
 const Strings = require("../lib/db");
 const { dir } = require("console");
@@ -21,6 +16,22 @@ module.exports = {
     description: WEATHER.DESCRIPTION,
     extendedDescription: WEATHER.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
+        async function result(imageUrl, weatherDataVariables, downloading) {
+            await client.sendMessage(
+                BotsApp.chatId,
+                { url: imageUrl },
+                MessageType.image,
+                {
+                    mimetype: Mimetype.jpeg,
+                    caption: WEATHER.WEATHER_DATA.format(weatherDataVariables),
+                }
+            );
+            await client.deleteMessage(BotsApp.chatId, {
+                id: downloading.key.id,
+                remoteJid: BotsApp.chatId,
+                fromMe: true,
+            });
+        }
         if (args.length < 1) {
             client.sendMessage(
                 BotsApp.chatId,
@@ -124,7 +135,25 @@ module.exports = {
                             date.getMinutes() +
                             ":" +
                             date.getSeconds();
-
+                        const weatherDataVariables = {
+                            tempInC: tempInC,
+                            tempInF: tempInF,
+                            minTempInC: minTempInC,
+                            minTempInF: minTempInF,
+                            maxTempInC: maxTempInC,
+                            maxTempInF,
+                            maxTempInF,
+                            humidity: humidity,
+                            windSpeedInkmph: windSpeedInkmph,
+                            windSpeedInmph: windSpeedInmph,
+                            degree: windDegree,
+                            sunriseTime: sunriseTime,
+                            sunsetTime: sunsetTime,
+                            weatherDescription: weatherDescription,
+                            cityName: cityName,
+                            country: country,
+                            dateAndTime: dateAndTime,
+                        };
                         // Get image from remote url - Google search
                         const parameters = {
                             q: cityName + " " + weatherDescription,
@@ -132,58 +161,11 @@ module.exports = {
                             ijn: "0",
                             tbs: "qdr",
                         };
-                        const imagePath =
-                            "./tmp/image-" + chat.key.id + ".jpeg";
                         const callback = function (data) {
                             var imageUrl =
                                 data["images_results"][0]["original"];
-                            https.get(imageUrl, (res) => {
-                                // Image will be stored at this path
-                                const path = imagePath;
-                                const filePath = fs.createWriteStream(path);
-                                res.pipe(filePath);
-                                filePath.on("finish", async () => {
-                                    filePath.close();
-                                    console.log("---\nDownload Completed\n---");
-                                    await client.sendMessage(
-                                        BotsApp.chatId,
-                                        { url: imagePath },
-                                        MessageType.image,
-                                        {
-                                            mimetype: Mimetype.jpeg,
-                                            caption:
-                                                WEATHER.WEATHER_DATA.format({
-                                                    tempInC: tempInC,
-                                                    tempInF: tempInF,
-                                                    minTempInC: minTempInC,
-                                                    minTempInF: minTempInF,
-                                                    maxTempInC: maxTempInC,
-                                                    maxTempInF,
-                                                    maxTempInF,
-                                                    humidity: humidity,
-                                                    windSpeedInkmph:
-                                                        windSpeedInkmph,
-                                                    windSpeedInmph:
-                                                        windSpeedInmph,
-                                                    degree: windDegree,
-                                                    sunriseTime: sunriseTime,
-                                                    sunsetTime: sunsetTime,
-                                                    weatherDescription:
-                                                        weatherDescription,
-                                                    cityName: cityName,
-                                                    country: country,
-                                                    dateAndTime: dateAndTime,
-                                                }),
-                                        }
-                                    );
-                                    inputSanitization.deleteFiles(imagePath);
-                                    await client.deleteMessage(BotsApp.chatId, {
-                                        id: downloading.key.id,
-                                        remoteJid: BotsApp.chatId,
-                                        fromMe: true,
-                                    });
-                                });
-                            });
+
+                            result(imageUrl, weatherDataVariables, downloading);
                         };
                         search.json(parameters, callback);
                     } catch (err) {
@@ -286,7 +268,25 @@ module.exports = {
                             date.getMinutes() +
                             ":" +
                             date.getSeconds();
-
+                        const weatherDataVariables = {
+                            tempInC: tempInC,
+                            tempInF: tempInF,
+                            minTempInC: minTempInC,
+                            minTempInF: minTempInF,
+                            maxTempInC: maxTempInC,
+                            maxTempInF,
+                            maxTempInF,
+                            humidity: humidity,
+                            windSpeedInkmph: windSpeedInkmph,
+                            windSpeedInmph: windSpeedInmph,
+                            degree: windDegree,
+                            sunriseTime: sunriseTime,
+                            sunsetTime: sunsetTime,
+                            weatherDescription: weatherDescription,
+                            cityName: cityName,
+                            country: country,
+                            dateAndTime: dateAndTime,
+                        };
                         // Get image from remote url - Google search
                         const parameters = {
                             q: cityName + " " + weatherDescription,
@@ -294,58 +294,10 @@ module.exports = {
                             ijn: "0",
                             tbs: "qdr",
                         };
-                        const imagePath =
-                            "./tmp/image-" + chat.key.id + ".jpeg";
                         const callback = function (data) {
                             var imageUrl =
                                 data["images_results"][0]["original"];
-                            https.get(imageUrl, (res) => {
-                                // Image will be stored at this path
-                                const path = imagePath;
-                                const filePath = fs.createWriteStream(path);
-                                res.pipe(filePath);
-                                filePath.on("finish", async () => {
-                                    filePath.close();
-                                    console.log("---\nDownload Completed\n---");
-                                    await client.sendMessage(
-                                        BotsApp.chatId,
-                                        { url: imagePath },
-                                        MessageType.image,
-                                        {
-                                            mimetype: Mimetype.jpeg,
-                                            caption:
-                                                WEATHER.WEATHER_DATA.format({
-                                                    tempInC: tempInC,
-                                                    tempInF: tempInF,
-                                                    minTempInC: minTempInC,
-                                                    minTempInF: minTempInF,
-                                                    maxTempInC: maxTempInC,
-                                                    maxTempInF,
-                                                    maxTempInF,
-                                                    humidity: humidity,
-                                                    windSpeedInkmph:
-                                                        windSpeedInkmph,
-                                                    windSpeedInmph:
-                                                        windSpeedInmph,
-                                                    degree: windDegree,
-                                                    sunriseTime: sunriseTime,
-                                                    sunsetTime: sunsetTime,
-                                                    weatherDescription:
-                                                        weatherDescription,
-                                                    cityName: cityName,
-                                                    country: country,
-                                                    dateAndTime: dateAndTime,
-                                                }),
-                                        }
-                                    );
-                                    inputSanitization.deleteFiles(imagePath);
-                                    await client.deleteMessage(BotsApp.chatId, {
-                                        id: downloading.key.id,
-                                        remoteJid: BotsApp.chatId,
-                                        fromMe: true,
-                                    });
-                                });
-                            });
+                            result(imageUrl, weatherDataVariables, downloading);
                         };
                         search.json(parameters, callback);
                     } catch (err) {
