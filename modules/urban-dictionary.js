@@ -1,7 +1,8 @@
 const got = require('got');
-const { MessageType } = require("@adiwajshing/baileys")
-const STRINGS = require("../lib/db")
-const ud = require('urban-dictionary')
+const { MessageType } = require("@adiwajshing/baileys");
+const STRINGS = require("../lib/db");
+const format = require('python-format-js');
+const ud = require('urban-dictionary');
 
 module.exports = {
     name: "ud",
@@ -42,7 +43,7 @@ module.exports = {
             await client.sendMessage(BotsApp.chatId, msg, MessageType.text);
         } catch (err) {
             console.log(err);
-            client.sendMessage(BotsApp.chatId, STRINGS.ud.NOT_FOUND, MessageType.text);
+            client.sendMessage(BotsApp.chatId, STRINGS.ud.NOT_FOUND.format(text), MessageType.text);
             return await client.deleteMessage(BotsApp.chatId, {
                 id: proccessing.key.id,
                 remoteJid: BotsApp.chatId,
