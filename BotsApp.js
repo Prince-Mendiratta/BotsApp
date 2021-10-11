@@ -78,8 +78,8 @@ async function main() {
 
         try{
             if(update.action === 'add'){
-                var enable = await Greetings.getMessage(groupId,"welcome");
-                var Msg = await Greetings.getMessage(BotsApp.chatId, "welcome");
+                var enable = await Greetings.checkSettings(groupId,"welcome");
+                var Msg = await Greetings.getMessage(groupId, "welcome");
                 if(enable === false || enable === "OFF"){
                     return;
                 }
@@ -88,8 +88,8 @@ async function main() {
                 return;
             }
             else if(update.action === 'remove'){
-                var enable = await Greetings.changeSettings(groupId, "goodbye");
-                var Msg = await Greetings.getMessage(BotsApp.chatId, "goodbye");
+                var enable = await Greetings.checkSettings(groupId, "goodbye");
+                var Msg = await Greetings.getMessage(groupId, "goodbye");
                 if(enable === false || enable === "OFF"){
                     return;
                 }
