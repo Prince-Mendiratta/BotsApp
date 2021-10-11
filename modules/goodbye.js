@@ -13,17 +13,17 @@ module.exports = {
         return;
     }
     if (args.length == 0) {
-        var enable = await Greetings.checkSettings(BotsApp.chatId, "goodbye");
+        var enabled = await Greetings.checkSettings(BotsApp.chatId, "goodbye");
         var Msg = await Greetings.getMessage(BotsApp.chatId, "goodbye");
         try {
-            if (enable === false || enable === undefined) {
+            if (enabled === false || enabled === undefined) {
                 client.sendMessage(
                     BotsApp.chatId,
                     GOODBYE.SET_GOODBYE_FIRST,
                     MessageType.text
                 );
                 return;
-            } else if (enable === "OFF") {
+            } else if (enabled === "OFF") {
                 console.log("Greetings are off");
                 client.sendMessage(
                     BotsApp.chatId,
@@ -44,8 +44,8 @@ module.exports = {
             console.log("ERROR: " + err);
         }
     } else {
-        if (args[0] === "OFF") {
-            switched = args[0];
+        if (args[0] === "OFF" || args[0] === "off") {
+            switched = "OFF";
             await Greetings.changeSettings(BotsApp.chatId, switched);
             client.sendMessage(
                 BotsApp.chatId,
@@ -54,8 +54,8 @@ module.exports = {
             );
             return;
         }
-        if (args[0] === "ON") {
-            switched = args[0];
+        if (args[0] === "ON" || args[0] === "on") {
+            switched = "ON";
             await Greetings.changeSettings(BotsApp.chatId, switched);
             client.sendMessage(
                 BotsApp.chatId,

@@ -4,18 +4,19 @@ if (fs.existsSync('config.env')){
     require('dotenv').config({ path: './config.env'});
 }
 
-const convertToBool = (value) => {
-    var bool = false;
+const convertToLogLevel = (value) => {
+    var log = false;
     if (typeof value === "string") {
         if (value.toLowerCase() === "true") {
-            bool = true;
+            log = console.log;
         }
     }
-    return bool;
+    return log;
 }
 
 // Declare these environment variables first
 process.env.DATABASE_URL = process.env.DATABASE_URL === undefined ? './BotsApp.db' : process.env.DATABASE_URL;
+// TODO: change default level to false for release.
 process.env.DEBUG = process.env.DEBUG === undefined ? true : false;
 
 const env = {
@@ -25,7 +26,7 @@ const env = {
     COUNTRY_CODE: process.env.COUNTRY_CODE === undefined ? "91" : process.env.COUNTRY_CODE,
     DATABASE_URL: process.env.DATABASE_URL,
     DEBUG: process.env.DEBUG,
-    DATABASE: process.env.DATABASE_URL === './BotsApp.db' ? new Sequelize({ dialect: "sqlite", storage: process.env.DATABASE_URL, logging: convertToBool(process.env.DEBUG) }) : new Sequelize({ dialect: "postgres", storage: process.env.DATABASE_URL}),
+    DATABASE: process.env.DATABASE_URL === './BotsApp.db' ? new Sequelize({ dialect: "sqlite", storage: process.env.DATABASE_URL, logging: convertToLogLevel(process.env.DEBUG) }) : new Sequelize({ dialect: "postgres", storage: process.env.DATABASE_URL}),
 }
 
 module.exports = env
