@@ -34,13 +34,23 @@ module.exports = {
 
             var admin = false;
             var isMember = false;
+            var owner = BotsApp.chatId.split("-")[0];
             for (const index in BotsApp.groupMembers) {
                 if (contact == BotsApp.groupMembers[index].id.split("@")[0]) {
                     isMember = true;
                     if (BotsApp.groupMembers[index].isAdmin) {
-                        admin = true;
+                        admin = true; 
                     }
                 }
+            }
+
+            if(contact === owner){
+                client.sendMessage(
+                    BotsApp.chatId,
+                    "*" + contact + " is the owner of the group*",
+                    MessageType.text
+                );
+                return;
             }
 
             if (isMember) {
