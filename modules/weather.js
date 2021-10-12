@@ -1,14 +1,10 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const ffmpeg = require("fluent-ffmpeg");
 const inputSanitization = require("../sidekick/input-sanitization");
 const https = require("https");
 const config = require("../config");
-
-const SerpApi = require("google-search-results-nodejs");
-const search = new SerpApi.GoogleSearch(config.SERPAPI_API_KEY);
+const apiKey = config.WEATHER_API_KEY;
 
 const Strings = require("../lib/db");
-const { dir } = require("console");
 const WEATHER = Strings.weather;
 
 module.exports = {
@@ -16,6 +12,19 @@ module.exports = {
     description: WEATHER.DESCRIPTION,
     extendedDescription: WEATHER.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
+        const weatherTypes = {
+            sunny: "sunny",
+            clear: "clear",
+            cloud: "cloud",
+            overcast: "overcast",
+            rain: "rain",
+            drizzle: "drizzle",
+            snow: "snow",
+            storm: "storm",
+            fog: "fog",
+            haze: "haze",
+            mist:"mist"
+        };
         async function result(imageUrl, weatherDataVariables, downloading) {
             await client.sendMessage(
                 BotsApp.chatId,
@@ -50,7 +59,6 @@ module.exports = {
             );
             args[args.length - 1] = "";
             var cityName = args.join(" ");
-            const apiKey = config.FORECAST_WEATHER_API_KEY;
             const unit = "metric";
 
             const url =
@@ -65,8 +73,11 @@ module.exports = {
 
             https.get(url, function (response) {
                 console.log(response.statusCode);
-
+                response.on("error", (err) => {
+                    throw err;;
+                });
                 response.on("data", function (data) {
+                    console.log("Data recieved");
                     try {
                         const weatherData = JSON.parse(data);
 
@@ -117,6 +128,17 @@ module.exports = {
 
                         var weatherDescription =
                             weatherData.list[7].weather[0].description;
+
+                        for (var type in weatherTypes) {
+                            if (
+                                weatherDescription.includes(weatherTypes[type])
+                            ) {
+                                imageName = weatherTypes[type];
+                                break;
+                            } else {
+                                imageName = "fallback";
+                            }
+                        }
                         weatherDescription = weatherDescription.toUpperCase();
                         cityName = weatherData.city.name;
                         const country = weatherData.city.country;
@@ -154,20 +176,12 @@ module.exports = {
                             country: country,
                             dateAndTime: dateAndTime,
                         };
-                        // Get image from remote url - Google search
-                        const parameters = {
-                            q: cityName + " " + weatherDescription,
-                            tbm: "isch",
-                            ijn: "0",
-                            tbs: "qdr",
-                        };
-                        const callback = function (data) {
-                            var imageUrl =
-                                data["images_results"][0]["original"];
 
-                            result(imageUrl, weatherDataVariables, downloading);
-                        };
-                        search.json(parameters, callback);
+                        const imageUrl =
+                            "https://raw.githubusercontent.com/Prince-Mendiratta/BotsApp-Resources/main/weather/" +
+                            imageName +
+                            ".jpg";
+                        result(imageUrl, weatherDataVariables, downloading);
                     } catch (err) {
                         console.log(err);
                         client.deleteMessage(BotsApp.chatId, {
@@ -192,7 +206,6 @@ module.exports = {
                 MessageType.text
             );
             var cityName = args.join(" ");
-            const apiKey = config.CURRENT_WEATHER_API_KEY;
             const unit = "metric";
 
             const url =
@@ -205,6 +218,9 @@ module.exports = {
 
             https.get(url, function (response) {
                 console.log(response.statusCode);
+                response.on("error", (err) => {
+                    throw err;
+                });
                 response.on("data", function (data) {
                     try {
                         const weatherData = JSON.parse(data);
@@ -250,6 +266,17 @@ module.exports = {
                             sunsetDate.getSeconds();
                         var weatherDescription =
                             weatherData.weather[0].description;
+
+                        for (var type in weatherTypes) {
+                            if (
+                                weatherDescription.includes(weatherTypes[type])
+                            ) {
+                                imageName = weatherTypes[type];
+                                break;
+                            } else {
+                                imageName = "fallback";
+                            }
+                        }
                         weatherDescription = weatherDescription.toUpperCase();
                         cityName = weatherData.name;
                         const country = weatherData.sys.country;
@@ -287,19 +314,12 @@ module.exports = {
                             country: country,
                             dateAndTime: dateAndTime,
                         };
-                        // Get image from remote url - Google search
-                        const parameters = {
-                            q: cityName + " " + weatherDescription,
-                            tbm: "isch",
-                            ijn: "0",
-                            tbs: "qdr",
-                        };
-                        const callback = function (data) {
-                            var imageUrl =
-                                data["images_results"][0]["original"];
-                            result(imageUrl, weatherDataVariables, downloading);
-                        };
-                        search.json(parameters, callback);
+                        const imageUrl =
+                            "https://raw.githubusercontent.com/Prince-Mendiratta/BotsApp-Resources/main/weather/" +
+                            imageName +
+                            ".jpg";
+
+                        result(imageUrl, weatherDataVariables, downloading);
                     } catch (err) {
                         console.log(err);
                         client.deleteMessage(BotsApp.chatId, {
