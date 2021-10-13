@@ -43,10 +43,11 @@ module.exports = {
                 return;
             }
 
-            if(!number === owner + "@s.whatsapp.net"){
+            if(!(number === owner)){
                 client.groupRemove(BotsApp.chatId, [number + '@s.whatsapp.net'])
                 return;
             }
+
             else{
                 client.sendMessage(BotsApp.chatId, "*" + owner + " is the owner of the group*", MessageType.text);
                 return;
