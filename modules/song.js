@@ -59,7 +59,7 @@ module.exports = {
                 return;
             }
             console.log(song[0]);
-            Id = song[0].videoId;
+            Id = song[0].url;
         }
         try{
             var stream = ytdl(Id, {
