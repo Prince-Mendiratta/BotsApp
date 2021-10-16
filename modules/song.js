@@ -30,6 +30,23 @@ module.exports = {
         if (args[0].includes("youtu")) {
             Id = args[0]
             console.log(Id);
+            try {
+                if(args[0].includes("watch?v=")){
+                    var songId = args[0].split("watch?v=")[1];
+                }
+                else{
+                    var songId = args[0].split("/")[3];
+                }
+                const video = await yts({ videoId: songId });
+            } catch(err) {
+                console.log(err);
+                client.sendMessage(
+                  BotsApp.chatId,
+                  SONG.SONG_NOT_FOUND,
+                  MessageType.text
+                );
+                return;
+            }
         } else {
             var song = await yts(args.join(" "));
             song = song.all;
@@ -73,6 +90,7 @@ module.exports = {
                         }
                     );
                     inputSanitization.performanceTime(startTime);
+                    inputSanitization.deleteFiles(`tmp/${chat.key.id}.mp3`);
                     client.deleteMessage(BotsApp.chatId, {
                         id: reply.key.id,
                         remoteJid: BotsApp.chatId,
