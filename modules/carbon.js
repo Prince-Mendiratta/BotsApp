@@ -17,6 +17,7 @@ module.exports = {
             return;
         } else if (BotsApp.isReply && !BotsApp.replyMessage) {
             await client.sendMessage(BotsApp.chatId, CARBON.INVALID_REPLY, MessageType.text);
+            return;
         } else if (BotsApp.isReply) {
             code = BotsApp.replyMessage;
             themeInput = themes[Math.floor(Math.random()*themes.length)];
