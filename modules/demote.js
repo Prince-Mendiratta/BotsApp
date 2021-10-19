@@ -47,7 +47,7 @@ module.exports = {
             if(contact === owner){
                 client.sendMessage(
                     BotsApp.chatId,
-                    "*" + contact + " is the owner of the group*",
+                    "```" + contact + " is the owner of the group.```",
                     MessageType.text
                 );
                 return;
@@ -59,14 +59,14 @@ module.exports = {
                     client.groupDemoteAdmin(BotsApp.chatId, arr);
                     client.sendMessage(
                         BotsApp.chatId,
-                        "*" + contact + " is demoted from admin*",
+                        "```" + contact + " is demoted from admin.```",
                         MessageType.text
                     );
                     return;
                 } else {
                     client.sendMessage(
                         BotsApp.chatId,
-                        "*" + contact + " was not an admin*",
+                        "```" + contact + " cannot be demoted since the member is not an admin.```",
                         MessageType.text
                     );
                     return;
@@ -89,7 +89,7 @@ module.exports = {
                 }
             }   
             else if(err === "NumberInvalid"){
-                client.sendMessage(BotsApp.chatId, "Number invalid " + args[0], MessageType.text);
+                client.sendMessage(BotsApp.chatId, "```Invalid number ```" + args[0], MessageType.text);
             }
             else {
                 console.log(err);
