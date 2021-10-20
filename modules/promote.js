@@ -41,9 +41,9 @@ module.exports = {
                 if (!admin == true) {
                     const arr = [contact + "@s.whatsapp.net"];
                     client.groupMakeAdmin(BotsApp.chatId, arr)
-                    client.sendMessage(BotsApp.chatId, contact + " ```has been promoted to admin.```", MessageType.text);
+                    client.sendMessage(BotsApp.chatId, contact + " ``` has been promoted to admin.```", MessageType.text);
                 } else {
-                    client.sendMessage(BotsApp.chatId, contact + " ```is already an admin.```", MessageType.text);
+                    client.sendMessage(BotsApp.chatId, contact + " ``` is already an admin.```", MessageType.text);
                 }
             }
             if (!isMember) {
