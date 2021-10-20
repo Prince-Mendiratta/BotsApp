@@ -64,7 +64,7 @@ module.exports = {
         );
         client.sendMessage(
             BotsApp.chatId,
-            "*" + jidNumber + " blocked successfully.*",
+            "```" + jidNumber + " blocked successfully.```",
             MessageType.text
         );
     },

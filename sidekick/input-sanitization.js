@@ -14,7 +14,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
             
         }
         else {
-            client.sendMessage(BotsApp.chatId,"*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",MessageType.text);
+            client.sendMessage(BotsApp.chatId,"```Enter a valid contact number according to the format below:\n    1. XXXXXXXXXX\n    2. Tag the person\n    3. +(YYY)XXXXXXXXXX.```\n_(YY- Country Code, without zeros)_",MessageType.text);
             return;
         }
     } else {
@@ -24,7 +24,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
     if (jidNumber.length < 8 || jidNumber.length > 13) {
         client.sendMessage(
             BotsApp.chatId,
-            "*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",
+            "```Enter a valid contact number according to the format below:\n    1. XXXXXXXXXX\n    2. Tag the person\n    3. +(YYY)XXXXXXXXXX.```\n_(YY- Country Code, without zeros)_",
             MessageType.text
         );
         return;

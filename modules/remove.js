@@ -19,7 +19,7 @@ module.exports = {
         if (BotsApp.isReply) {
             let PersonToRemove = chat.message.extendedTextMessage.contextInfo.participant;
             if(PersonToRemove === owner + "@s.whatsapp.net"){
-                client.sendMessage(BotsApp.chatId, "*" + owner + " is the owner of the group*", MessageType.text);
+                client.sendMessage(BotsApp.chatId, "```" + owner + "is the owner of the group```", MessageType.text);
                 return;
             }
 
@@ -48,7 +48,7 @@ module.exports = {
                 return;
             }
             else{
-                client.sendMessage(BotsApp.chatId, "*" + owner + " is the owner of the group*", MessageType.text);
+                client.sendMessage(BotsApp.chatId, "```" + owner + " is the owner of the group.```", MessageType.text);
                 return;
             }
  
