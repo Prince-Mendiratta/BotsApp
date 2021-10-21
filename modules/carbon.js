@@ -35,6 +35,14 @@ module.exports = {
             themeInput = themes[Math.floor(Math.random()*themes.length)];
         } else {
             try{
+                var text = BotsApp.body.replace(
+                    BotsApp.body[0] + BotsApp.commandName + " ",
+                    ""
+                );
+                if(text[0] === "-" && text[1] === "t"){
+                    await client.sendMessage(BotsApp.chatId, CARBON.NO_INPUT, MessageType.text);
+                    return;
+                }
                 var body = BotsApp.body.split("-t")
                 code = body[0].replace(BotsApp.body[0] + BotsApp.commandName + " ", "");
                 themeInput = body[1].substring(1);
