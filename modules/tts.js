@@ -12,10 +12,29 @@ module.exports = {
         const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.tts.PROCESSING, MessageType.text);
         let text = '';
         let langCode = "en";
-        for (var i = 0; i < args.length; i++) {
-            if (args[i] == '|') {
-                langCode = args[i + 1];
-                break;
+        if(!BotsApp.isReply){
+            try{
+                var body = BotsApp.body.split("|")
+                text = body[0].replace(BotsApp.body[0] + BotsApp.commandName + " ", "");
+                console.log(text)
+                if(text === ""){
+                    await client.sendMessage(BotsApp.chatId, "Enter text", MessageType.text);
+                    return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
+                }
+                var i = 0;
+                var lang = body[1].split(" ");
+                console.log(lang[i].length)
+                while(lang[i].length == 0){
+                    i++;
+                }
+                langCode = lang[i];
+                console.log(langCode)
+            }catch(err){
+                if(err instanceof TypeError){
+                    text = BotsApp.body.replace(BotsApp.body[0] + BotsApp.commandName + " ", "");
+                    langCode = 'English'
+                }
+                console.log(err)
             }
             text += args[i] + " ";
         }
