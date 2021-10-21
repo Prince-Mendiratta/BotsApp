@@ -46,12 +46,18 @@ module.exports = {
                 }
                 caption += "\n*🔍 Some Repos :* " + repos;
             }
-            await client.sendMessage(
-                BotsApp.chatId,
-                { url: user.avatar_url },
-                MessageType.image,
-                { mimetype: Mimetype.image, caption: caption }
-            );
+            try{
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    { url: user.avatar_url },
+                    MessageType.image,
+                    { mimetype: Mimetype.png, caption: caption, thumbnail: null }
+                );
+            }
+            catch(err){
+                console.log("ERROR" + err)
+                client.sendMessage(BotsApp.chatId, caption, MessageType.text);
+            }
             return await client.deleteMessage(BotsApp.chatId, {
                 id: fetching.key.id,
                 remoteJid: BotsApp.chatId,
