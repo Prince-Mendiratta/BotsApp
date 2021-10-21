@@ -16,7 +16,7 @@ module.exports = {
         if(args[0] == null && !BotsApp.isReply) {
             await client.sendMessage(BotsApp.chatId, CARBON.NO_INPUT, MessageType.text);
             return;
-        } else if(args[0][0] == '-' && args[0][1] == 't') {
+        } else if(!BotsApp.isReply && args[0][0] === '-' && args[0][1] === 't') {
             let counter = 1;
             var message = '';
             themes.forEach((theme) => {
