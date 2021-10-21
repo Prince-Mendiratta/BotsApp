@@ -12,8 +12,19 @@ module.exports = {
     async handle(client, chat, BotsApp, args) {
         let themes = ["3024 night", "a11y dark", "blackboard", "base 16 (dark)", "base 16 (light)", "cobalt", "duotone", "hopscotch", "lucario", "material", "monokai", "night owl", "nord", "oceanic next", "one light", "one dark", "panda", "paraiso", "seti", "shades of purple", "solarized (dark)", "solarized (light)", "synthwave '84", "twilight", "verminal", "vscode", "yeti", "zenburn"];
         var code = ''
+        
         if(args[0] == null && !BotsApp.isReply) {
             await client.sendMessage(BotsApp.chatId, CARBON.NO_INPUT, MessageType.text);
+            return;
+        } else if(args[0][0] == '-' && args[0][1] == 't') {
+            let counter = 1;
+            var message = '';
+            themes.forEach((theme) => {
+                message += `\n${counter}. ${theme}`;
+                counter += 1;
+            })
+            message = "```Available themes:" + message + "```";
+            await client.sendMessage(BotsApp.chatId, `${message}`, MessageType.text)
             return;
         } else if (BotsApp.isReply && !BotsApp.replyMessage) {
             await client.sendMessage(BotsApp.chatId, CARBON.INVALID_REPLY, MessageType.text);
