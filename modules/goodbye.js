@@ -7,6 +7,7 @@ module.exports = {
   name: "goodbye",
   description: GOODBYE.DESCRIPTION,
   extendedDescription: GOODBYE.EXTENDED_DESCRIPTION,
+  demo: {isEnabled: false},
   async handle(client, chat, BotsApp, args) {
     if (!BotsApp.isGroup) {
         client.sendMessage(BotsApp.chatId, GOODBYE.NOT_A_GROUP, MessageType.text);

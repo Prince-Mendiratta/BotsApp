@@ -14,6 +14,7 @@ module.exports = {
     name: "song",
     description: STRINGS.add.DESCRIPTION,
     extendedDescription: STRINGS.add.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.song the nights avicii'},
     async handle(client, chat, BotsApp, args) {
         if (args.length === 0) {
             await client.sendMessage(

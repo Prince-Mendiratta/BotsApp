@@ -8,6 +8,7 @@ module.exports = {
     name: "help",
     description: HELP.DESCRIPTION,
     extendedDescription: HELP.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args, commandHandler){
         var prefixes = /\/\^\[(.*)+\]\/\g/g.exec(config.PREFIX)[1];
         console.log("arguments -> ");
@@ -27,15 +28,22 @@ module.exports = {
             prefixes.split("").forEach(prefix => {
                 triggers += prefix + command.name + " | "
             });
-            helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggers, command.extendedDescription);
-            const buttonMessage = {
-                contentText: helpMessage,
-                buttons: [{buttonId: 'id1', buttonText: {displayText: '.alive'}, type: 1}],
-                headerType: 1
+
+            if(command.demo.isEnabled) {
+                helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggers, command.extendedDescription) + HELP.FOOTER;
+                const buttonMessage = {
+                    contentText: helpMessage,
+                    buttons: [{buttonId: 'id1', buttonText: {displayText: command.demo.text}, type: 1}],
+                    headerType: 1
+                }
+                client.sendMessage(BotsApp.chatId, buttonMessage, MessageType.buttonsMessage);
+                return;
             }
-            client.sendMessage(BotsApp.chatId, buttonMessage, MessageType.buttonsMessage);
-            return;
+
+            helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggers, command.extendedDescription);
+            client.sendMessage(BotsApp.chatId, helpMessage, MessageType.text);
+			return;
         }
-        client.sendMessage(BotsApp.chatId, HELP.COMMAND_INTERFACE + "*Invalid Command. Check the correct name from* ```.help``` *command list.* ", MessageType.text);
+        client.sendMessage(BotsApp.chatId, HELP.COMMAND_INTERFACE + "```Invalid Command. Check the correct name from```  *.help*  ```command list.```", MessageType.text);
     }
 }

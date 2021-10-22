@@ -7,6 +7,7 @@ module.exports = {
     name: "add",
     description: ADD.DESCRIPTION,
     extendedDescription: ADD.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             client.sendMessage(BotsApp.chatId, Strings.general.NOT_A_GROUP, MessageType.text);

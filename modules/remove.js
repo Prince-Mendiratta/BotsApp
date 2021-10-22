@@ -6,6 +6,7 @@ module.exports = {
     name: "remove",
     description: STRINGS.remove.DESCRIPTION,
     extendedDescription: STRINGS.remove.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             client.sendMessage(BotsApp.chatId, STRINGS.general.NOT_A_GROUP, MessageType.text);

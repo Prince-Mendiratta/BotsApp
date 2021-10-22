@@ -11,6 +11,7 @@ module.exports = {
     name: "weather",
     description: WEATHER.DESCRIPTION,
     extendedDescription: WEATHER.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.weather New Delhi'},
     async handle(client, chat, BotsApp, args) {
         const weatherTypes = {
             sunny: "sunny",

@@ -8,6 +8,7 @@ module.exports = {
     name: "ocr",
     description: STRINGS.ocr.DESCRIPTION,
     extendedDescription:STRINGS.ocr.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.ocr.PROCESSING, MessageType.text);
         if (BotsApp.isImage) {

@@ -8,6 +8,7 @@ module.exports = {
   name: "neko",
   description: REPLY.DESCRIPTION,
   extendedDescription: REPLY.EXTENDED_DESCRIPTION,
+  demo: {isEnabled: true, text: '.neko #include <iostream> \nint main() \n{\n   std::cout << "Hello BotsApp!"; \n   return 0;\n}'},
   async handle(client, chat, BotsApp, args) {
     if(args[0] == null){
         await client.sendMessage(BotsApp.chatId, REPLY.ENTER_TEXT, MessageType.text);

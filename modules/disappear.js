@@ -7,6 +7,7 @@ module.exports = {
     name: "disappear",
     description: STRINGS.disappear.DESCRIPTION,
     extendedDescription:STRINGS.disappear.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.disappear'},
     async handle(client, chat, BotsApp, args) {
         var time = 7 * 24 * 60 * 60;
         if (BotsApp.isPm){

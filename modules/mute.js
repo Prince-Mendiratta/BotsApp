@@ -6,6 +6,7 @@ module.exports = {
     name: 'mute',
     description: MUTE.DESCRIPTION,
     extendedDescription: MUTE.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.mute 10 s'},
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
             client.sendMessage(BotsApp.chatId, MUTE.NOT_GROUP_CHAT, MessageType.text);

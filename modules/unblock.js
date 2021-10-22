@@ -5,6 +5,7 @@ module.exports = {
     name: "unblock",
     description: Reply.DESCRIPTION,
     extendedDescription: Reply.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.tts Hi there... I am BotsApp. | en'},
     async handle(client, chat, BotsApp, args) {
         var JID = "";
         var jidNumber;

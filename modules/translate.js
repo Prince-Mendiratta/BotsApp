@@ -9,6 +9,7 @@ module.exports = {
     name: "tr",
     description: STRINGS.tr.DESCRIPTION,
     extendedDescription: STRINGS.tr.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.tr automatic | hindi'},
     async handle(client, chat, BotsApp, args) {
         const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.tr.PROCESSING, MessageType.text);
         var text = '';
