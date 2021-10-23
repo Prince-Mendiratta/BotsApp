@@ -9,6 +9,7 @@ module.exports = {
     name: "setdp",
     description: REPLY.DESCRIPTION,
     extendedDescription: REPLY.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             await client.sendMessage(BotsApp.chatId, REPLY.NOT_A_GROUP, MessageType.text);

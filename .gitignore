@@ -8,3 +8,4 @@ tmp/*.*
 .vs/
 lib/db.js
 BotsApp.db
+.idea/

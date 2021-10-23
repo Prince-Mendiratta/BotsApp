@@ -7,6 +7,7 @@ module.exports = {
     name: "yt",
     description: YT.DESCRIPTION,
     extendedDescription: YT.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.yt Boston Dynamics Atlas'},
     async handle(client, chat, BotsApp, args){
         try{
             const keyword = await yts(args.join(" "))

@@ -8,6 +8,7 @@ module.exports = {
     name: "ud",
     description: STRINGS.ud.DESCRIPTION,
     extendedDescription: STRINGS.ud.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.ud bruh'},
     async handle(client, chat, BotsApp, args) {
         var text = "";
         if (BotsApp.isReply) {

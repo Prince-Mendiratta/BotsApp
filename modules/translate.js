@@ -9,6 +9,7 @@ module.exports = {
     name: "tr",
     description: STRINGS.tr.DESCRIPTION,
     extendedDescription: STRINGS.tr.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: ['.tr やめてください', '.tr how are you | hindi', '.tr how are you | hi']},
     async handle(client, chat, BotsApp, args) {
         const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.tr.PROCESSING, MessageType.text);
         var text = '';

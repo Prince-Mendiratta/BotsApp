@@ -9,6 +9,7 @@ module.exports = {
     name: "lyrics",
     description: STRINGS.lyrics.DESCRIPTION,
     extendedDescription: STRINGS.lyrics.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.lyrics love nwantiti'},
     async handle(client, chat, BotsApp, args) {
         var song = "";
         if (BotsApp.isReply) {

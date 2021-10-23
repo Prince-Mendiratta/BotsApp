@@ -12,6 +12,7 @@ module.exports = {
     name: "sticker",
     description: STICKER.DESCRIPTION,
     extendedDescription: STICKER.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         // Task starts here
         var startTime = window.performance.now();

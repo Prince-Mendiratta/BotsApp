@@ -8,6 +8,7 @@ module.exports = {
   name: "neko",
   description: REPLY.DESCRIPTION,
   extendedDescription: REPLY.EXTENDED_DESCRIPTION,
+  demo: {isEnabled: true, text: '.neko #include <iostream> \nint main() \n{\n   std::cout << "Hello BotsApp!"; \n   return 0;\n}'},
   async handle(client, chat, BotsApp, args) {
     if(args[0] == null){
         await client.sendMessage(BotsApp.chatId, REPLY.ENTER_TEXT, MessageType.text);
@@ -33,7 +34,7 @@ module.exports = {
             client.sendMessage(BotsApp.chatId, REPLY.TRY_LATER, MessageType.text);
         }
         else{
-            await client.sendMessage(BotsApp.chatId, "ERROR", MessageType.text);
+            await client.sendMessage(BotsApp.chatId, "```Woops, something went wrong. Try again later.```", MessageType.text);
             console.log(err);
         }
         return await client.deleteMessage (BotsApp.chatId, {id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true});

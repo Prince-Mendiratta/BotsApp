@@ -7,6 +7,7 @@ module.exports = {
   name: "welcome",
   description: WELCOME.DESCRIPTION,
   extendedDescription: WELCOME.EXTENDED_DESCRIPTION,
+  demo: {isEnabled: true, text: ['.welcome', '.welcome off', '.welcome delete']},
   async handle(client, chat, BotsApp, args) {
     if (!BotsApp.isGroup) {
         client.sendMessage(BotsApp.chatId, WELCOME.NOT_A_GROUP, MessageType.text);

@@ -6,6 +6,7 @@ module.exports = {
     name: "unmute",
     description: UNMUTE.DESCRIPTION,
     extendedDescription: UNMUTE.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.unmute'},
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
             client.sendMessage(BotsApp.chatId, UNMUTE.NOT_GROUP_CHAT, MessageType.text);

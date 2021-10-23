@@ -6,6 +6,7 @@ module.exports = {
     name: 'mute',
     description: MUTE.DESCRIPTION,
     extendedDescription: MUTE.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: ['.mute','.mute 10 s','.mute 1 h']},
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
             client.sendMessage(BotsApp.chatId, MUTE.NOT_GROUP_CHAT, MessageType.text);
@@ -32,15 +33,15 @@ module.exports = {
             type = "seconds";
         } else if(args[1] === 'm') {
             duration = args[0] * 60 * 1000;
-            type = "seconds";
+            type = "minutes";
         } else if(args[1] === 'h') {
             duration = args[0] * 60 * 60 * 1000;
-            type = "seconds";
+            type = "hours";
         } else {
             duration = args[0] * 60 * 1000; // default to minutes
         }
 
-        client.groupSettingChange(BotsApp.chatId, GroupSettingChange.messageSend, true);
+        await client.groupSettingChange(BotsApp.chatId, GroupSettingChange.messageSend, true);
         client.sendMessage(BotsApp.chatId, "```Chat permissions changed to```  *admin only*  ```for " + args[0] + " " + type + ".```", MessageType.text);
         setTimeout(() => {
             client.groupSettingChange(BotsApp.chatId, GroupSettingChange.messageSend, false);

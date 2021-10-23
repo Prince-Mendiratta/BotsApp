@@ -12,6 +12,7 @@ module.exports = {
     name: "stoi",
     description: STOI.DESCRIPTION,
     extendedDescription: STOI.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         // Task starts here
         var startTime = window.performance.now();

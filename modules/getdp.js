@@ -7,6 +7,7 @@ module.exports = {
     name: 'getdp',
     description: GETDP.DESCRIPTION,
     extendedDescription: GETDP.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.getdp'},
     async handle(client, chat, BotsApp, args) {
         const processing = await client.sendMessage(BotsApp.chatId, "```Getting display picture...```", MessageType.text);
         try {

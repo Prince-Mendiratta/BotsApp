@@ -6,6 +6,7 @@ module.exports = {
     name: 'admins',
     description: ADMINS.DESCRIPTION,
     extendedDescription: ADMINS.EXTENDED_DESCRIPTION,
+    demo: {text: '.admins', isEnabled: true},
     async handle(client, chat, BotsApp, args) {
         if(!BotsApp.isGroup) {
             client.sendMessage(

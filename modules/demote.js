@@ -7,6 +7,7 @@ module.exports = {
     name: "demote",
     description: REPLY.DESCRIPTION,
     extendedDescription: REPLY.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             client.sendMessage(

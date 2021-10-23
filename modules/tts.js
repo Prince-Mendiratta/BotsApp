@@ -7,6 +7,7 @@ module.exports = {
     name: "tts",
     description: STRINGS.tts.DESCRIPTION,
     extendedDescription: STRINGS.tts.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: '.tts Hi there... I am BotsApp. | en'},
     async handle(client, chat, BotsApp, args) {
         const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.tts.PROCESSING, MessageType.text);
         let text = '';
@@ -14,7 +15,9 @@ module.exports = {
         if(!BotsApp.isReply){
             try{
                 var body = BotsApp.body.split("|")
+                console.log(body);
                 text = body[0].replace(BotsApp.body[0] + BotsApp.commandName + " ", "");
+                console.log(text)
                 console.log(BotsApp.body[0])
                 var i = 0;
                 var lang = body[1].split(" ");
