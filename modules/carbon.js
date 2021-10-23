@@ -9,7 +9,7 @@ module.exports = {
     name: "carbon",
     description: CARBON.DESCRIPTION,
     extendedDescription: CARBON.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: '.carbon #include <iostream> \nint main() \n{\n   std::cout << "Hello BotsApp!"; \n   return 0;\n} -t yeti'},
+    demo: {isEnabled: true, text: ['.carbon Hi! Welcome to BotsApp.','.carbon #include <iostream> \nint main() \n{\n   std::cout << "Hello BotsApp!"; \n   return 0;\n} -t yeti', '.carbon -t']},
     async handle(client, chat, BotsApp, args) {
         let themes = ["3024 night", "a11y dark", "blackboard", "base 16 (dark)", "base 16 (light)", "cobalt", "duotone", "hopscotch", "lucario", "material", "monokai", "night owl", "nord", "oceanic next", "one light", "one dark", "panda", "paraiso", "seti", "shades of purple", "solarized (dark)", "solarized (light)", "synthwave '84", "twilight", "verminal", "vscode", "yeti", "zenburn"];
         var code = ''

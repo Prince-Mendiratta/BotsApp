@@ -30,14 +30,28 @@ module.exports = {
             });
 
             if(command.demo.isEnabled) {
+                console.log("got demos");
+                var buttons = [];
                 helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggers, command.extendedDescription) + HELP.FOOTER;
+                if(command.demo.text instanceof Array){
+                    for (var i in command.demo.text){
+                        console.log(i);
+                        var button = {
+                            buttonId: 'id' + i,
+                            buttonText: {displayText: command.demo.text[i]},
+                            type: 1
+                        }
+                        buttons.push(button);
+                    }
+                }else{
+                    buttons.push({buttonId: 'id1', buttonText: {displayText: command.demo.text}, type: 1});
+                }
                 const buttonMessage = {
                     contentText: helpMessage,
-                    buttons: [{buttonId: 'id1', buttonText: {displayText: command.demo.text}, type: 1}],
+                    buttons: buttons,
                     headerType: 1
                 }
-                client.sendMessage(BotsApp.chatId, buttonMessage, MessageType.buttonsMessage);
-                return;
+                return await client.sendMessage(BotsApp.chatId, buttonMessage, MessageType.buttonsMessage);
             }
 
             helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggers, command.extendedDescription);

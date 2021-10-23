@@ -5,7 +5,7 @@ module.exports = {
     name: "unblock",
     description: Reply.DESCRIPTION,
     extendedDescription: Reply.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: '.tts Hi there... I am BotsApp. | en'},
+    demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
         var JID = "";
         var jidNumber;
@@ -17,7 +17,7 @@ module.exports = {
                 } else {
     
                     client.sendMessage(
-                        BotsApp.from,
+                        BotsApp.chatId,
                         Reply.NUMBER_SYNTAX_ERROR, MessageType.text
                     );
                     return;
@@ -27,7 +27,7 @@ module.exports = {
             }
             if (jidNumber.length < 10 || jidNumber.length > 13) {
                 client.sendMessage(
-                    BotsApp.from,
+                    BotsApp.chatId,
                     Reply.NUMBER_SYNTAX_ERROR,
                     MessageType.text
                 );
@@ -37,18 +37,18 @@ module.exports = {
             }
             JID = jidNumber + "@s.whatsapp.net";
         } else if (!BotsApp.isGroup) {
-            JID = BotsApp.from;
+            JID = BotsApp.chatId;
             jidNumber = JID.substring(0, JID.indexOf("@"));
         } else {
             if (BotsApp.isReply) {
                 JID =
-                    chat.messages.all()[0].message.extendedTextMessage
+                    chat.message.extendedTextMessage
                     .contextInfo.participant;
     
                 jidNumber = JID.substring(0, JID.indexOf("@"));
             } else {
                 client.sendMessage(
-                    BotsApp.from,
+                    BotsApp.chatId,
                     Reply.MESSAGE_NOT_TAGGED,
                     MessageType.text
                 );

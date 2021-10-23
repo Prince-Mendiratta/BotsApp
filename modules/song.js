@@ -12,9 +12,9 @@ const SONG = STRINGS.song;
 
 module.exports = {
     name: "song",
-    description: STRINGS.add.DESCRIPTION,
-    extendedDescription: STRINGS.add.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: '.song the nights avicii'},
+    description: SONG.DESCRIPTION,
+    extendedDescription: SONG.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: ['.song love of my life', '.song https://www.youtube.com/watch?v=0Gc3nvmMQP0', '.song https://youtu.be/pWiI9gabW9k']},
     async handle(client, chat, BotsApp, args) {
         if (args.length === 0) {
             await client.sendMessage(

@@ -9,7 +9,7 @@ module.exports = {
     name: "github",
     description: STRINGS.github.DESCRIPTION,
     extendedDescription: STRINGS.github.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: '.github eddiejaoude'},
+    demo: {isEnabled: true, text: '.github Prince-Mendiratta'},
     async handle(client, chat, BotsApp, args) {
         let user_name = "";
         if (BotsApp.isReply) {

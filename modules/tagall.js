@@ -9,7 +9,7 @@ module.exports = {
     name: 'tagall',
     description:STRINGS.tagall.DESCRIPTION ,
     extendedDescription: STRINGS.tagall.EXTENDED_DESCRIPTION,
-    demo: '.tagall',
+    demo: {isEnabled: true, text:['.tagall', '.tagall Hey everyone! You have been tagged in this message hehe.']},
     async handle(client, chat, BotsApp, args) {
         if (!BotsApp.isGroup) {
             client.sendMessage(BotsApp.chatId, STRINGS.general.NOT_A_GROUP, MessageType.text);

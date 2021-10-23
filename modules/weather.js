@@ -11,7 +11,7 @@ module.exports = {
     name: "weather",
     description: WEATHER.DESCRIPTION,
     extendedDescription: WEATHER.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: '.weather New Delhi'},
+    demo: {isEnabled: true, text: ['.weather New Delhi', '.weather New Delhi tomorrow', '.weather New Delhi tom']},
     async handle(client, chat, BotsApp, args) {
         const weatherTypes = {
             sunny: "sunny",
@@ -81,7 +81,19 @@ module.exports = {
                     console.log("Data recieved");
                     try {
                         const weatherData = JSON.parse(data);
-
+                        if(weatherData.message == 'city not found'){
+                            client.sendMessage(
+                                BotsApp.chatId,
+                                WEATHER.NOT_FOUND,
+                                MessageType.text
+                            );
+                            client.deleteMessage(BotsApp.chatId, {
+                                id: downloading.key.id,
+                                remoteJid: BotsApp.chatId,
+                                fromMe: true,
+                            });
+                            return;
+                        }
                         const tempInC = Number(
                             weatherData.list[7].main.temp
                         ).toFixed(2);
@@ -225,6 +237,19 @@ module.exports = {
                 response.on("data", function (data) {
                     try {
                         const weatherData = JSON.parse(data);
+                        if(weatherData.message == 'city not found'){
+                            client.sendMessage(
+                                BotsApp.chatId,
+                                WEATHER.NOT_FOUND,
+                                MessageType.text
+                            );
+                            client.deleteMessage(BotsApp.chatId, {
+                                id: downloading.key.id,
+                                remoteJid: BotsApp.chatId,
+                                fromMe: true,
+                            });
+                            return;
+                        }
                         const tempInC = Number(weatherData.main.temp).toFixed(
                             2
                         );
