@@ -50,12 +50,21 @@ async function main() {
         console.log(chalk.whiteBright.bold("[INFO] Installing Plugins... Please wait."));
         var moduleFiles = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
         for(var file of moduleFiles){
-            const command = require(join(__dirname, 'modules', `${file}`));
-            console.log(
-                chalk.magentaBright("[INFO] Successfully imported module"),
-                chalk.cyanBright.bold(`${file}`)
-            )
-            commandHandler.set(command.name, command);
+            try{
+                const command = require(join(__dirname, 'modules', `${file}`));
+                console.log(
+                    chalk.magentaBright("[INFO] Successfully imported module"),
+                    chalk.cyanBright.bold(`${file}`)
+                )
+                commandHandler.set(command.name, command);
+            }catch(error){
+                console.log(
+                    chalk.blueBright.bold("[INFO] Can not imported module"),
+                    chalk.redBright.bold(`${file}`)
+                )
+                console.log(`[ERROR] `, error);
+                continue;
+            }
         }
         console.log(chalk.green.bold("[INFO] Plugins Installed Successfully. The bot is ready to use."));
         console.log(chalk.yellowBright.bold("[INFO] Connecting to Database."));
