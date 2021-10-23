@@ -9,6 +9,6 @@ module.exports = {
     extendedDescription: alive.EXTENDED_DESCRIPTION,
     demo: {isEnabled: true, text: '.alive'},
     async handle(client, chat, BotsApp, args){
-        client.sendMessage(BotsApp.chatId, alive.ALIVE_MSG.format("Prince"), MessageType.text);
+        return await client.sendMessage(BotsApp.chatId, alive.ALIVE_MSG, MessageType.text);
     }
 }
