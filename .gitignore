@@ -1,6 +1,11 @@
 .DS_Store
-node_modules/
+node_modules
 build/Release
 *.env
 .env.test
 package-lock.json
+tmp/*.*
+.vs/
+lib/db.js
+BotsApp.db
+.idea/
