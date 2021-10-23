@@ -15,7 +15,7 @@ module.exports = {
         var text = '';
         var language = '';
         if(args.length == 0){
-            await client.sendMessage(BotsApp.chatId, STRINGS.tr.EXTENDED_DESCRIPTION, MessageType.text);
+            await client.sendMessage(BotsApp.chatId, STRINGS.tr.NO_INPUT, MessageType.text);
             return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
         }
         if(!BotsApp.isReply){
