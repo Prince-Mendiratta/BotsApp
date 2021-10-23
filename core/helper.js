@@ -8,6 +8,7 @@ var BotsAppClass = require("../sidekick/sidekick")
 exports.resolve = function(messageInstance, client, groupMetadata) {
     var BotsApp = new BotsAppClass();
     var prefixRegex = config.PREFIX;
+    var SUDOstring = config.SUDO;
     try{
         var jsonMessage = JSON.stringify(messageInstance)
     }catch(err){
@@ -49,7 +50,8 @@ exports.resolve = function(messageInstance, client, groupMetadata) {
     BotsApp.groupId = BotsApp.isGroup ? groupMetadata.id : '';
     BotsApp.isBotGroupAdmin = BotsApp.isGroup ? BotsApp.groupAdmins.includes(BotsApp.owner) || false : '';
     BotsApp.isSenderGroupAdmin = BotsApp.isGroup ? BotsApp.groupAdmins.includes(BotsApp.sender) || false : false;
-
+    BotsApp.isSenderSUDO = SUDOstring.includes(BotsApp.sender.substring(0,BotsApp.sender.indexOf("@")));
+    
     return BotsApp;
 }
 

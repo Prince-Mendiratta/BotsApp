@@ -32,6 +32,8 @@ const env = {
     DATABASE_URL: process.env.DATABASE_URL,
     DEBUG: process.env.DEBUG,
     DATABASE: process.env.DATABASE_URL === './BotsApp.db' ? new Sequelize({ dialect: "sqlite", storage: process.env.DATABASE_URL, logging: convertToLogLevel(process.env.DEBUG) }) : new Sequelize({ dialect: "postgres", storage: process.env.DATABASE_URL}),
+    WORK_TYPE: process.env.WORK_TYPE === undefined ? "private" : process.env.WORK_TYPE,
+    SUDO: process.env.SUDO === undefined ? "" : process.env.SUDO,
 }
 
 module.exports = env
