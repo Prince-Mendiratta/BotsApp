@@ -36,18 +36,13 @@ module.exports = {
                 if (jidNumber.length < 10 || jidNumber.length > 13) {
                     client.sendMessage(
                         BotsApp.chatId,
-<<<<<<< HEAD
-                        Reply.NUMBER_SYNTAX_ERROR, MessageType.text
-=======
                         Reply.NUMBER_SYNTAX_ERROR,
                         MessageType.text
->>>>>>> Dealt corner cases in block and unblock module
                     );
                     return;
                 } else if (jidNumber.length === 10) {
                     jidNumber = "91" + jidNumber;
                 }
-<<<<<<< HEAD
             } else {
                 jidNumber = args[0];
             }
@@ -79,25 +74,6 @@ module.exports = {
                     MessageType.text
                 );
                 return;
-=======
-                JID = jidNumber + "@s.whatsapp.net";
-            } else if (!BotsApp.isGroup) {
-                JID = BotsApp.chatId;
-                jidNumber = JID.substring(0, JID.indexOf("@"));
-            } else {
-                if (BotsApp.isReply) {
-                    JID = BotsApp.replyParticipant;
-        
-                    jidNumber = JID.substring(0, JID.indexOf("@"));
-                } else {
-                    client.sendMessage(
-                        BotsApp.chatId,
-                        Reply.MESSAGE_NOT_TAGGED,
-                        MessageType.text
-                    );
-                    return;
-                }
->>>>>>> Dealt corner cases in block and unblock module
             }
         
             client.blockUser(JID, "remove");
