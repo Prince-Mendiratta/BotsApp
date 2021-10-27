@@ -14,101 +14,104 @@ module.exports = {
     name: "song",
     description: SONG.DESCRIPTION,
     extendedDescription: SONG.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: ['.song love of my life', '.song https://www.youtube.com/watch?v=0Gc3nvmMQP0', '.song https://youtu.be/pWiI9gabW9k']},
+    demo: {
+        isEnabled: true,
+        text: [
+            ".song love of my life",
+            ".song https://www.youtube.com/watch?v=0Gc3nvmMQP0",
+            ".song https://youtu.be/pWiI9gabW9k",
+        ],
+    },
     async handle(client, chat, BotsApp, args) {
-        if (args.length === 0) {
-            await client.sendMessage(
-                BotsApp.chatId,
-                SONG.ENTER_SONG,
-                MessageType.text
-            );
-            return;
-        }
-
-        // Task starts here
-        var startTime = window.performance.now();
-        var Id = " ";
-        if (args[0].includes("youtu")) {
-            Id = args[0]
-            console.log(Id);
-            try {
-                if(args[0].includes("watch?v=")){
-                    var songId = args[0].split("watch?v=")[1];
-                }
-                else{
-                    var songId = args[0].split("/")[3];
-                }
-                const video = await yts({ videoId: songId });
-            } catch(err) {
-                console.log(err);
-                client.sendMessage(
-                  BotsApp.chatId,
-                  SONG.SONG_NOT_FOUND,
-                  MessageType.text
-                );
-                return;
-            }
-        } else {
-            var song = await yts(args.join(" "));
-            song = song.all;
-            if (song.length < 1) {
-                client.sendMessage(
+        try {
+            if (args.length === 0) {
+                await client.sendMessage(
                     BotsApp.chatId,
-                    SONG.SONG_NOT_FOUND,
+                    SONG.ENTER_SONG,
                     MessageType.text
                 );
                 return;
             }
-            console.log(song[0]);
-            Id = song[0].url;
-        }
-        try{
-            var stream = ytdl(Id, {
-                quality: "highestaudio",
-            });
-            // console.log(stream);
             var reply = await client.sendMessage(
                 BotsApp.chatId,
                 SONG.DOWNLOADING,
                 MessageType.text
             );
-            
-            ffmpeg(stream)
-                .audioBitrate(320)
-                .toFormat("ipod")
-                .saveToFile(`tmp/${chat.key.id}.mp3`)
-                .on("end", async () => {
-                    var upload = await client.sendMessage(
+
+            // Task starts here
+            var startTime = window.performance.now();
+            var Id = " ";
+            if (args[0].includes("youtu")) {
+                Id = args[0];
+                try {
+                    if (args[0].includes("watch?v=")) {
+                        var songId = args[0].split("watch?v=")[1];
+                    } else {
+                        var songId = args[0].split("/")[3];
+                    }
+                    const video = await yts({ videoId: songId });
+                } catch (err) {
+                    throw err;
+                }
+            } else {
+                var song = await yts(args.join(" "));
+                song = song.all;
+                if (song.length < 1) {
+                    client.sendMessage(
                         BotsApp.chatId,
-                        SONG.UPLOADING,
+                        SONG.SONG_NOT_FOUND,
                         MessageType.text
                     );
-                    await client.sendMessage(
-                        BotsApp.chatId,
-                        fs.readFileSync(`tmp/${chat.key.id}.mp3`),
-                        MessageType.audio, {
-                            mimetype: Mimetype.mp4Audio
-                        }
-                    );
-                    inputSanitization.performanceTime(startTime);
-                    inputSanitization.deleteFiles(`tmp/${chat.key.id}.mp3`);
-                    client.deleteMessage(BotsApp.chatId, {
-                        id: reply.key.id,
-                        remoteJid: BotsApp.chatId,
-                        fromMe: true,
-                    });
-                    client.deleteMessage(BotsApp.chatId, {
-                        id: upload.key.id,
-                        remoteJid: BotsApp.chatId,
-                        fromMe: true,
-                    });
+                    return;
+                }
+                Id = song[0].url;
+            }
+            try {
+                var stream = ytdl(Id, {
+                    quality: "highestaudio",
                 });
-        }catch(err){
-            client.sendMessage(
-                BotsApp.chatId,
-                SONG.SONG_NOT_FOUND,
-                MessageType.text
+
+                ffmpeg(stream)
+                    .audioBitrate(320)
+                    .toFormat("ipod")
+                    .saveToFile(`tmp/${chat.key.id}.mp3`)
+                    .on("end", async () => {
+                        var upload = await client.sendMessage(
+                            BotsApp.chatId,
+                            SONG.UPLOADING,
+                            MessageType.text
+                        );
+                        await client.sendMessage(
+                            BotsApp.chatId,
+                            fs.readFileSync(`tmp/${chat.key.id}.mp3`),
+                            MessageType.audio,
+                            {
+                                mimetype: Mimetype.mp4Audio,
+                            }
+                        );
+                        inputSanitization.performanceTime(startTime);
+                        inputSanitization.deleteFiles(`tmp/${chat.key.id}.mp3`);
+                        client.deleteMessage(BotsApp.chatId, {
+                            id: reply.key.id,
+                            remoteJid: BotsApp.chatId,
+                            fromMe: true,
+                        });
+                        client.deleteMessage(BotsApp.chatId, {
+                            id: upload.key.id,
+                            remoteJid: BotsApp.chatId,
+                            fromMe: true,
+                        });
+                    });
+            } catch (err) {
+                throw err;
+            }
+        } catch (err) {
+            await inputSanitization.handleError(
+                err,
+                client,
+                BotsApp,
+                SONG.SONG_NOT_FOUND
             );
         }
-    }
+    },
 };

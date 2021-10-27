@@ -1,5 +1,9 @@
-const { MessageType, MessageOptions, Mimetype } = require("@adiwajshing/baileys");
-const fs = require('fs');
+const {
+    MessageType,
+    MessageOptions,
+    Mimetype,
+} = require("@adiwajshing/baileys");
+const fs = require("fs");
 const ffmpeg = require("fluent-ffmpeg");
 const inputSanitization = require("../sidekick/input-sanitization");
 const String = require("../lib/db.js");
@@ -9,27 +13,48 @@ module.exports = {
     name: "setdp",
     description: REPLY.DESCRIPTION,
     extendedDescription: REPLY.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: false},
+    demo: { isEnabled: false },
     async handle(client, chat, BotsApp, args) {
-        if (!BotsApp.isGroup) {
-            await client.sendMessage(BotsApp.chatId, REPLY.NOT_A_GROUP, MessageType.text);
-            return;
-        }
-        if (!BotsApp.isImage && !BotsApp.isReplyImage) {
-            await client.sendMessage(BotsApp.chatId, REPLY.NOT_AN_IMAGE, MessageType.text);
-            return;
-        }
-        try{
-            var imageId = chat.key.id
+        try {
+            if (!BotsApp.isGroup) {
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    REPLY.NOT_A_GROUP,
+                    MessageType.text
+                );
+                return;
+            }
+            if (!BotsApp.isImage && !BotsApp.isReplyImage) {
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    REPLY.NOT_AN_IMAGE,
+                    MessageType.text
+                );
+                return;
+            }
+            var update = await client.sendMessage(
+                BotsApp.chatId,
+                REPLY.ICON_CHANGED,
+                MessageType.text
+            );
+            var imageId = chat.key.id;
             const fileName = "./tmp/change_pic" + imageId;
             if (BotsApp.isImage) {
-                var filePath = await client.downloadAndSaveMediaMessage({
-                    message: chat.message
-                }, fileName);
+                var filePath = await client.downloadAndSaveMediaMessage(
+                    {
+                        message: chat.message,
+                    },
+                    fileName
+                );
             } else {
-                var filePath = await client.downloadAndSaveMediaMessage({
-                    message: chat.message.extendedTextMessage.contextInfo.quotedMessage
-                }, fileName);
+                var filePath = await client.downloadAndSaveMediaMessage(
+                    {
+                        message:
+                            chat.message.extendedTextMessage.contextInfo
+                                .quotedMessage,
+                    },
+                    fileName
+                );
             }
 
             const imagePath = "./tmp/image-" + imageId + ".png";
@@ -40,8 +65,10 @@ module.exports = {
                 )
                 .save(imagePath)
                 .on("end", async () => {
-                    client.updateProfilePicture(BotsApp.chatId, fs.readFileSync(imagePath));
-                    var update = await client.sendMessage(BotsApp.chatId, REPLY.ICON_CHANGED, MessageType.text);
+                    client.updateProfilePicture(
+                        BotsApp.chatId,
+                        fs.readFileSync(imagePath)
+                    );
 
                     //Image and message deletion
                     inputSanitization.deleteFiles(filePath, imagePath);
@@ -51,10 +78,9 @@ module.exports = {
                         fromMe: true,
                     });
                 });
-            }
-        catch(err){
-            console.log(err)
+        } catch (err) {
+            await inputSanitization.handleError(err, client, BotsApp);
         }
         return;
-    }
-}
+    },
+};

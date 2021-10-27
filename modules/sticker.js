@@ -12,13 +12,13 @@ module.exports = {
     name: "sticker",
     description: STICKER.DESCRIPTION,
     extendedDescription: STICKER.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: false},
+    demo: { isEnabled: false },
     async handle(client, chat, BotsApp, args) {
         // Task starts here
         var startTime = window.performance.now();
-        try{
+        try {
             // Function to convert media to sticker
-            const convertToSticker = async (imageId , replyChat) => {
+            const convertToSticker = async (imageId, replyChat) => {
                 var downloading = await client.sendMessage(
                     BotsApp.chatId,
                     STICKER.DOWNLOADING,
@@ -44,7 +44,10 @@ module.exports = {
                                 fs.readFileSync(stickerPath),
                                 MessageType.sticker
                             );
-                            inputSanitization.deleteFiles(filePath, stickerPath);
+                            inputSanitization.deleteFiles(
+                                filePath,
+                                stickerPath
+                            );
                             inputSanitization.performanceTime(startTime);
                             await client.deleteMessage(BotsApp.chatId, {
                                 id: downloading.key.id,
@@ -52,7 +55,7 @@ module.exports = {
                                 fromMe: true,
                             });
                         });
-                    return; 
+                    return;
                 }
                 ffmpeg(filePath)
                     .duration(8)
@@ -85,7 +88,7 @@ module.exports = {
                             fromMe: true,
                         });
                     });
-                return; 
+                return;
             };
 
             // User sends media message along with command in caption
@@ -94,8 +97,7 @@ module.exports = {
                     message: chat.message,
                 };
                 var imageId = chat.key.id;
-                console.log("repliedImageMessageId --> " + imageId);
-                convertToSticker(imageId , replyChatObject);
+                convertToSticker(imageId, replyChatObject);
             }
             // Replied to an image , gif or video
             else if (
@@ -105,11 +107,12 @@ module.exports = {
             ) {
                 var replyChatObject = {
                     message:
-                        chat.message.extendedTextMessage.contextInfo.quotedMessage,
+                        chat.message.extendedTextMessage.contextInfo
+                            .quotedMessage,
                 };
-                var imageId = chat.message.extendedTextMessage.contextInfo.stanzaId;
-                console.log("repliedImageMessageId --> " + imageId);
-                convertToSticker(imageId , replyChatObject);
+                var imageId =
+                    chat.message.extendedTextMessage.contextInfo.stanzaId;
+                convertToSticker(imageId, replyChatObject);
             } else {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -119,13 +122,13 @@ module.exports = {
                 inputSanitization.performanceTime(startTime);
             }
             return;
-        } catch(err){
-            console.log("ERROR: " + err);
-            client.sendMessage(
-                BotsApp.chatId,
-                STICKER.TAG_A_VALID_MEDIA_MESSAGE,
-                MessageType.text
-            ); 
+        } catch (err) {
+            await inputSanitization.handleError(
+                err,
+                client,
+                BotsApp,
+                STICKER.TAG_A_VALID_MEDIA_MESSAGE
+            );
         }
     },
 };

@@ -1,57 +1,81 @@
-const got = require('got');
+const got = require("got");
 const { MessageType } = require("@adiwajshing/baileys");
+const inputSanitization = require("../sidekick/input-sanitization");
 const STRINGS = require("../lib/db");
-const format = require('python-format-js');
-const ud = require('urban-dictionary');
+const format = require("python-format-js");
+const ud = require("urban-dictionary");
 
 module.exports = {
     name: "ud",
     description: STRINGS.ud.DESCRIPTION,
     extendedDescription: STRINGS.ud.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: '.ud bruh'},
+    demo: { isEnabled: true, text: ".ud bruh" },
     async handle(client, chat, BotsApp, args) {
-        var text = "";
-        if (!(BotsApp.replyMessage === "")) {
-            text = BotsApp.replyMessage;
-            console.log(text)
-        } else if (args.length == 0) {
-            client.sendMessage(BotsApp.chatId, STRINGS.ud.NO_ARG, MessageType.text);
-            return;
-        } else {
-            text = args.join(" ");
-        }
-
-        const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.ud.PROCESSING, MessageType.text);
-
+        const processing = await client.sendMessage(
+            BotsApp.chatId,
+            STRINGS.ud.PROCESSING,
+            MessageType.text
+        );
         try {
+            var text = "";
+            if (!(BotsApp.replyMessage === "")) {
+                text = BotsApp.replyMessage;
+            } else if (args.length == 0) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    STRINGS.ud.NO_ARG,
+                    MessageType.text
+                );
+                return;
+            } else {
+                text = args.join(" ");
+            }
+
             let Response = await ud.define(text);
             let result = Response.reduce(function (prev, current) {
-                return (prev.thumbs_up + prev.thumbs_down > current.thumbs_up + current.thumbs_down) ? prev : current
+                return prev.thumbs_up + prev.thumbs_down >
+                    current.thumbs_up + current.thumbs_down
+                    ? prev
+                    : current;
             });
 
-            result.definition = result.definition.replace(/\[/g, '_');
-            result.definition = result.definition.replace(/\]/g, '_');
-            result.example = result.example.replace(/\[/g, '_');
-            result.example = result.example.replace(/\]/g, '_');
+            result.definition = result.definition.replace(/\[/g, "_");
+            result.definition = result.definition.replace(/\]/g, "_");
+            result.example = result.example.replace(/\[/g, "_");
+            result.example = result.example.replace(/\]/g, "_");
 
-            let msg = "*Word :* " + result.word + "\n\n*Meaning :*\n" + result.definition + "\n\n*Example:*\n" + result.example + "\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👍" + result.thumbs_up + "  👎" + result.thumbs_down;
+            let msg =
+                "*Word :* " +
+                result.word +
+                "\n\n*Meaning :*\n" +
+                result.definition +
+                "\n\n*Example:*\n" +
+                result.example +
+                "\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👍" +
+                result.thumbs_up +
+                "  👎" +
+                result.thumbs_down;
 
             await client.deleteMessage(BotsApp.chatId, {
-                id: proccessing.key.id,
+                id: processing.key.id,
                 remoteJid: BotsApp.chatId,
-                fromMe: true
+                fromMe: true,
             });
 
             await client.sendMessage(BotsApp.chatId, msg, MessageType.text);
         } catch (err) {
-            console.log(err);
-            client.sendMessage(BotsApp.chatId, STRINGS.ud.NOT_FOUND.format(text), MessageType.text);
+            await inputSanitization.handleError(
+                err,
+                client,
+                BotsApp,
+                STRINGS.ud.NOT_FOUND.format(text)
+            );
             return await client.deleteMessage(BotsApp.chatId, {
-                id: proccessing.key.id,
+                id: processing.key.id,
                 remoteJid: BotsApp.chatId,
-                fromMe: true
+                fromMe: true,
             });
         }
         return;
-    }
-}
+    },
+};
