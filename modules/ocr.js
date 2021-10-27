@@ -1,8 +1,8 @@
 const { MessageType } = require("@adiwajshing/baileys")
 const ocrSpace = require('ocr-space-api-wrapper')
 const STRINGS=require("../lib/db.js")
-const fs = require('fs');
 const config = require('../config')
+const inputSanitization = require("../sidekick/input-sanitization");
 
 module.exports = {
     name: "ocr",
@@ -10,7 +10,7 @@ module.exports = {
     extendedDescription:STRINGS.ocr.EXTENDED_DESCRIPTION,
     demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args) {
-        const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.ocr.PROCESSING, MessageType.text);
+        const processing = await client.sendMessage(BotsApp.chatId, STRINGS.ocr.PROCESSING, MessageType.text);
         if (BotsApp.isImage) {
             var replyChatObject = {
                 message: chat.message,
@@ -25,12 +25,17 @@ module.exports = {
             try {
                 const text = await ocrSpace(filePath, { apiKey: config.OCR_API_KEY })
                 console.log(text);
-                client.sendMessage(BotsApp.chatId, text.ParsedResults[0].ParsedText, MessageType.text);
+                var Msg = text.ParsedResults[0].ParsedText;
+                if(Msg === ""){
+                    client.sendMessage(BotsApp.chatId, "Couldn't find text in the image", MessageType.text);
+                    return await client.deleteMessage(BotsApp.chatId, { id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
+                }
+                client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
             } catch (error) {
                 console.log(error)
             }
-            fs.unlinkSync(filePath);
-            return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
+            inputSanitization.deleteFiles(filePath);
+            return await client.deleteMessage(BotsApp.chatId, { id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
 
         }
         if (BotsApp.isReplyImage) {
@@ -48,14 +53,23 @@ module.exports = {
             try {
                 const text = await ocrSpace(filePath, { apiKey: config.OCR_API_KEY })
                 console.log(text);
-                client.sendMessage(BotsApp.chatId, text.ParsedResults[0].ParsedText, MessageType.text);
+                var Msg = text.ParsedResults[0].ParsedText;
+                if(Msg === ""){
+                    client.sendMessage(BotsApp.chatId, "Couldn't find text in the image", MessageType.text);
+                    return await client.deleteMessage(BotsApp.chatId, { id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
+                }
+                client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
             } catch (error) {
                 console.log(error);
             }
-            fs.unlinkSync(filePath);
-            return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
+            inputSanitization.deleteFiles(filePath);
+            return await client.deleteMessage(BotsApp.chatId, { id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
         }
+        setTimeout(async () => {
+            await client.sendMessage(BotsApp.chatId, STRINGS.ocr.ERROR_MSG, MessageType.text);
+            return;
+        }, 300000);
         await client.sendMessage(BotsApp.chatId, STRINGS.ocr.ERROR_MSG, MessageType.text);
-        return await client.deleteMessage(BotsApp.chatId, { id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
+        return await client.deleteMessage(BotsApp.chatId, { id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true });
     }
 }

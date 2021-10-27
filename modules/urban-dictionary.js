@@ -11,8 +11,9 @@ module.exports = {
     demo: {isEnabled: true, text: '.ud bruh'},
     async handle(client, chat, BotsApp, args) {
         var text = "";
-        if (BotsApp.isReply) {
-            text = BotsApp.replyMessage;;
+        if (!(BotsApp.replyMessage === "")) {
+            text = BotsApp.replyMessage;
+            console.log(text)
         } else if (args.length == 0) {
             client.sendMessage(BotsApp.chatId, STRINGS.ud.NO_ARG, MessageType.text);
             return;

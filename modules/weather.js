@@ -3,7 +3,6 @@ const inputSanitization = require("../sidekick/input-sanitization");
 const https = require("https");
 const config = require("../config");
 const apiKey = config.WEATHER_API_KEY;
-
 const Strings = require("../lib/db");
 const WEATHER = Strings.weather;
 
@@ -32,8 +31,9 @@ module.exports = {
                 { url: imageUrl },
                 MessageType.image,
                 {
-                    mimetype: Mimetype.jpeg,
+                    mimetype: Mimetype.png,
                     caption: WEATHER.WEATHER_DATA.format(weatherDataVariables),
+                    thumbnail: null
                 }
             );
             await client.deleteMessage(BotsApp.chatId, {

@@ -33,7 +33,7 @@ module.exports = {
             );
             const imagePath = "./tmp/image-" + stickerId + ".png";
             try {
-                await ffmpeg(filePath)
+                ffmpeg(filePath)
                     .save(imagePath)
                     .on("error", function (err, stdout, stderr) {
                         console.log("-------------------\nERROR " + err.message +"\n-------------------");
@@ -56,7 +56,7 @@ module.exports = {
                             BotsApp.chatId,
                             fs.readFileSync(imagePath),
                             MessageType.image,
-                            {mimetype: Mimetype.png}
+                            {mimetype: Mimetype.png, thumbnail: null}
                         );
                         inputSanitization.deleteFiles(filePath, imagePath);
                         inputSanitization.performanceTime(startTime);

@@ -1,6 +1,7 @@
 const { MessageType } = require("@adiwajshing/baileys")
 const chalk = require('chalk');
 const STRINGS = require("../lib/db.js");
+const check = require("../sidekick/input-sanitization")
 
 module.exports = {
     name: "remove",
@@ -20,10 +21,14 @@ module.exports = {
         if (BotsApp.isReply) {
             let PersonToRemove = chat.message.extendedTextMessage.contextInfo.participant;
             if(PersonToRemove === owner + "@s.whatsapp.net"){
-                client.sendMessage(BotsApp.chatId, "```" + owner + "is the owner of the group```", MessageType.text);
+                client.sendMessage(BotsApp.chatId, "*" + owner + " is the owner of the group*", MessageType.text);
                 return;
             }
-
+            var isMember = await check.isMember(PersonToRemove, BotsApp.groupMembers);
+            console.log(isMember)
+            if(!isMember){
+                client.sendMessage(BotsApp.chatId, "*person is not in the group*", MessageType.text);
+            }
             try {
                 if (PersonToRemove) {
                     client.groupRemove(BotsApp.chatId, [PersonToRemove])
@@ -49,7 +54,7 @@ module.exports = {
                 return;
             }
             else{
-                client.sendMessage(BotsApp.chatId, "```" + owner + " is the owner of the group.```", MessageType.text);
+                client.sendMessage(BotsApp.chatId, "*" + owner + " is the owner of the group*", MessageType.text);
                 return;
             }
  

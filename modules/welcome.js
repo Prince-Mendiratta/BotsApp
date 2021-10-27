@@ -45,70 +45,74 @@ module.exports = {
             console.log("ERROR: " + err);
         }
     } else {
-        if (args[0] === "OFF" || args[0] === "off") {
-            switched = "OFF";
-            await Greetings.changeSettings(BotsApp.chatId, switched);
-            client.sendMessage(
-                BotsApp.chatId,
-                WELCOME.GREETINGS_UNENABLED,
-                MessageType.text
-            );
-            return;
-        }
-        if (args[0] === "ON" || args[0] === "on") {
-            switched = "ON";
-            await Greetings.changeSettings(BotsApp.chatId, switched);
-            client.sendMessage(
-                BotsApp.chatId,
-                WELCOME.GREETINGS_ENABLED,
-                MessageType.text
-            );
-    
-            return;
-        }
-        if (args[0] === "delete") {
-            var Msg = await Greetings.deleteMessage(BotsApp.chatId, "welcome");
-            if (Msg === false || Msg === undefined) {
+        try{
+            if (args[0] === "OFF" || args[0] === "off" || args[0] === "Off") {
+                switched = "OFF";
+                await Greetings.changeSettings(BotsApp.chatId, switched);
                 client.sendMessage(
                     BotsApp.chatId,
-                    WELCOME.SET_WELCOME_FIRST,
+                    WELCOME.GREETINGS_UNENABLED,
                     MessageType.text
                 );
                 return;
             }
-    
-            await client.sendMessage(
-                BotsApp.chatId,
-                WELCOME.WELCOME_DELETED,
-                MessageType.text
+            if (args[0] === "ON" || args[0] === "on" || args[0] === "On") {
+                switched = "ON";
+                await Greetings.changeSettings(BotsApp.chatId, switched);
+                client.sendMessage(
+                    BotsApp.chatId,
+                    WELCOME.GREETINGS_ENABLED,
+                    MessageType.text
+                );
+        
+                return;
+            }
+            if (args[0] === "delete") {
+                var Msg = await Greetings.deleteMessage(BotsApp.chatId, "welcome");
+                if (Msg === false || Msg === undefined) {
+                    client.sendMessage(
+                        BotsApp.chatId,
+                        WELCOME.SET_WELCOME_FIRST,
+                        MessageType.text
+                    );
+                    return;
+                }
+        
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    WELCOME.WELCOME_DELETED,
+                    MessageType.text
+                );
+        
+                return;
+            }
+            text = BotsApp.body.replace(
+                BotsApp.body[0] + BotsApp.commandName + " ",
+                ""
             );
-    
-            return;
-        }
-        text = BotsApp.body.replace(
-            BotsApp.body[0] + BotsApp.commandName + " ",
-            ""
-        );
-        if (Msg === false || Msg === undefined) {
-            await Greetings.setWelcome(BotsApp.chatId, text);
-            await client.sendMessage(
-                BotsApp.chatId,
-                WELCOME.WELCOME_UPDATED,
-                MessageType.text
-            );
-    
-            return;
-        } else {
-            await Greetings.deleteMessage(BotsApp.chatId, "welcome");
-            await Greetings.setWelcome(BotsApp.chatId, text);
-            await client.sendMessage(
-                BotsApp.chatId,
-                WELCOME.WELCOME_UPDATED,
-                MessageType.text
-            );
-    
-            return;
+            if (Msg === false || Msg === undefined) {
+                await Greetings.setWelcome(BotsApp.chatId, text);
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    WELCOME.WELCOME_UPDATED,
+                    MessageType.text
+                );
+        
+                return;
+            } else {
+                await Greetings.deleteMessage(BotsApp.chatId, "welcome");
+                await Greetings.setWelcome(BotsApp.chatId, text);
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    WELCOME.WELCOME_UPDATED,
+                    MessageType.text
+                );
+        
+                return;
+            }
+        } catch(err){
+            console.log("ERROR: " + err)
         }
     }
-    },
+  },
 };

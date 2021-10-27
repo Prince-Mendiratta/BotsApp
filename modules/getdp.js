@@ -16,7 +16,7 @@ module.exports = {
                 BotsApp.chatId, 
                 {url: url}, 
                 MessageType.image, 
-                {mimetype: Mimetype.jpeg, caption: GETDP.IMAGE_CAPTION}
+                {mimetype: Mimetype.png, caption: GETDP.IMAGE_CAPTION, thumbnail: null}
             );
             return client.deleteMessage(BotsApp.chatId, {id: processing.key.id, remoteJid: BotsApp.chatId, fromMe: true});
         } catch(err) {

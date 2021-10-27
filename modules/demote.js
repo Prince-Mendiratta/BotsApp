@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const number = require("../sidekick/input-sanitization");
 const String = require("../lib/db.js");
 const REPLY = String.demote;
+
 module.exports = {
     name: "demote",
     description: REPLY.DESCRIPTION,
@@ -32,13 +33,19 @@ module.exports = {
             } else {
                 var contact = await number.getCleanedContact(args, client, BotsApp);
             }
+            
+            if (!BotsApp.isReply && typeof(args[0]) == 'undefined') {
+                console.log(
+                    chalk.redBright.bold(REPLY.MESSAGE_NOT_TAGGED));
+                client.sendMessage(BotsApp.chatId, REPLY.MESSAGE_NOT_TAGGED, MessageType.text);
+                return;
+            }
 
             var admin = false;
-            var isMember = false;
+            var isMember = await number.isMember(contact, BotsApp.groupMembers);
             var owner = BotsApp.chatId.split("-")[0];
             for (const index in BotsApp.groupMembers) {
                 if (contact == BotsApp.groupMembers[index].id.split("@")[0]) {
-                    isMember = true;
                     if (BotsApp.groupMembers[index].isAdmin) {
                         admin = true; 
                     }
@@ -48,7 +55,7 @@ module.exports = {
             if(contact === owner){
                 client.sendMessage(
                     BotsApp.chatId,
-                    "```" + contact + " is the owner of the group.```",
+                    "*" + contact + " is the owner of the group*",
                     MessageType.text
                 );
                 return;
@@ -60,20 +67,24 @@ module.exports = {
                     client.groupDemoteAdmin(BotsApp.chatId, arr);
                     client.sendMessage(
                         BotsApp.chatId,
-                        "```" + contact + " is demoted from admin.```",
+                        "*" + contact + " is demoted from admin*",
                         MessageType.text
                     );
                     return;
                 } else {
                     client.sendMessage(
                         BotsApp.chatId,
-                        "```" + contact + " cannot be demoted since the member is not an admin.```",
+                        "*" + contact + " was not an admin*",
                         MessageType.text
                     );
                     return;
                 }
             }
             if (!isMember) {
+                if(!contact === undefined){
+                    return;
+                }
+
                 client.sendMessage(
                     BotsApp.chatId,
                     REPLY.PERSON_NOT_IN_GROUP,
@@ -81,15 +92,9 @@ module.exports = {
                 );
                 return;
             }
-        } catch (err) {
-            if (err instanceof TypeError) {
-                if (reply == null && typeof(args[0]) == 'undefined') {
-                    console.log(
-                        chalk.redBright.bold(REPLY.MESSAGE_NOT_TAGGED + err));
-                    client.sendMessage(BotsApp.chatId, REPLY.MESSAGE_NOT_TAGGED, MessageType.text);
-                }
-            }   
-            else if(err === "NumberInvalid"){
+
+        } catch (err) {  
+            if(err === "NumberInvalid"){
                 client.sendMessage(BotsApp.chatId, "```Invalid number ```" + args[0], MessageType.text);
             }
             else {

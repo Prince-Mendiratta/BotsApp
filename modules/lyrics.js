@@ -20,31 +20,38 @@ module.exports = {
         } else {
             song = args.join(" ");
         }
-        const proccessing = await client.sendMessage(BotsApp.chatId, STRINGS.lyrics.PROCESSING, MessageType.text);
+        const processing = await client.sendMessage(BotsApp.chatId, STRINGS.lyrics.PROCESSING, MessageType.text);
         try {
             let Response = await got(`https://some-random-api.ml/lyrics/?title=${song}`);
             let data = JSON.parse(Response.body)
             console.log(data);
             let caption = "*Title :* " + data.title + "\n*Author :* " + data.author + "\n*Lyrics :*\n" + data.lyrics;
-            await client.deleteMessage(BotsApp.chatId, {
-                id: proccessing.key.id,
-                remoteJid: BotsApp.chatId,
-                fromMe: true
-            });
+            
+            try{
             await client.sendMessage(
                 BotsApp.chatId, { url: data.thumbnail.genius },
                 MessageType.image,
-                { mimetype: Mimetype.image, caption: caption }
+                { mimetype: Mimetype.png, caption: caption, thumbnail: null }
             );
+            }
+            catch(err){
+                console.log("ERROR" + err)
+                client.sendMessage(BotsApp.chatId, caption, MessageType.text);
+            }
+            
         } catch (err) {
             console.log(err);
             client.sendMessage(BotsApp.chatId, STRINGS.lyrics.NOT_FOUND, MessageType.text);
             return await client.deleteMessage(BotsApp.chatId, {
-                id: proccessing.key.id,
+                id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true
             });
         }
-        return;
+        await client.deleteMessage(BotsApp.chatId, {
+            id: processing.key.id,
+            remoteJid: BotsApp.chatId,
+            fromMe: true
+        });        return;
     }
 }

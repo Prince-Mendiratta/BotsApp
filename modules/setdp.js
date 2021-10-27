@@ -19,38 +19,42 @@ module.exports = {
             await client.sendMessage(BotsApp.chatId, REPLY.NOT_AN_IMAGE, MessageType.text);
             return;
         }
-        var imageId = chat.key.id
-        const fileName = "./tmp/change_pic" + imageId;
-        if (BotsApp.isImage) {
-            var filePath = await client.downloadAndSaveMediaMessage({
-                message: chat.message
-            }, fileName);
-        } else {
-            var filePath = await client.downloadAndSaveMediaMessage({
-                message: chat.message.extendedTextMessage.contextInfo.quotedMessage
-            }, fileName);
-        }
+        try{
+            var imageId = chat.key.id
+            const fileName = "./tmp/change_pic" + imageId;
+            if (BotsApp.isImage) {
+                var filePath = await client.downloadAndSaveMediaMessage({
+                    message: chat.message
+                }, fileName);
+            } else {
+                var filePath = await client.downloadAndSaveMediaMessage({
+                    message: chat.message.extendedTextMessage.contextInfo.quotedMessage
+                }, fileName);
+            }
 
-        const imagePath = "./tmp/image-" + imageId + ".png";
-        ffmpeg(filePath)
-            .outputOptions(["-y", "-vcodec png", "-s 500x500"])
-            .videoFilters(
-                "scale=2000:2000:flags=lanczos:force_original_aspect_ratio=decrease:eval=frame,format=rgba,pad=2000:2000:(ow-iw)/2:(oh-ih)/2,setsar=1:1"
-            )
-            .save(imagePath)
-            .on("end", async () => {
-                client.updateProfilePicture(BotsApp.chatId, fs.readFileSync(imagePath));
-                var update = await client.sendMessage(BotsApp.chatId, REPLY.ICON_CHANGED, MessageType.text);
+            const imagePath = "./tmp/image-" + imageId + ".png";
+            ffmpeg(filePath)
+                .outputOptions(["-y", "-vcodec png", "-s 500x500"])
+                .videoFilters(
+                    "scale=2000:2000:flags=lanczos:force_original_aspect_ratio=decrease:eval=frame,format=rgba,pad=2000:2000:(ow-iw)/2:(oh-ih)/2,setsar=1:1"
+                )
+                .save(imagePath)
+                .on("end", async () => {
+                    client.updateProfilePicture(BotsApp.chatId, fs.readFileSync(imagePath));
+                    var update = await client.sendMessage(BotsApp.chatId, REPLY.ICON_CHANGED, MessageType.text);
 
-                //Image and message deletion
-                inputSanitization.deleteFiles(filePath, imagePath);
-                return await client.deleteMessage(BotsApp.chatId, {
-                    id: update.key.id,
-                    remoteJid: BotsApp.chatId,
-                    fromMe: true,
+                    //Image and message deletion
+                    inputSanitization.deleteFiles(filePath, imagePath);
+                    return await client.deleteMessage(BotsApp.chatId, {
+                        id: update.key.id,
+                        remoteJid: BotsApp.chatId,
+                        fromMe: true,
+                    });
                 });
-            });
-
+            }
+        catch(err){
+            console.log(err)
+        }
         return;
     }
 }
