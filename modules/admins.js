@@ -14,7 +14,7 @@ module.exports = {
                 client.sendMessage(
                     BotsApp.chatId,
                     ADMINS.NOT_GROUP_CHAT,
-                    MessageType.texts
+                    MessageType.text
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
@@ -26,7 +26,7 @@ module.exports = {
             }
 
             if (!BotsApp.isReply) {
-                client.sendMessage(BotsApp.chatId, message, MessageType.text, {
+                client.sendMessage(BotsApp.chatId, message, MessageType.texts, {
                     contextInfo: {
                         mentionedJid: BotsApp.groupAdmins,
                     },
