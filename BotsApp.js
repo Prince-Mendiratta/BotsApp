@@ -202,7 +202,7 @@ async function main() {
                     await Users.addUser(BotsApp.chatId)
                     return client.sendMessage(
                         BotsApp.sender,
-                        GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName, commandName: BotsApp.commandName }),
+                        GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
                         MessageType.text,
                         {
                             contextInfo: {
@@ -226,7 +226,7 @@ async function main() {
                 );
                 return client.sendMessage(
                     BotsApp.sender,
-                    GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName, commandName: BotsApp.commandName }),
+                    GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
                     MessageType.text,
                     {
                         contextInfo: {

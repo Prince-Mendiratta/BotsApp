@@ -64,6 +64,16 @@ exports.performanceTime = async (startTime) => {
     // );
 }
 
+exports.isMember = async (chatId, groupMembers) => {
+    var isMember = false;
+    for (const index in groupMembers) {
+        if (chatId == groupMembers[index].id.split("@")[0]) {
+            isMember = true;
+        }
+    }
+    return isMember;
+}
+
 exports.adminCommands = [
     "add",
     "demote",
