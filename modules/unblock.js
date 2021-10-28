@@ -8,6 +8,14 @@ module.exports = {
     extendedDescription: Reply.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         try{
+            if (!BotsApp.isReply && typeof args[0] == "undefined") {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    Reply.MESSAGE_NOT_TAGGED,
+                    MessageType.text
+                );
+                return;
+            }
             const reply = chat.message.extendedTextMessage;
             var contact = "";
             if (!args.length > 0) {
@@ -38,7 +46,7 @@ module.exports = {
                 return;
             }
                 var JID = contact + "@s.whatsapp.net";
-                client.blockUser(JID, "remove").catch(err => inputSanitization.handleError(err, client, BotsApp));
+                client.blockUser(JID, "remove");
                 client.sendMessage(
                     BotsApp.chatId,
                     "*" + contact + " unblocked successfully.*",

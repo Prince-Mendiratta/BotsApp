@@ -7,7 +7,6 @@ module.exports = {
     name: "demote",
     description: REPLY.DESCRIPTION,
     extendedDescription: REPLY.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: false },
     async handle(client, chat, BotsApp, args) {
         try {
             if (!BotsApp.isGroup) {
@@ -26,16 +25,6 @@ module.exports = {
                 );
                 return;
             }
-            const reply = chat.message.extendedTextMessage;
-            if (!args.length > 0) {
-                var contact = reply.contextInfo.participant.split("@")[0];
-            } else {
-                var contact = await inputSanitization.getCleanedContact(
-                    args,
-                    client,
-                    BotsApp
-                );
-            }
             if (!BotsApp.isReply && typeof args[0] == "undefined") {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -45,6 +34,16 @@ module.exports = {
                 return;
             }
 
+            const reply = chat.message.extendedTextMessage;
+            if (BotsApp.isReply) {
+                var contact = reply.contextInfo.participant.split("@")[0];
+            } else {
+                var contact = await inputSanitization.getCleanedContact(
+                    args,
+                    client,
+                    BotsApp
+                );
+            }
             var admin = false;
             var isMember = await inputSanitization.isMember(
                 contact,
