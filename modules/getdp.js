@@ -25,12 +25,12 @@ module.exports = {
                     caption: GETDP.IMAGE_CAPTION,
                     thumbnail: null,
                 }
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return client.deleteMessage(BotsApp.chatId, {
                 id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             if (err.status == 404) {
                 await inputSanitization.handleError(
@@ -47,7 +47,7 @@ module.exports = {
                 id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         }
     },
 };

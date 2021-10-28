@@ -21,7 +21,7 @@ module.exports = {
                     BotsApp.chatId,
                     REPLY.NOT_A_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!BotsApp.isImage && !BotsApp.isReplyImage) {
@@ -29,14 +29,14 @@ module.exports = {
                     BotsApp.chatId,
                     REPLY.NOT_AN_IMAGE,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             var update = await client.sendMessage(
                 BotsApp.chatId,
                 REPLY.ICON_CHANGED,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             var imageId = chat.key.id;
             const fileName = "./tmp/change_pic" + imageId;
             if (BotsApp.isImage) {
@@ -45,7 +45,7 @@ module.exports = {
                         message: chat.message,
                     },
                     fileName
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             } else {
                 var filePath = await client.downloadAndSaveMediaMessage(
                     {
@@ -54,7 +54,7 @@ module.exports = {
                                 .quotedMessage,
                     },
                     fileName
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             }
 
             const imagePath = "./tmp/image-" + imageId + ".png";
@@ -68,7 +68,7 @@ module.exports = {
                     client.updateProfilePicture(
                         BotsApp.chatId,
                         fs.readFileSync(imagePath)
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
                     //Image and message deletion
                     inputSanitization.deleteFiles(filePath, imagePath);
@@ -76,7 +76,7 @@ module.exports = {
                         id: update.key.id,
                         remoteJid: BotsApp.chatId,
                         fromMe: true,
-                    });
+                    }).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 });
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);

@@ -15,7 +15,7 @@ module.exports = {
             BotsApp.chatId,
             STRINGS.ud.PROCESSING,
             MessageType.text
-        );
+        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         try {
             var text = "";
             if (!(BotsApp.replyMessage === "")) {
@@ -25,7 +25,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.ud.NO_ARG,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else {
                 text = args.join(" ");
@@ -62,7 +62,7 @@ module.exports = {
                 fromMe: true,
             });
 
-            await client.sendMessage(BotsApp.chatId, msg, MessageType.text);
+            await client.sendMessage(BotsApp.chatId, msg, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(
                 err,

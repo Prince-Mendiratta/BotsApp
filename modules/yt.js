@@ -19,7 +19,7 @@ module.exports = {
                 BotsApp.chatId,
                 YT.REPLY,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
             videos.forEach(function (links) {
                 topRequests =
@@ -33,7 +33,7 @@ module.exports = {
                     BotsApp.chatId,
                     YT.NO_VIDEOS,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 await client.deleteMessage(BotsApp.chatId, {
                     id: reply.key.id,
                     remoteJid: BotsApp.chatId,
@@ -42,7 +42,7 @@ module.exports = {
                 return;
             }
 
-            client.sendMessage(BotsApp.chatId, topRequests, MessageType.text);
+            client.sendMessage(BotsApp.chatId, topRequests, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
             await client.deleteMessage(BotsApp.chatId, {
                 id: reply.key.id,
                 remoteJid: BotsApp.chatId,

@@ -13,9 +13,9 @@ module.exports = {
         try {
             client.sendMessage(
                 BotsApp.chatId,
-                alive.ALIVE_MSG.format("Prince"),
+                alive.ALIVE_MSG,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }

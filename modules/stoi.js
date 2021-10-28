@@ -23,13 +23,13 @@ module.exports = {
                     BotsApp.chatId,
                     STOI.DOWNLOADING,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
                 const fileName = "./tmp/convert_to_image-" + stickerId;
                 const filePath = await client.downloadAndSaveMediaMessage(
                     replyChat,
                     fileName
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 const imagePath = "./tmp/image-" + stickerId + ".png";
                 try {
                     ffmpeg(filePath)
@@ -50,14 +50,14 @@ module.exports = {
                                 fs.readFileSync(imagePath),
                                 MessageType.image,
                                 { mimetype: Mimetype.png, thumbnail: null }
-                            );
+                            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                             inputSanitization.deleteFiles(filePath, imagePath);
                             inputSanitization.performanceTime(startTime);
                             return await client.deleteMessage(BotsApp.chatId, {
                                 id: downloading.key.id,
                                 remoteJid: BotsApp.chatId,
                                 fromMe: true,
-                            });
+                            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         });
                 } catch (err) {
                     throw err;
@@ -78,7 +78,7 @@ module.exports = {
                     BotsApp.chatId,
                     STOI.TAG_A_VALID_STICKER_MESSAGE,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 inputSanitization.performanceTime(startTime);
                 return;
             } else {
@@ -86,7 +86,7 @@ module.exports = {
                     BotsApp.chatId,
                     STOI.TAG_A_VALID_STICKER_MESSAGE,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 inputSanitization.performanceTime(startTime);
             }
             return;

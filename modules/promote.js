@@ -15,7 +15,7 @@ module.exports = {
                 BotsApp.chatId,
                 REPLY.NOT_A_GROUP,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return;
         }
         if (!BotsApp.isBotGroupAdmin) {
@@ -23,7 +23,7 @@ module.exports = {
                 BotsApp.chatId,
                 REPLY.BOT_NOT_ADMIN,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return;
         }
 
@@ -44,7 +44,7 @@ module.exports = {
                 BotsApp.chatId,
                 REPLY.MESSAGE_NOT_TAGGED,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return;
         }
 
@@ -68,13 +68,13 @@ module.exports = {
                     BotsApp.chatId,
                     "*" + contact + " promoted to admin*",
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             } else {
                 client.sendMessage(
                     BotsApp.chatId,
                     "*" + contact + " is already an admin*",
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             }
         }
         if (!isMember) {
@@ -86,20 +86,8 @@ module.exports = {
                 BotsApp.chatId,
                 REPLY.PERSON_NOT_IN_GROUP,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return;
         }
-        // } catch (err) {
-        //     if (err === "NumberInvalid") {
-        //         await inputSanitization.handleError(
-        //             err,
-        //             client,
-        //             BotsApp,
-        //             "```Invalid number ```" + args[0]
-        //         );
-        //     } else {
-        //         await inputSanitization.handleError(err, client, BotsApp);
-        //     }
-        // }
     },
 };

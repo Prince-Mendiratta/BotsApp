@@ -15,7 +15,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.general.NOT_A_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!BotsApp.isBotGroupAdmin) {
@@ -23,7 +23,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.general.BOT_NOT_ADMIN,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             let owner = BotsApp.chatId.split("-")[0];
@@ -35,7 +35,7 @@ module.exports = {
                         BotsApp.chatId,
                         "*" + owner + " is the owner of the group*",
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
                 var isMember = inputSanitization.isMember(
@@ -47,11 +47,11 @@ module.exports = {
                         BotsApp.chatId,
                         "*person is not in the group*",
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 }
                 try {
                     if (PersonToRemove) {
-                        client.groupRemove(BotsApp.chatId, [PersonToRemove]);
+                        client.groupRemove(BotsApp.chatId, [PersonToRemove]).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         return;
                     }
                 } catch (err) {
@@ -64,7 +64,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.remove.INPUT_ERROR,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (args[0][0] == "@") {
@@ -74,21 +74,21 @@ module.exports = {
                         BotsApp.chatId,
                         STRINGS.remove.INPUT_ERROR,
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
 
                 if (!(number === owner)) {
                     client.groupRemove(BotsApp.chatId, [
                         number + "@s.whatsapp.net",
-                    ]);
+                    ]).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 } else {
                     client.sendMessage(
                         BotsApp.chatId,
                         "*" + owner + " is the owner of the group*",
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
             }
@@ -96,7 +96,7 @@ module.exports = {
                 BotsApp.chatId,
                 STRINGS.remove.INPUT_ERROR,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
             return;

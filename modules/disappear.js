@@ -15,7 +15,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.general.NOT_A_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (BotsApp.isGroup) {
@@ -23,9 +23,9 @@ module.exports = {
                     await client.toggleDisappearingMessages(
                         BotsApp.chatId,
                         time
-                    );
+                        .catch(err => inputSanitization.handleError(err, client, BotsApp)));
                 } else {
-                    await client.toggleDisappearingMessages(BotsApp.chatId, 0);
+                    await client.toggleDisappearingMessages(BotsApp.chatId, 0).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 }
                 return;
             }
@@ -34,7 +34,7 @@ module.exports = {
             } else {
                 var time = 0;
             }
-            await client.toggleDisappearingMessages(BotsApp.chatId, time);
+            await client.toggleDisappearingMessages(BotsApp.chatId, time).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return;
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);

@@ -29,14 +29,14 @@ module.exports = {
                     BotsApp.chatId,
                     SONG.ENTER_SONG,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             var reply = await client.sendMessage(
                 BotsApp.chatId,
                 SONG.DOWNLOADING,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
             // Task starts here
             var startTime = window.performance.now();
@@ -61,7 +61,7 @@ module.exports = {
                         BotsApp.chatId,
                         SONG.SONG_NOT_FOUND,
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
                 Id = song[0].url;
@@ -80,7 +80,7 @@ module.exports = {
                             BotsApp.chatId,
                             SONG.UPLOADING,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         await client.sendMessage(
                             BotsApp.chatId,
                             fs.readFileSync(`tmp/${chat.key.id}.mp3`),
@@ -88,7 +88,7 @@ module.exports = {
                             {
                                 mimetype: Mimetype.mp4Audio,
                             }
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         inputSanitization.performanceTime(startTime);
                         inputSanitization.deleteFiles(`tmp/${chat.key.id}.mp3`);
                         client.deleteMessage(BotsApp.chatId, {

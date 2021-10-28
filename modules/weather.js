@@ -44,7 +44,7 @@ module.exports = {
                             WEATHER.WEATHER_DATA.format(weatherDataVariables),
                         thumbnail: null,
                     }
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 await client.deleteMessage(BotsApp.chatId, {
                     id: downloading.key.id,
                     remoteJid: BotsApp.chatId,
@@ -56,7 +56,7 @@ module.exports = {
                     BotsApp.chatId,
                     WEATHER.CITY_NAME_REQUIRED,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (
                 args[args.length - 1] === "tom" ||
@@ -66,7 +66,7 @@ module.exports = {
                     BotsApp.chatId,
                     WEATHER.DOWNLOADING,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 args[args.length - 1] = "";
                 var cityName = args.join(" ");
                 const unit = "metric";
@@ -221,7 +221,7 @@ module.exports = {
                     BotsApp.chatId,
                     WEATHER.DOWNLOADING,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 var cityName = args.join(" ");
                 const unit = "metric";
 

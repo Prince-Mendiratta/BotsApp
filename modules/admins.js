@@ -14,8 +14,8 @@ module.exports = {
                 client.sendMessage(
                     BotsApp.chatId,
                     ADMINS.NOT_GROUP_CHAT,
-                    MessageType.text
-                );
+                    MessageType.texts
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
 
@@ -30,7 +30,7 @@ module.exports = {
                     contextInfo: {
                         mentionedJid: BotsApp.groupAdmins,
                     },
-                });
+                }).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
 
@@ -43,8 +43,9 @@ module.exports = {
                     },
                     mentionedJid: BotsApp.groupAdmins,
                 },
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
+            console.log("got error");
             await inputSanitization.handleError(err, client, BotsApp);
         }
     },

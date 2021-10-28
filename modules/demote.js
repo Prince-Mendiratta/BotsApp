@@ -15,7 +15,7 @@ module.exports = {
                     BotsApp.chatId,
                     REPLY.NOT_A_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!BotsApp.isBotGroupAdmin) {
@@ -23,7 +23,7 @@ module.exports = {
                     BotsApp.chatId,
                     REPLY.BOT_NOT_ADMIN,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             const reply = chat.message.extendedTextMessage;
@@ -41,7 +41,7 @@ module.exports = {
                     BotsApp.chatId,
                     REPLY.MESSAGE_NOT_TAGGED,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
 
@@ -64,7 +64,7 @@ module.exports = {
                     BotsApp.chatId,
                     "*" + contact + " is the owner of the group*",
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
 
@@ -76,14 +76,14 @@ module.exports = {
                         BotsApp.chatId,
                         "*" + contact + " is demoted from admin*",
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 } else {
                     client.sendMessage(
                         BotsApp.chatId,
                         "*" + contact + " was not an admin*",
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
             }
@@ -96,7 +96,7 @@ module.exports = {
                     BotsApp.chatId,
                     REPLY.PERSON_NOT_IN_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             return;
@@ -107,7 +107,7 @@ module.exports = {
                     client,
                     BotsApp,
                     "```Invalid number ```" + args[0]
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             } else {
                 await inputSanitization.handleError(err, client, BotsApp);
             }

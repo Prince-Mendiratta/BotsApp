@@ -13,7 +13,7 @@ module.exports = {
             BotsApp.chatId,
             STRINGS.github.FETCHING,
             MessageType.text
-        );
+        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         try {
             let user_name = "";
             if (BotsApp.isReply) {
@@ -24,7 +24,7 @@ module.exports = {
                         BotsApp.chatId,
                         STRINGS.github.NO_ARG_ERROR,
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
                 user_name = args[0];
@@ -86,15 +86,15 @@ module.exports = {
                         caption: caption,
                         thumbnail: null,
                     }
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             } catch (err) {
-                client.sendMessage(BotsApp.chatId, caption, MessageType.text);
+                client.sendMessage(BotsApp.chatId, caption, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
             }
             return await client.deleteMessage(BotsApp.chatId, {
                 id: fetching.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(
                 err,
@@ -106,7 +106,7 @@ module.exports = {
                 id: fetching.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         }
     },
 };

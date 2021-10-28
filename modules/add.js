@@ -16,7 +16,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.general.NOT_A_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!BotsApp.isBotGroupAdmin) {
@@ -24,7 +24,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.general.BOT_NOT_ADMIN,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!args[0]) {
@@ -32,7 +32,7 @@ module.exports = {
                     BotsApp.chatId,
                     ADD.NO_ARG_ERROR,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             let number;
@@ -41,7 +41,7 @@ module.exports = {
                     BotsApp.chatId,
                     ADD.NUMBER_SYNTAX_ERROR,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (args[0].length == 10 && !isNaN(args[0])) {
@@ -57,7 +57,7 @@ module.exports = {
                     BotsApp.chatId,
                     ADD.NOT_ON_WHATSAPP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             const request = client.groupAdd(BotsApp.chatId, [
@@ -71,19 +71,19 @@ module.exports = {
                     BotsApp.chatId,
                     ADD.NO_24HR_BAN,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (response[number + "@c.us"] == 409) {
                 client.sendMessage(
                     BotsApp.chatId,
                     ADD.ALREADY_MEMBER,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             client.sendMessage(
                 BotsApp.chatId,
-                "```" + number + ADD.SUCCESS + "```",
+                "``` " + number + ADD.SUCCESS + "```",
                 MessageType.text
             );
         } catch (err) {
@@ -93,7 +93,7 @@ module.exports = {
                     client,
                     BotsApp,
                     (customMessage = ADD.NOT_ON_WHATSAPP)
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             }
             await inputSanitization.handleError(err, client, BotsApp);
         }

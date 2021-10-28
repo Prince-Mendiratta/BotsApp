@@ -20,7 +20,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.general.NOT_A_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             let members = [];
@@ -42,7 +42,7 @@ module.exports = {
                             mentionedJid: members,
                         },
                     }
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (args.length) {
@@ -55,7 +55,7 @@ module.exports = {
                             mentionedJid: members,
                         },
                     }
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
 
@@ -68,7 +68,7 @@ module.exports = {
                         mentionedJid: members,
                     },
                 }
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }

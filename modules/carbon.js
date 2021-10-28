@@ -55,14 +55,14 @@ module.exports = {
                     BotsApp.chatId,
                     CARBON.NO_INPUT,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (BotsApp.isReply && !BotsApp.replyMessage) {
                 await client.sendMessage(
                     BotsApp.chatId,
                     CARBON.INVALID_REPLY,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (BotsApp.isReply) {
                 code = BotsApp.replyMessage;
@@ -78,7 +78,7 @@ module.exports = {
                             BotsApp.chatId,
                             CARBON.NO_INPUT,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         return;
                     }
                     var body = BotsApp.body.split("-t");
@@ -92,7 +92,7 @@ module.exports = {
                             BotsApp.chatId,
                             CARBON.INVALID_THEME,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         return;
                     }
                 } catch (err) {
@@ -111,7 +111,7 @@ module.exports = {
                     BotsApp.chatId,
                     CARBON.CARBONIZING,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 const carbon = new Carbon.createCarbon()
                     .setCode(code)
                     .setPrettify(true)
@@ -125,7 +125,7 @@ module.exports = {
                         mimetype: Mimetype.png,
                         caption: CARBON.OUTPUT.format(themeInput),
                     }
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return await client.deleteMessage(BotsApp.chatId, {
                     id: processing.key.id,
                     remoteJid: BotsApp.chatId,

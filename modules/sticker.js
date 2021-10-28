@@ -23,13 +23,13 @@ module.exports = {
                     BotsApp.chatId,
                     STICKER.DOWNLOADING,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
                 const fileName = "./tmp/convert_to_sticker-" + imageId;
                 const filePath = await client.downloadAndSaveMediaMessage(
                     replyChat,
                     fileName
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 const stickerPath = "./tmp/st-" + imageId + ".webp";
                 if (BotsApp.type === "image" || BotsApp.isReplyImage) {
                     ffmpeg(filePath)
@@ -43,7 +43,7 @@ module.exports = {
                                 BotsApp.chatId,
                                 fs.readFileSync(stickerPath),
                                 MessageType.sticker
-                            );
+                            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                             inputSanitization.deleteFiles(
                                 filePath,
                                 stickerPath
@@ -53,7 +53,7 @@ module.exports = {
                                 id: downloading.key.id,
                                 remoteJid: BotsApp.chatId,
                                 fromMe: true,
-                            });
+                            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         });
                     return;
                 }
@@ -79,14 +79,14 @@ module.exports = {
                             BotsApp.chatId,
                             fs.readFileSync(stickerPath),
                             MessageType.sticker
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         inputSanitization.deleteFiles(filePath, stickerPath);
                         inputSanitization.performanceTime(startTime);
                         await client.deleteMessage(BotsApp.chatId, {
                             id: downloading.key.id,
                             remoteJid: BotsApp.chatId,
                             fromMe: true,
-                        });
+                        }).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     });
                 return;
             };
@@ -118,7 +118,7 @@ module.exports = {
                     BotsApp.chatId,
                     STICKER.TAG_A_VALID_MEDIA_MESSAGE,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 inputSanitization.performanceTime(startTime);
             }
             return;

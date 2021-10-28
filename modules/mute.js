@@ -15,7 +15,7 @@ module.exports = {
                     BotsApp.chatId,
                     MUTE.NOT_GROUP_CHAT,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!BotsApp.isBotGroupAdmin) {
@@ -23,7 +23,7 @@ module.exports = {
                     BotsApp.chatId,
                     MUTE.NOT_ADMIN,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!args[0]) {
@@ -31,19 +31,19 @@ module.exports = {
                     BotsApp.chatId,
                     GroupSettingChange.messageSend,
                     true
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 client.sendMessage(
                     BotsApp.chatId,
                     MUTE.CHAT_ADMIN_ONLY,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (isNaN(args[0])) {
                 client.sendMessage(
                     BotsApp.chatId,
                     MUTE.MENTION_DURATION,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
 
@@ -75,18 +75,18 @@ module.exports = {
                     type +
                     ".```",
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             setTimeout(() => {
                 client.groupSettingChange(
                     BotsApp.chatId,
                     GroupSettingChange.messageSend,
                     false
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 client.sendMessage(
                     BotsApp.chatId,
                     MUTE.CHAT_ALL_MEMBERS,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             }, duration);
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);

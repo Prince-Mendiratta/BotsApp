@@ -19,7 +19,7 @@ module.exports = {
                     BotsApp.chatId,
                     WELCOME.NOT_A_GROUP,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             var Msg = await Greetings.getMessage(BotsApp.chatId, "welcome");
@@ -34,19 +34,19 @@ module.exports = {
                             BotsApp.chatId,
                             WELCOME.SET_WELCOME_FIRST,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         return;
                     } else if (enabled === "OFF") {
                         client.sendMessage(
                             BotsApp.chatId,
                             WELCOME.CURRENTLY_DISABLED,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         client.sendMessage(
                             BotsApp.chatId,
                             Msg.message,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         return;
                     }
 
@@ -54,12 +54,12 @@ module.exports = {
                         BotsApp.chatId,
                         WELCOME.CURRENTLY_ENABLED,
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     client.sendMessage(
                         BotsApp.chatId,
                         Msg.message,
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 } catch (err) {
                     throw err;
                 }
@@ -79,7 +79,7 @@ module.exports = {
                             BotsApp.chatId,
                             WELCOME.GREETINGS_UNENABLED,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         return;
                     }
                     if (
@@ -96,7 +96,7 @@ module.exports = {
                             BotsApp.chatId,
                             WELCOME.GREETINGS_ENABLED,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
                         return;
                     }
@@ -110,7 +110,7 @@ module.exports = {
                                 BotsApp.chatId,
                                 WELCOME.SET_WELCOME_FIRST,
                                 MessageType.text
-                            );
+                            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                             return;
                         }
 
@@ -118,7 +118,7 @@ module.exports = {
                             BotsApp.chatId,
                             WELCOME.WELCOME_DELETED,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
                         return;
                     }
@@ -132,7 +132,7 @@ module.exports = {
                             BotsApp.chatId,
                             WELCOME.WELCOME_UPDATED,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
                         return;
                     } else {
@@ -145,7 +145,7 @@ module.exports = {
                             BotsApp.chatId,
                             WELCOME.WELCOME_UPDATED,
                             MessageType.text
-                        );
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
 
                         return;
                     }

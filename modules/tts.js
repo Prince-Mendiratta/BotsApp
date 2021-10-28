@@ -17,7 +17,7 @@ module.exports = {
             BotsApp.chatId,
             STRINGS.tts.PROCESSING,
             MessageType.text
-        );
+        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         try {
             let text = "";
             let langCode = "en";
@@ -56,7 +56,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.tts.INVALID_REPLY,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return await client.deleteMessage(BotsApp.chatId, {
                     id: proccessing.key.id,
                     remoteJid: BotsApp.chatId,
@@ -68,7 +68,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.tts.TOO_LONG.format(text.length),
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             } else {
                 try {
                     const url = googleTTS.getAudioUrl(text, {
@@ -81,7 +81,7 @@ module.exports = {
                         { url: url },
                         MessageType.audio,
                         { mimetype: Mimetype.mp4Audio }
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 } catch (err) {
                     await inputSanitization.handleError(
                         err,

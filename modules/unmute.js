@@ -15,7 +15,7 @@ module.exports = {
                     BotsApp.chatId,
                     UNMUTE.NOT_GROUP_CHAT,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (!BotsApp.isBotGroupAdmin) {
@@ -23,7 +23,7 @@ module.exports = {
                     BotsApp.chatId,
                     UNMUTE.NOT_ADMIN,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             client.groupSettingChange(
@@ -35,7 +35,7 @@ module.exports = {
                 BotsApp.chatId,
                 UNMUTE.CHAT_ALL_MEMBERS,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }

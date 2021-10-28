@@ -18,14 +18,14 @@ module.exports = {
                     BotsApp.chatId,
                     REPLY.ENTER_TEXT,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             const processing = await client.sendMessage(
                 BotsApp.chatId,
                 REPLY.PROCESSING,
                 MessageType.text
-            );
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             if (!BotsApp.isReply) {
                 var json = {
                     content: BotsApp.body.replace(
@@ -46,12 +46,12 @@ module.exports = {
             });
             json = JSON.parse(text.body);
             neko_url = "https://nekobin.com/" + json.result.key;
-            client.sendMessage(BotsApp.chatId, neko_url, MessageType.text);
+            client.sendMessage(BotsApp.chatId, neko_url, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return await client.deleteMessage(BotsApp.chatId, {
                 id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             if (json.result == undefined) {
                 await inputSanitization.handleError(
@@ -67,7 +67,7 @@ module.exports = {
                 id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         }
     },
 };

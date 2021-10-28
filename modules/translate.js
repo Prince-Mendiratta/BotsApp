@@ -21,7 +21,7 @@ module.exports = {
             BotsApp.chatId,
             STRINGS.tr.PROCESSING,
             MessageType.text
-        );
+        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         try {
             var text = "";
             var language = "";
@@ -30,7 +30,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.tr.EXTENDED_DESCRIPTION,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return await client.deleteMessage(BotsApp.chatId, {
                     id: processing.key.id,
                     remoteJid: BotsApp.chatId,
@@ -66,7 +66,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.tr.INVALID_REPLY,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return await client.deleteMessage(BotsApp.chatId, {
                     id: processing.key.id,
                     remoteJid: BotsApp.chatId,
@@ -78,7 +78,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.tr.TOO_LONG.format(text.length),
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return await client.deleteMessage(BotsApp.chatId, {
                     id: processing.key.id,
                     remoteJid: BotsApp.chatId,
@@ -97,7 +97,7 @@ module.exports = {
                             res.text
                         ),
                         MessageType.text
-                    );
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 })
                 .catch((err) => {
                     inputSanitization.handleError(

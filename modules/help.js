@@ -18,7 +18,7 @@ module.exports = {
                 commandHandler.forEach(element => {
                     helpMessage += HELP.TEMPLATE.format(prefixes[0] + element.name, element.description);
                 });
-                client.sendMessage(BotsApp.chatId, helpMessage, MessageType.text);
+                client.sendMessage(BotsApp.chatId, helpMessage, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             var helpMessage = HELP.COMMAND_INTERFACE;
@@ -49,14 +49,14 @@ module.exports = {
                         buttons: buttons,
                         headerType: 1
                     }
-                    return await client.sendMessage(BotsApp.chatId, buttonMessage, MessageType.buttonsMessage);
+                    return await client.sendMessage(BotsApp.chatId, buttonMessage, MessageType.buttonsMessage).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 }
 
                 helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggers, command.extendedDescription);
-                client.sendMessage(BotsApp.chatId, helpMessage, MessageType.text);
+                client.sendMessage(BotsApp.chatId, helpMessage, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
-            client.sendMessage(BotsApp.chatId, HELP.COMMAND_INTERFACE + "```Invalid Command. Check the correct name from```  *.help*  ```command list.```", MessageType.text);
+            client.sendMessage(BotsApp.chatId, HELP.COMMAND_INTERFACE + "```Invalid Command. Check the correct name from```  *.help*  ```command list.```", MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }

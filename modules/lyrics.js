@@ -23,7 +23,7 @@ module.exports = {
                     BotsApp.chatId,
                     STRINGS.lyrics.NO_ARG,
                     MessageType.text
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else {
                 song = args.join(" ");
@@ -50,15 +50,15 @@ module.exports = {
                         caption: caption,
                         thumbnail: null,
                     }
-                );
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             } catch (err) {
-                client.sendMessage(BotsApp.chatId, caption, MessageType.text);
+                client.sendMessage(BotsApp.chatId, caption, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
             }
             await client.deleteMessage(BotsApp.chatId, {
                 id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
             // return;
         } catch (err) {
             await inputSanitization.handleError(
@@ -71,7 +71,7 @@ module.exports = {
                 id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            });
+            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         }
     },
 };
