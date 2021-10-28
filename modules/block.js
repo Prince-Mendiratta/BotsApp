@@ -6,74 +6,42 @@ module.exports = {
     name: "block",
     description: Reply.DESCRIPTION,
     extendedDescription: Reply.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: false },
     async handle(client, chat, BotsApp, args) {
         try {
-            var JID = "";
-            var jidNumber;
-            if (BotsApp.replyParticipant === BotsApp.owner) {
+            const reply = chat.message.extendedTextMessage;
+            var contact = "";
+            if (!args.length > 0) {
+                contact = reply.contextInfo.participant.split("@")[0];
+            } else {
+                contact = await inputSanitization.getCleanedContact(
+                    args,
+                    client,
+                    BotsApp
+                );
+            }
+
+            if (contact === BotsApp.owner.split("@")[0]) {
                 client.sendMessage(
                     BotsApp.chatId,
-                    "Bot can not block itself",
+                    Reply.NOT_BLOCK_BOT,
                     MessageType.text
                 );
                 return;
             }
-            if (args.length > 0) {
-                if (isNaN(args[0]) || args[0][0] === "+") {
-                    if (args[0][0] === "@" || args[0][0] === "+") {
-                        jidNumber = args[0].substring(1, args[0].length + 1);
-                    } else {
-                        client.sendMessage(
-                            BotsApp.chatId,
-                            Reply.NUMBER_SYNTAX_ERROR,
-                            MessageType.text
-                        );
-                        return;
-                    }
-                } else {
-                    jidNumber = args[0];
-                }
-                if (jidNumber.length < 10 || jidNumber.length > 13) {
-                    client.sendMessage(
-                        BotsApp.chatId,
-                        Reply.NUMBER_SYNTAX_ERROR,
-                        MessageType.text
-                    );
-                    return;
-                } else if (jidNumber.length === 10) {
-                    jidNumber = "91" + jidNumber;
-                }
-                JID = jidNumber + "@s.whatsapp.net";
-            } else if (!BotsApp.isGroup) {
-                if (args.length === 0) {
-                    client.sendMessage(
-                        BotsApp.chatId,
-                        Reply.MESSAGE_NOT_TAGGED,
-                        MessageType.text
-                    );
-                    return;
-                }
-                JID = BotsApp.chatId;
-                jidNumber = JID.substring(0, JID.indexOf("@"));
-            } else {
-                if (BotsApp.isReply) {
-                    JID = BotsApp.replyParticipant;
 
-                    jidNumber = JID.substring(0, JID.indexOf("@"));
-                } else {
-                    client.sendMessage(
-                        BotsApp.chatId,
-                        Reply.MESSAGE_NOT_TAGGED,
-                        MessageType.text
-                    );
-                    return;
-                }
+            if(contact === ""){
+                client.sendMessage(
+                    BotsApp.chatId,
+                    Reply.MESSAGE_NOT_TAGGED,
+                    MessageType.text
+                );
+                return;
             }
+            var JID = contact + "@s.whatsapp.net";
             client.blockUser(JID, "add");
             client.sendMessage(
                 BotsApp.chatId,
-                "*" + jidNumber + " blocked successfully.*",
+                "*" + contact + " blocked successfully.*",
                 MessageType.text
             );
         } catch (err) {

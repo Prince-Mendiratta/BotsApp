@@ -1,81 +1,50 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const inputSanitization = require("../sidekick/input-sanitization");
-const Reply = require("../lib/db.js").unblock;
+const Reply =require("../lib/db.js").unblock;
 
 module.exports = {
     name: "unblock",
     description: Reply.DESCRIPTION,
     extendedDescription: Reply.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: false },
     async handle(client, chat, BotsApp, args) {
-        try {
-            var JID = "";
-            var jidNumber;
-            if (BotsApp.replyParticipant === BotsApp.owner) {
+        try{
+            const reply = chat.message.extendedTextMessage;
+            var contact = "";
+            if (!args.length > 0) {
+                contact = reply.contextInfo.participant.split("@")[0];
+            } else {
+                contact = await inputSanitization.getCleanedContact(
+                    args,
+                    client,
+                    BotsApp
+                );
+            }
+
+            if (contact === BotsApp.owner.split("@")[0]) {
                 client.sendMessage(
                     BotsApp.chatId,
-                    "Bot can not unblock itself",
+                    Reply.NOT_UNBLOCK_BOT,
                     MessageType.text
                 );
                 return;
             }
-            if (args.length > 0) {
-                if (isNaN(args[0]) || args[0][0] === "+") {
-                    if (args[0][0] === "@" || args[0][0] === "+") {
-                        jidNumber = args[0].substring(1, args[0].length + 1);
-                    } else {
-                        client.sendMessage(
-                            BotsApp.chatId,
-                            Reply.NUMBER_SYNTAX_ERROR,
-                            MessageType.text
-                        );
-                        return;
-                    }
-                } else {
-                    jidNumber = args[0];
-                }
-                if (jidNumber.length < 10 || jidNumber.length > 13) {
-                    client.sendMessage(
-                        BotsApp.chatId,
-                        Reply.NUMBER_SYNTAX_ERROR,
-                        MessageType.text
-                    );
-                    return;
-                } else if (jidNumber.length === 10) {
-                    jidNumber = "91" + jidNumber;
-                }
-                JID = jidNumber + "@s.whatsapp.net";
-            } else if (!BotsApp.isGroup) {
-                JID = BotsApp.chatId;
-                jidNumber = JID.substring(0, JID.indexOf("@"));
-            } else {
-                if (BotsApp.isReply) {
-                    if (args.length === 0) {
-                        client.sendMessage(
-                            BotsApp.chatId,
-                            Reply.MESSAGE_NOT_TAGGED,
-                            MessageType.text
-                        );
-                        return;
-                    }
-                    JID = BotsApp.replyParticipant;
-                    jidNumber = JID.substring(0, JID.indexOf("@"));
-                } else {
-                    client.sendMessage(
-                        BotsApp.chatId,
-                        Reply.MESSAGE_NOT_TAGGED,
-                        MessageType.text
-                    );
-                    return;
-                }
-            }
-            client.blockUser(JID, "remove");
 
-            client.sendMessage(
-                BotsApp.chatId,
-                "*" + jidNumber + " unblocked successfully.*",
-                MessageType.text
-            );
+            if(contact === ""){
+                client.sendMessage(
+                    BotsApp.chatId,
+                    Reply.MESSAGE_NOT_TAGGED,
+                    MessageType.text
+                );
+                return;
+            }
+                var JID = contact + "@s.whatsapp.net";
+                client.blockUser(JID, "remove");
+                client.sendMessage(
+                    BotsApp.chatId,
+                    "*" + contact + " unblocked successfully.*",
+                    MessageType.text
+                );
+
         } catch (err) {
             await inputSanitization.handleError(
                 err,

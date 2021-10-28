@@ -36,8 +36,6 @@ module.exports = {
                     BotsApp
                 );
             }
-            if (contact === undefined) {
-            }
             if (!BotsApp.isReply && typeof args[0] == "undefined") {
                 client.sendMessage(
                     BotsApp.chatId,
