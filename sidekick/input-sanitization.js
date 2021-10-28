@@ -87,4 +87,4 @@ exports.adminCommands = [
     "welcome",
 ];
 
-exports.sudoCommands = ["block", "unblock", "setdp"];
+exports.sudoCommands = ["block", "unblock", "setdp", "sudo"];
