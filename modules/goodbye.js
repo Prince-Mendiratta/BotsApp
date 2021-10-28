@@ -19,7 +19,7 @@ module.exports = {
                     BotsApp.chatId,
                     GOODBYE.NOT_A_GROUP,
                     MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                );
                 return;
             }
             if (args.length == 0) {
@@ -34,19 +34,19 @@ module.exports = {
                             BotsApp.chatId,
                             GOODBYE.SET_GOODBYE_FIRST,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         return;
                     } else if (enabled === "OFF") {
                         client.sendMessage(
                             BotsApp.chatId,
                             GOODBYE.CURRENTLY_DISABLED,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         client.sendMessage(
                             BotsApp.chatId,
                             Msg.message,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         return;
                     }
 
@@ -54,12 +54,12 @@ module.exports = {
                         BotsApp.chatId,
                         GOODBYE.CURRENTLY_ENABLED,
                         MessageType.text
-                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    );
                     client.sendMessage(
                         BotsApp.chatId,
                         Msg.message,
                         MessageType.text
-                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    );
                 } catch (err) {
                     throw err;
                 }
@@ -79,7 +79,7 @@ module.exports = {
                             BotsApp.chatId,
                             GOODBYE.GREETINGS_UNENABLED,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         return;
                     }
                     if (
@@ -96,7 +96,7 @@ module.exports = {
                             BotsApp.chatId,
                             GOODBYE.GREETINGS_ENABLED,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         return;
                     }
                     if (args[0] === "delete") {
@@ -109,14 +109,14 @@ module.exports = {
                                 BotsApp.chatId,
                                 GOODBYE.SET_GOODBYE_FIRST,
                                 MessageType.text
-                            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                            );
                             return;
                         }
                         await client.sendMessage(
                             BotsApp.chatId,
                             GOODBYE.GOODBYE_DELETED,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
 
                         return;
                     }
@@ -135,7 +135,7 @@ module.exports = {
                             BotsApp.chatId,
                             GOODBYE.GOODBYE_UPDATED,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
 
                         return;
                     } else {
@@ -148,7 +148,7 @@ module.exports = {
                             BotsApp.chatId,
                             GOODBYE.GOODBYE_UPDATED,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         return;
                     }
                 } catch (err) {

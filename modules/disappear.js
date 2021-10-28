@@ -23,7 +23,7 @@ module.exports = {
                     await client.toggleDisappearingMessages(
                         BotsApp.chatId,
                         time
-                        .catch(err => inputSanitization.handleError(err, client, BotsApp)));
+                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 } else {
                     await client.toggleDisappearingMessages(BotsApp.chatId, 0).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 }

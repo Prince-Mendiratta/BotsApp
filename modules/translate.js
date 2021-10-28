@@ -97,7 +97,7 @@ module.exports = {
                             res.text
                         ),
                         MessageType.text
-                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    );
                 })
                 .catch((err) => {
                     inputSanitization.handleError(

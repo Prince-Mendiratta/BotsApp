@@ -26,7 +26,7 @@ module.exports = {
             }
 
             if (!BotsApp.isReply) {
-                client.sendMessage(BotsApp.chatId, message, MessageType.texts, {
+                client.sendMessage(BotsApp.chatId, message, MessageType.text, {
                     contextInfo: {
                         mentionedJid: BotsApp.groupAdmins,
                     },

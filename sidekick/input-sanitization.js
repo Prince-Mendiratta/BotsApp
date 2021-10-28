@@ -90,7 +90,6 @@ exports.handleError = async(err, client, BotsApp, customMessage = "Something wen
         isImage: BotsApp.isImage,
         isBotGroupAdmin: BotsApp.isBotGroupAdmin,
         isSenderGroupAdmin: BotsApp.isSenderGroupAdmin,
-<<<<<<< HEAD
         isSenderSudo: BotsApp.isSenderSUDO,
         err: err
     }
@@ -110,10 +109,3 @@ exports.adminCommands = [
 ];
 
 exports.sudoCommands = ["block", "unblock", "setdp"];
-=======
-        isSenderSudo: BotsApp.isSenderSUDO
-    }
-    client.sendMessage(BotsApp.chatId, customMessage, MessageType.text);
-    client.sendMessage(BotsApp.logGroup, ERROR_TEMPLATE.format(data), MessageType.text);
-}
->>>>>>> e5854fe (improve error template)
