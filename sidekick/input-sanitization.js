@@ -67,13 +67,13 @@ exports.performanceTime = async (startTime) => {
 }
 
 exports.isMember = async (chatId, groupMembers) => {
-        var isMember = false;
-        for (const index in groupMembers) {
-            if (chatId == groupMembers[index].id.split("@")[0]) {
-                isMember = true;
-            }
+    var isMember = false;
+    for (const index in groupMembers) {
+        if (chatId == groupMembers[index].id.split("@")[0]) {
+            isMember = true;
         }
-        return isMember;
+    }
+    return isMember;
 }
 
 exports.adminCommands = [
@@ -87,4 +87,4 @@ exports.adminCommands = [
     "welcome",
 ];
 
-exports.sudoCommands = ["block", "unblock", "setdp"];
+exports.sudoCommands = ["block", "unblock", "setdp", "sudo"];
