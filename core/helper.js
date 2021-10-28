@@ -14,8 +14,8 @@ exports.resolve = function(messageInstance, client, groupMetadata) {
     }catch(err){
         console.log(chalk.redBright("[ERROR] Something went wrong. ", err))
     }
-    console.log(messageInstance);
-    console.log(jsonMessage);
+    // console.log(messageInstance);
+    // console.log(jsonMessage);
     BotsApp.chatId = messageInstance.key.remoteJid || '';
     BotsApp.fromMe = messageInstance.key.fromMe;
     BotsApp.owner = client.user.jid || '';
