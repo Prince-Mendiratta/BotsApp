@@ -214,7 +214,7 @@ async function main() {
                 }
             }
             try{
-                command.handle(client, chat, BotsApp, args);
+                command.handle(client, chat, BotsApp, args).catch(err => console.log("[ERROR] " + err));
             }catch(err){
                 console.log(chalk.red("[ERROR] ", err));
             }

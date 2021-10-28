@@ -29,7 +29,7 @@ class BotsApp {
         this.isVideo = isVideo;
         this.isReplyVideo = isReplyVideo;
         this.isAudio = isAudio;
-        this.isReplyAudio = isReplyAudio
+        this.isReplyAudio = isReplyAudio;
         this.isSenderGroupAdmin = isSenderGroupAdmin;
         this.isSenderSUDO = isSenderSUDO;
         this.isCmd = isCmd;

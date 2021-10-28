@@ -1,8 +1,11 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const config = require('../config')
 const fs = require("fs");
+const chalk = require("chalk");
 const { JSDOM } = require("jsdom");
 const { window } = new JSDOM();
+const ERROR_TEMPLATE = require("../lib/db").general.ERROR_TEMPLATE
+require("python-format-js");
 
 exports.getCleanedContact = async (args,client,BotsApp) => {
     var jidNumber = '';
@@ -33,12 +36,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
         jidNumber = countryCode + jidNumber;
     }
     var isOnWhatsApp = await client.isOnWhatsApp(jidNumber);
-    console.log("--------------");
-    console.log(jidNumber);
-    console.log("--------------");
-    console.log(isOnWhatsApp);
     if(isOnWhatsApp === undefined){
-        console.log("throwing error");
         throw "NumberInvalid"; 
     }
     
@@ -68,12 +66,35 @@ exports.performanceTime = async (startTime) => {
 
 exports.isMember = async (chatId, groupMembers) => {
         var isMember = false;
-        for (const index in groupMembers) {
-            if (chatId == groupMembers[index].id.split("@")[0]) {
-                isMember = true;
+        if(!(chatId === undefined)){
+            for (const index in groupMembers) {
+                if (chatId == groupMembers[index].jid.split("@")[0]) {
+                    isMember = true;
+                }
             }
+            return isMember;
         }
-        return isMember;
+        else{
+            return isMember;
+        }
+}
+
+exports.handleError = async(err, client, BotsApp, customMessage = "Something went wrong. The error has been logged in log chats") => {
+    console.log(chalk.redBright.bold("[ERROR] " + err));
+    data = {
+        commandName: BotsApp.commandName,
+        fromMe: BotsApp.fromMe,
+        isReply: BotsApp.isReply,
+        isGroup: BotsApp.isGroup,
+        isPm: BotsApp.isPm,
+        isImage: BotsApp.isImage,
+        isBotGroupAdmin: BotsApp.isBotGroupAdmin,
+        isSenderGroupAdmin: BotsApp.isSenderGroupAdmin,
+        isSenderSudo: BotsApp.isSenderSUDO,
+        err: err
+    }
+    client.sendMessage(BotsApp.chatId, customMessage, MessageType.text);
+    client.sendMessage(BotsApp.logGroup, ERROR_TEMPLATE.format(data), MessageType.text);
 }
 
 exports.adminCommands = [
