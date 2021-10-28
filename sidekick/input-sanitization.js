@@ -75,3 +75,16 @@ exports.isMember = async (chatId, groupMembers) => {
         }
         return isMember;
 }
+
+exports.adminCommands = [
+    "add",
+    "demote",
+    "invite",
+    "mute",
+    "promote",
+    "remove",
+    "unmute",
+    "welcome",
+];
+
+exports.sudoCommands = ["block", "unblock", "setdp"];

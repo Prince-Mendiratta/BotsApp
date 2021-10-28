@@ -8,6 +8,10 @@ const wa = require('./core/helper');
 const { MessageType } = require('@adiwajshing/baileys');
 const Greetings = require('./database/greeting');
 const sequelize = config.DATABASE;
+const adminCommands = require("./sidekick/input-sanitization").adminCommands;
+const sudoCommands = require("./sidekick/input-sanitization").sudoCommands;
+const STRINGS = require("./lib/db");
+const GENERAL = STRINGS.general;
 
 var client = conn.WhatsApp;
 
@@ -46,12 +50,21 @@ async function main() {
         console.log(chalk.whiteBright.bold("[INFO] Installing Plugins... Please wait."));
         var moduleFiles = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
         for(var file of moduleFiles){
-            const command = require(join(__dirname, 'modules', `${file}`));
-            console.log(
-                chalk.magentaBright("[INFO] Successfully imported module"),
-                chalk.cyanBright.bold(`${file}`)
-            )
-            commandHandler.set(command.name, command);
+            try{
+                const command = require(join(__dirname, 'modules', `${file}`));
+                console.log(
+                    chalk.magentaBright("[INFO] Successfully imported module"),
+                    chalk.cyanBright.bold(`${file}`)
+                )
+                commandHandler.set(command.name, command);
+            }catch(error){
+                console.log(
+                    chalk.blueBright.bold("[INFO] Can not imported module"),
+                    chalk.redBright.bold(`${file}`)
+                )
+                console.log(`[ERROR] `, error);
+                continue;
+            }
         }
         console.log(chalk.green.bold("[INFO] Plugins Installed Successfully. The bot is ready to use."));
         console.log(chalk.yellowBright.bold("[INFO] Connecting to Database."));
@@ -118,7 +131,71 @@ async function main() {
         // console.log(loc);
         // console.log(fs.readFileSync(loc));
         // if(BotsApp.chatId === "917838204238@s.whatsapp.net" && BotsApp.fromMe === false){ client.sendMessage(BotsApp.chatId, chat.message.imageMessage.jpegThumbnail, MessageType.image);}
+        if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
+            if (config.WORK_TYPE === "public") {
+                if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
+                    console.log(
+                        chalk.redBright.bold(`[INFO] admin commmand `),
+                        chalk.greenBright.bold(`${BotsApp.commandName}`),
+                        chalk.redBright.bold(
+                            `not executed in public Work Type.`
+                        )
+                    );
+                    return client.sendMessage(
+                        BotsApp.chatId,
+                        GENERAL.ADMIN_PERMISSION,
+                        MessageType.text
+                    );
+                } else if (sudoCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderSUDO) {
+                    console.log(
+                        chalk.redBright.bold(`[INFO] sudo commmand `),
+                        chalk.greenBright.bold(`${BotsApp.commandName}`),
+                        chalk.redBright.bold(
+                            `not executed in public Work Type.`
+                        )
+                    );
+                    return client.sendMessage(
+                        BotsApp.sender,
+                        GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                        MessageType.text,
+                        {
+                            contextInfo: {
+                                stanzaId: chat.key.id,
+                                participant: BotsApp.sender,
+                                quotedMessage: {
+                                    conversation: BotsApp.body,
+                                },
+                            },
+                        }
+                    );
+                }
+            }
+            else if(config.WORK_TYPE === "private" && !BotsApp.isSenderSUDO){
+                console.log(
+                    chalk.redBright.bold(`[INFO] commmand `),
+                    chalk.greenBright.bold(`${BotsApp.commandName}`),
+                    chalk.redBright.bold(
+                        `not executed in private Work Type.`
+                    )
+                );
+                return client.sendMessage(
+                    BotsApp.sender,
+                    GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                    MessageType.text,
+                    {
+                        contextInfo: {
+                            stanzaId: chat.key.id,
+                            participant: BotsApp.sender,
+                            quotedMessage: {
+                                conversation: BotsApp.body,
+                            },
+                        },
+                    }
+                );
+            }
+        }
         if(BotsApp.isCmd){
+            console.log(chalk.redBright.bold(`[INFO] ${BotsApp.commandName} command executed.`));
             const command = commandHandler.get(BotsApp.commandName);
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
             console.log("ARGS -> " + args);

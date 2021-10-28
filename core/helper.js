@@ -8,6 +8,7 @@ var BotsAppClass = require("../sidekick/sidekick")
 exports.resolve = function(messageInstance, client, groupMetadata) {
     var BotsApp = new BotsAppClass();
     var prefixRegex = config.PREFIX;
+    var SUDOstring = config.SUDO;
     try{
         var jsonMessage = JSON.stringify(messageInstance)
     }catch(err){
@@ -42,14 +43,15 @@ exports.resolve = function(messageInstance, client, groupMetadata) {
     BotsApp.logGroup = client.user.jid || '';
     BotsApp.isGroup = BotsApp.chatId.endsWith('@g.us');
     BotsApp.isPm = !BotsApp.isGroup;
-    BotsApp.sender =  (BotsApp.isGroup && messageInstance.message && BotsApp.fromMe) ? BotsApp.owner : (BotsApp.isGroup && messageInstance.message) ? messageInstance.participant : '';
+    BotsApp.sender =  (BotsApp.isGroup && messageInstance.message && BotsApp.fromMe) ? BotsApp.owner : (BotsApp.isGroup && messageInstance.message) ? messageInstance.participant : (!BotsApp.isGroup) ? BotsApp.chatId: '';
     BotsApp.groupName = BotsApp.isGroup ? groupMetadata.subject : '';
     BotsApp.groupMembers = BotsApp.isGroup ? groupMetadata.participants : '';
     BotsApp.groupAdmins = BotsApp.isGroup ? getGroupAdmins(BotsApp.groupMembers) : '';
     BotsApp.groupId = BotsApp.isGroup ? groupMetadata.id : '';
     BotsApp.isBotGroupAdmin = BotsApp.isGroup ? BotsApp.groupAdmins.includes(BotsApp.owner) || false : '';
     BotsApp.isSenderGroupAdmin = BotsApp.isGroup ? BotsApp.groupAdmins.includes(BotsApp.sender) || false : false;
-
+    BotsApp.isSenderSUDO = SUDOstring.includes(BotsApp.sender.substring(0,BotsApp.sender.indexOf("@")));
+    
     return BotsApp;
 }
 

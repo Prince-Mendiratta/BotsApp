@@ -21,7 +21,7 @@ process.env.DEBUG = process.env.DEBUG === undefined ? true : false;
 
 const env = {
     STRING_SESSION: process.env.STRING_SESSION === undefined ? '' : process.env.STRING_SESSION,
-    HEROKU: process.env.HEROKU === undefined,
+    HEROKU: process.env.HEROKU === undefined ? false : true,
     PREFIX: process.env.PREFIX === undefined ? /^[.?!]/g : process.env.PREFIX,
     COUNTRY_CODE: process.env.COUNTRY_CODE === undefined ? "91" : process.env.COUNTRY_CODE,
     OCR_API_KEY: process.env.OCR_API_KEY === undefined ? "9ffb44def388957" : process.env.OCR_API_KEY,
@@ -32,6 +32,8 @@ const env = {
     DATABASE_URL: process.env.DATABASE_URL,
     DEBUG: process.env.DEBUG,
     DATABASE: process.env.DATABASE_URL === './BotsApp.db' ? new Sequelize({ dialect: "sqlite", storage: process.env.DATABASE_URL, logging: convertToLogLevel(process.env.DEBUG) }) : new Sequelize({ dialect: "postgres", storage: process.env.DATABASE_URL}),
+    WORK_TYPE: process.env.WORK_TYPE === undefined ? "private" : process.env.WORK_TYPE,
+    SUDO: process.env.SUDO === undefined ? "+917838204238,+17052308534" : process.env.SUDO,
 }
 
 module.exports = env
