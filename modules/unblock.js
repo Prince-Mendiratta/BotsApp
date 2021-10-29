@@ -6,6 +6,7 @@ module.exports = {
     name: "unblock",
     description: Reply.DESCRIPTION,
     extendedDescription: Reply.EXTENDED_DESCRIPTION,
+    demo: { isEnabled: false },
     async handle(client, chat, BotsApp, args) {
         try{
             if (!BotsApp.isReply && typeof args[0] == "undefined") {

@@ -1,21 +1,21 @@
 const { MessageType } = require("@adiwajshing/baileys");
 const ocrSpace = require("ocr-space-api-wrapper");
 const STRINGS = require("../lib/db.js");
+const OCR = STRINGS.ocr;
 const config = require("../config");
 const inputSanitization = require("../sidekick/input-sanitization");
 
 module.exports = {
     name: "ocr",
-    description: STRINGS.ocr.DESCRIPTION,
-    extendedDescription: STRINGS.ocr.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: false },
+    description: OCR.DESCRIPTION,
+    extendedDescription: OCR.EXTENDED_DESCRIPTION,
     async handle(client, chat, BotsApp, args) {
         try {
             const processing = await client.sendMessage(
                 BotsApp.chatId,
-                STRINGS.ocr.PROCESSING,
+                OCR.PROCESSING,
                 MessageType.text
-            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+            );
             if (BotsApp.isImage) {
                 var replyChatObject = {
                     message: chat.message,
@@ -25,7 +25,7 @@ module.exports = {
                 const filePath = await client.downloadAndSaveMediaMessage(
                     replyChatObject,
                     fileName
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                );
                 try {
                     const text = await ocrSpace(filePath, {
                         apiKey: config.OCR_API_KEY,
@@ -34,16 +34,16 @@ module.exports = {
                     if (Msg === "") {
                         client.sendMessage(
                             BotsApp.chatId,
-                            "Couldn't find text in the image",
+                            OCR.NO_TEXT,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         return await client.deleteMessage(BotsApp.chatId, {
                             id: processing.key.id,
                             remoteJid: BotsApp.chatId,
                             fromMe: true,
-                        }).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        });
                     }
-                    client.sendMessage(BotsApp.chatId, Msg, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
                 } catch (error) {
                     throw error;
                 }
@@ -52,7 +52,7 @@ module.exports = {
                     id: processing.key.id,
                     remoteJid: BotsApp.chatId,
                     fromMe: true,
-                }).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                });
             }
             if (BotsApp.isReplyImage) {
                 var replyChatObject = {
@@ -66,7 +66,7 @@ module.exports = {
                 const filePath = await client.downloadAndSaveMediaMessage(
                     replyChatObject,
                     fileName
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                );
                 try {
                     const text = await ocrSpace(filePath, {
                         apiKey: config.OCR_API_KEY,
@@ -75,16 +75,16 @@ module.exports = {
                     if (Msg === "") {
                         client.sendMessage(
                             BotsApp.chatId,
-                            "Couldn't find text in the image",
+                            OCR.NO_TEXT,
                             MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        );
                         return await client.deleteMessage(BotsApp.chatId, {
                             id: processing.key.id,
                             remoteJid: BotsApp.chatId,
                             fromMe: true,
                         });
                     }
-                    client.sendMessage(BotsApp.chatId, Msg, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
                 } catch (error) {
                     throw error;
                 }
@@ -93,26 +93,26 @@ module.exports = {
                     id: processing.key.id,
                     remoteJid: BotsApp.chatId,
                     fromMe: true,
-                }).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                });
             }
             setTimeout(async () => {
                 await client.sendMessage(
                     BotsApp.chatId,
-                    STRINGS.ocr.ERROR_MSG,
+                    OCR.ERROR_MSG,
                     MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                );
                 return;
             }, 300000);
             await client.sendMessage(
                 BotsApp.chatId,
-                STRINGS.ocr.ERROR_MSG,
+                OCR.ERROR_MSG,
                 MessageType.text
-            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+            );
             return await client.deleteMessage(BotsApp.chatId, {
                 id: processing.key.id,
                 remoteJid: BotsApp.chatId,
                 fromMe: true,
-            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
+            });
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }

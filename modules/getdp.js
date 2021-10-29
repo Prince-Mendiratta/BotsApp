@@ -11,7 +11,7 @@ module.exports = {
     async handle(client, chat, BotsApp, args) {
         const processing = await client.sendMessage(
             BotsApp.chatId,
-            "```Getting display picture...```",
+            GETDP.PROCESSING,
             MessageType.text
         );
         try {
@@ -37,7 +37,7 @@ module.exports = {
                     err,
                     client,
                     BotsApp,
-                    "```Display picture not found. Upload an image and try again.```"
+                    GETDP.TRY_AGAIN
                 );
             } else {
                 await inputSanitization.handleError(err, client, BotsApp);
