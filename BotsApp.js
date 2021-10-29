@@ -121,16 +121,12 @@ async function main() {
     client.on('chat-update', async chat => {
         if (!chat.hasNewMessage) return
         if (!chat.messages) return
-        console.log("-------------------------------------------")
+        // console.log("-------------------------------------------")
         chat = chat.messages.all()[0];
         var sender = chat.key.remoteJid;
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat, client, groupMetadata);
-        console.log(BotsApp);
-        // const loc = await client.downloadAndSaveMediaMessage(chat, './tmp/media_in_xxxxx');
-        // console.log(loc);
-        // console.log(fs.readFileSync(loc));
-        // if(BotsApp.chatId === "917838204238@s.whatsapp.net" && BotsApp.fromMe === false){ client.sendMessage(BotsApp.chatId, chat.message.imageMessage.jpegThumbnail, MessageType.image);}
+        // console.log(BotsApp);
         if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
             if (config.WORK_TYPE === "public") {
                 if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
@@ -198,9 +194,9 @@ async function main() {
             console.log(chalk.redBright.bold(`[INFO] ${BotsApp.commandName} command executed.`));
             const command = commandHandler.get(BotsApp.commandName);
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
-            console.log("ARGS -> " + args);
-            args.forEach(arg => console.log("arg -> " + arg  + "  type -> " + typeof(arg)));
-            console.log("-------------------------------------------")
+            // console.log("ARGS -> " + args);
+            // args.forEach(arg => console.log("arg -> " + arg  + "  type -> " + typeof(arg)));
+            // console.log("-------------------------------------------")
             if(!command){
                 client.sendMessage(BotsApp.chatId, "```Woops, invalid command! Use```  *.help*  ```to display the command list.```", MessageType.text);
                 return;

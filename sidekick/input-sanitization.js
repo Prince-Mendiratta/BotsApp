@@ -49,7 +49,7 @@ exports.deleteFiles = async (...locations) => {
         fs.unlink(location, (err) => {
             if (err) console.log(err);
             else {
-                console.log("\nDeleted file at: " + location);
+                // console.log("\nDeleted file at: " + location);
             }
         });
     }
@@ -57,11 +57,11 @@ exports.deleteFiles = async (...locations) => {
 
 exports.performanceTime = async (startTime) => {
     var endTime = window.performance.now();
-    console.log(
-        `-----------\nExecution time: ${
-            (endTime - startTime) / 1000
-        } seconds\n----------`
-    );
+    // console.log(
+    //     `-----------\nExecution time: ${
+    //         (endTime - startTime) / 1000
+    //     } seconds\n----------`
+    // );
 }
 
 exports.isMember = async (chatId, groupMembers) => {

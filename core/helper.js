@@ -60,6 +60,6 @@ function getGroupAdmins(participants){
     for (var i in participants) {
         participants[i].isAdmin ? admins.push(participants[i].jid) : '';
     }
-    console.log("ADMINS -> " + admins);
+    // console.log("ADMINS -> " + admins);
     return admins;
 }

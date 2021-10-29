@@ -32,11 +32,11 @@ module.exports = {
                     slow: false,
                     host: 'https://translate.google.com',
                 });
-                console.log(url);
+                // console.log(url);
                 await client.sendMessage(BotsApp.chatId, { url: url }, MessageType.audio, { mimetype: Mimetype.mp4Audio });
             }
             catch (err) {
-                console.log(err);
+                // console.log(err);
             }
         }
         return await client.deleteMessage (BotsApp.chatId, {id: proccessing.key.id, remoteJid: BotsApp.chatId, fromMe: true});

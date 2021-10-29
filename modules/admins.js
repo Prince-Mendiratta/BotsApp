@@ -45,7 +45,6 @@ module.exports = {
                 },
             }).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
-            console.log("got error");
             await inputSanitization.handleError(err, client, BotsApp);
         }
     },
