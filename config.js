@@ -16,8 +16,7 @@ const convertToLogLevel = (value) => {
 
 // Declare these environment variables first
 process.env.DATABASE_URL = process.env.DATABASE_URL === undefined ? './BotsApp.db' : process.env.DATABASE_URL;
-// TODO: change default level to false for release.
-process.env.DEBUG = process.env.DEBUG === undefined ? true : false;
+process.env.DEBUG = process.env.DEBUG === undefined ? false : process.env.DEBUG;
 
 const env = {
     STRING_SESSION: process.env.STRING_SESSION === undefined ? '' : process.env.STRING_SESSION,
