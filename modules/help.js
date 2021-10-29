@@ -12,7 +12,8 @@ module.exports = {
     demo: {isEnabled: false},
     async handle(client, chat, BotsApp, args, commandHandler) {
         try {
-            var prefixes = /\/\^\[(.*)+\]\/\g/g.exec(config.PREFIX)[1];
+            var prefixRegex = new RegExp(config.PREFIX, "g");
+            var prefixes = /\/\^\[(.*)+\]\/\g/g.exec(prefixRegex)[1];
             if(!args[0]){
                 var helpMessage = HELP.HEAD;
                 commandHandler.forEach(element => {

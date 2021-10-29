@@ -1,4 +1,4 @@
-const {WAConnection, Browsers} = require ('@adiwajshing/baileys')
+const {WAConnection} = require ('@adiwajshing/baileys')
 const fs = require('fs')
 const chalk = require('chalk')
 const config = require('../config');
@@ -10,7 +10,8 @@ exports.WhatsApp = conn;
 exports.saveSession = async () => {
     
     if (!fs.existsSync('./config.env') || config.STRING_SESSION == "") {
-        conn.browserDescription = Browsers.macOS('Chrome')
+        conn.browserDescription = ["BotsApp", "Chrome", '1.0'];
+        conn.logger.level = 'error'
 
         conn.on('qr', async (qr) => {
             console.log(chalk.blueBright.bold("Scan the QR code above.\n"));
