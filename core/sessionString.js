@@ -1,4 +1,4 @@
-const {WAConnection, Browsers} = require ('@adiwajshing/baileys')
+const {WAConnection} = require ('@adiwajshing/baileys')
 const fs = require('fs')
 const chalk = require('chalk')
 const config = require('../config');
@@ -8,23 +8,25 @@ const conn = new WAConnection();
 exports.WhatsApp = conn;
 
 exports.saveSession = async () => {
+    
+    if ((!fs.existsSync('./config.env') && config.HEROKU == false) || config.STRING_SESSION == "") {
+        conn.browserDescription = ["BotsApp", "Chrome", '1.0'];
+        conn.logger.level = 'error'
+        conn.connectOptions.maxRetries = 5;
 
-    conn.browserDescription = Browsers.macOS('Chrome')
+        conn.on('qr', async (qr) => {
+            console.log(chalk.blueBright.bold("Scan the QR code above.\n"));
+        })
+        await conn.connect();
 
-    conn.on('qr', async (qr) => {
-        console.log(chalk.blueBright.bold("Scan the QR code above.\n"));
-    })
-    await conn.connect();
-
-    var sass = JSON.stringify(conn.base64EncodedAuthInfo());
-    var stringSession = Buffer.from(sass).toString('base64');
-    console.log(chalk.greenBright.bold("Your string session ->"), stringSession)
-    if(config.HEROKU === false){
-        if (!fs.existsSync('./config.env')) {
+        var sass = JSON.stringify(conn.base64EncodedAuthInfo());
+        var stringSession = Buffer.from(sass).toString('base64');
+        console.log(chalk.greenBright.bold("Your string session ->"), stringSession)
+        if(config.HEROKU === false){
             fs.writeFileSync('./config.env', `STRING_SESSION="${stringSession}"`);
         }
+        process.exit(0);
     }
-    process.exit(1);
 }
 
 exports.restoreSession = function(sessionString) {
