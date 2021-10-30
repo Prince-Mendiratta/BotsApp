@@ -17,7 +17,7 @@ var client = conn.WhatsApp;
 
 async function main() {
     
-    client.logger.level = 'error'
+    client.logger.level = 'error';
     console.log(banner);
     var commandHandler = new Map();
     try{

@@ -9,9 +9,10 @@ exports.WhatsApp = conn;
 
 exports.saveSession = async () => {
     
-    if (!fs.existsSync('./config.env') || config.STRING_SESSION == "") {
+    if ((!fs.existsSync('./config.env') && config.HEROKU == false) || config.STRING_SESSION == "") {
         conn.browserDescription = ["BotsApp", "Chrome", '1.0'];
         conn.logger.level = 'error'
+        conn.connectOptions.maxRetries = 5;
 
         conn.on('qr', async (qr) => {
             console.log(chalk.blueBright.bold("Scan the QR code above.\n"));

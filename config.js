@@ -2,6 +2,8 @@ const fs = require('fs')
 const { DataTypes, Sequelize } = require('sequelize');
 if (fs.existsSync('config.env')){
     require('dotenv').config({ path: './config.env'});
+}else{
+    require('dotenv');
 }
 
 const convertToLogLevel = (value) => {
@@ -30,7 +32,7 @@ const env = {
             : process.env.CURRENT_WEATHER_API_KEY,
     DATABASE_URL: process.env.DATABASE_URL,
     DEBUG: process.env.DEBUG,
-    DATABASE: process.env.DATABASE_URL === './BotsApp.db' ? new Sequelize({ dialect: "sqlite", storage: process.env.DATABASE_URL, logging: convertToLogLevel(process.env.DEBUG) }) : new Sequelize({ dialect: "postgres", storage: process.env.DATABASE_URL}),
+    DATABASE: process.env.DATABASE_URL === './BotsApp.db' ? new Sequelize({ dialect: "sqlite", storage: process.env.DATABASE_URL, logging: convertToLogLevel(process.env.DEBUG) }) : new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres', protocol: 'postgres', dialectOptions: {ssl: {require: true, rejectUnauthorized: false}}}),
     WORK_TYPE: process.env.WORK_TYPE === undefined ? "private" : process.env.WORK_TYPE,
     SUDO: process.env.SUDO === undefined ? "+917838204238,+17052308534" : process.env.SUDO,
 }
