@@ -106,6 +106,9 @@ exports.adminCommands = [
     "remove",
     "unmute",
     "welcome",
+    "disappear",
+    "goodbye",
+    "setdp"
 ];
 
-exports.sudoCommands = ["block", "unblock", "setdp"];
+exports.sudoCommands = ["block", "unblock"];
