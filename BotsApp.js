@@ -78,6 +78,13 @@ async function main() {
         await sequelize.sync();
         console.log(chalk.greenBright.bold("[INFO] All models were synchronized successfully."));
         console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
+        client.sendMessage(
+            client.user.jid,
+            GENERAL.SUCCESSFUL_CONNECTION.format({
+                worktype: config.WORK_TYPE,
+            }),
+            MessageType.text
+        );
     })
 
 
