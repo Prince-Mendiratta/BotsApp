@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const wa = require('./core/helper');
 const { MessageType } = require('@adiwajshing/baileys');
 const Greetings = require('./database/greeting');
+const Users = require('./database/user');
 const sequelize = config.DATABASE;
 const adminCommands = require("./sidekick/input-sanitization").adminCommands;
 const sudoCommands = require("./sidekick/input-sanitization").sudoCommands;
@@ -150,9 +151,47 @@ async function main() {
                             `not executed in public Work Type.`
                         )
                     );
+                    var messageSent = await Users.getUser(BotsApp.sender);
+                    if(messageSent){
+                        return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                    }
+                    else{
+                        await Users.addUser(BotsApp.sender)
+                        return client.sendMessage(
+                            BotsApp.sender,
+                            GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                            MessageType.text,
+                            {
+                                contextInfo: {
+                                    stanzaId: chat.key.id,
+                                    participant: BotsApp.sender,
+                                    quotedMessage: {
+                                        conversation: BotsApp.body,
+                                    },
+                                },
+                            }
+                        );
+                    }
+                    
+                }
+            }
+            else if(config.WORK_TYPE === "private" && !BotsApp.isSenderSUDO){
+                console.log(
+                    chalk.redBright.bold(`[INFO] commmand `),
+                    chalk.greenBright.bold(`${BotsApp.commandName}`),
+                    chalk.redBright.bold(
+                        `not executed in private Work Type.`
+                    )
+                );
+                var messageSent = await Users.getUser(BotsApp.sender);
+                if(messageSent){
+                    return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                }
+                else{
+                    await Users.addUser(BotsApp.sender)
                     return client.sendMessage(
                         BotsApp.sender,
-                        GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                        GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
                         MessageType.text,
                         {
                             contextInfo: {
@@ -165,29 +204,6 @@ async function main() {
                         }
                     );
                 }
-            }
-            else if(config.WORK_TYPE === "private" && !BotsApp.isSenderSUDO){
-                console.log(
-                    chalk.redBright.bold(`[INFO] commmand `),
-                    chalk.greenBright.bold(`${BotsApp.commandName}`),
-                    chalk.redBright.bold(
-                        `not executed in private Work Type.`
-                    )
-                );
-                return client.sendMessage(
-                    BotsApp.sender,
-                    GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
-                    MessageType.text,
-                    {
-                        contextInfo: {
-                            stanzaId: chat.key.id,
-                            participant: BotsApp.sender,
-                            quotedMessage: {
-                                conversation: BotsApp.body,
-                            },
-                        },
-                    }
-                );
             }
         }
         if(BotsApp.isCmd){
