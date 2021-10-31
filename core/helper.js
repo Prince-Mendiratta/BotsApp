@@ -7,15 +7,15 @@ var BotsAppClass = require("../sidekick/sidekick")
 
 exports.resolve = function(messageInstance, client, groupMetadata) {
     var BotsApp = new BotsAppClass();
-    var prefixRegex = config.PREFIX;
+    var prefixRegex = new RegExp(config.PREFIX, 'g');
     var SUDOstring = config.SUDO;
     try{
         var jsonMessage = JSON.stringify(messageInstance)
     }catch(err){
         console.log(chalk.redBright("[ERROR] Something went wrong. ", err))
     }
-    console.log(messageInstance);
-    console.log(jsonMessage);
+    // console.log(messageInstance);
+    // console.log(jsonMessage);
     BotsApp.chatId = messageInstance.key.remoteJid || '';
     BotsApp.fromMe = messageInstance.key.fromMe;
     BotsApp.owner = client.user.jid || '';
@@ -48,10 +48,10 @@ exports.resolve = function(messageInstance, client, groupMetadata) {
     BotsApp.groupMembers = BotsApp.isGroup ? groupMetadata.participants : '';
     BotsApp.groupAdmins = BotsApp.isGroup ? getGroupAdmins(BotsApp.groupMembers) : '';
     BotsApp.groupId = BotsApp.isGroup ? groupMetadata.id : '';
-    BotsApp.isBotGroupAdmin = BotsApp.isGroup ? BotsApp.groupAdmins.includes(BotsApp.owner) || false : '';
-    BotsApp.isSenderGroupAdmin = BotsApp.isGroup ? BotsApp.groupAdmins.includes(BotsApp.sender) || false : false;
     BotsApp.isSenderSUDO = SUDOstring.includes(BotsApp.sender.substring(0,BotsApp.sender.indexOf("@")));
-    
+    BotsApp.isBotGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.owner)) : false;
+    BotsApp.isSenderGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.sender)) : false;
+
     return BotsApp;
 }
 
@@ -60,6 +60,6 @@ function getGroupAdmins(participants){
     for (var i in participants) {
         participants[i].isAdmin ? admins.push(participants[i].jid) : '';
     }
-    console.log("ADMINS -> " + admins);
+    // console.log("ADMINS -> " + admins);
     return admins;
 }

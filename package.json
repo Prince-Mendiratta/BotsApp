@@ -19,7 +19,6 @@
         "google-tts-api": "^2.0.2",
         "got": "^11.8.2",
         "jsdom": "^17.0.0",
-        "nodemon": "^2.0.14",
         "ocr-space-api-wrapper": "^1.0.6",
         "pg": "^8.7.1",
         "python-format-js": "^1.3.9",

@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const wa = require('./core/helper');
 const { MessageType } = require('@adiwajshing/baileys');
 const Greetings = require('./database/greeting');
+const Users = require('./database/user');
 const sequelize = config.DATABASE;
 const adminCommands = require("./sidekick/input-sanitization").adminCommands;
 const sudoCommands = require("./sidekick/input-sanitization").sudoCommands;
@@ -17,7 +18,7 @@ var client = conn.WhatsApp;
 
 async function main() {
     
-    client.logger.level = 'error'
+    client.logger.level = 'error';
     console.log(banner);
     var commandHandler = new Map();
     try{
@@ -128,16 +129,12 @@ async function main() {
     client.on('chat-update', async chat => {
         if (!chat.hasNewMessage) return
         if (!chat.messages) return
-        console.log("-------------------------------------------")
+        // console.log("-------------------------------------------")
         chat = chat.messages.all()[0];
         var sender = chat.key.remoteJid;
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat, client, groupMetadata);
-        console.log(BotsApp);
-        // const loc = await client.downloadAndSaveMediaMessage(chat, './tmp/media_in_xxxxx');
-        // console.log(loc);
-        // console.log(fs.readFileSync(loc));
-        // if(BotsApp.chatId === "917838204238@s.whatsapp.net" && BotsApp.fromMe === false){ client.sendMessage(BotsApp.chatId, chat.message.imageMessage.jpegThumbnail, MessageType.image);}
+        // console.log(BotsApp);
         if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
             if (config.WORK_TYPE === "public") {
                 if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
@@ -161,9 +158,47 @@ async function main() {
                             `not executed in public Work Type.`
                         )
                     );
+                    var messageSent = await Users.getUser(BotsApp.sender);
+                    if(messageSent){
+                        return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                    }
+                    else{
+                        await Users.addUser(BotsApp.sender)
+                        return client.sendMessage(
+                            BotsApp.sender,
+                            GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                            MessageType.text,
+                            {
+                                contextInfo: {
+                                    stanzaId: chat.key.id,
+                                    participant: BotsApp.sender,
+                                    quotedMessage: {
+                                        conversation: BotsApp.body,
+                                    },
+                                },
+                            }
+                        );
+                    }
+                    
+                }
+            }
+            else if(config.WORK_TYPE === "private" && !BotsApp.isSenderSUDO){
+                console.log(
+                    chalk.redBright.bold(`[INFO] commmand `),
+                    chalk.greenBright.bold(`${BotsApp.commandName}`),
+                    chalk.redBright.bold(
+                        `not executed in private Work Type.`
+                    )
+                );
+                var messageSent = await Users.getUser(BotsApp.sender);
+                if(messageSent){
+                    return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                }
+                else{
+                    await Users.addUser(BotsApp.sender)
                     return client.sendMessage(
                         BotsApp.sender,
-                        GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                        GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
                         MessageType.text,
                         {
                             contextInfo: {
@@ -177,37 +212,14 @@ async function main() {
                     );
                 }
             }
-            else if(config.WORK_TYPE === "private" && !BotsApp.isSenderSUDO){
-                console.log(
-                    chalk.redBright.bold(`[INFO] commmand `),
-                    chalk.greenBright.bold(`${BotsApp.commandName}`),
-                    chalk.redBright.bold(
-                        `not executed in private Work Type.`
-                    )
-                );
-                return client.sendMessage(
-                    BotsApp.sender,
-                    GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
-                    MessageType.text,
-                    {
-                        contextInfo: {
-                            stanzaId: chat.key.id,
-                            participant: BotsApp.sender,
-                            quotedMessage: {
-                                conversation: BotsApp.body,
-                            },
-                        },
-                    }
-                );
-            }
         }
         if(BotsApp.isCmd){
             console.log(chalk.redBright.bold(`[INFO] ${BotsApp.commandName} command executed.`));
             const command = commandHandler.get(BotsApp.commandName);
             var args = BotsApp.body.trim().split(/\s+/).slice(1);
-            console.log("ARGS -> " + args);
-            args.forEach(arg => console.log("arg -> " + arg  + "  type -> " + typeof(arg)));
-            console.log("-------------------------------------------")
+            // console.log("ARGS -> " + args);
+            // args.forEach(arg => console.log("arg -> " + arg  + "  type -> " + typeof(arg)));
+            // console.log("-------------------------------------------")
             if(!command){
                 client.sendMessage(BotsApp.chatId, "```Woops, invalid command! Use```  *.help*  ```to display the command list.```", MessageType.text);
                 return;
@@ -221,7 +233,7 @@ async function main() {
                 }
             }
             try{
-                command.handle(client, chat, BotsApp, args);
+                command.handle(client, chat, BotsApp, args).catch(err => console.log("[ERROR] " + err));
             }catch(err){
                 console.log(chalk.red("[ERROR] ", err));
             }
