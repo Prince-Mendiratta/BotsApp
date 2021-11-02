@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const config = require('../config');
 
 const conn = new WAConnection();
+conn.version = [3, 3234, 9];
 
 exports.WhatsApp = conn;
 

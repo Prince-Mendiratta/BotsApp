@@ -23,6 +23,7 @@
         "pg": "^8.7.1",
         "python-format-js": "^1.3.9",
         "sequelize": "^6.7.0",
+        "simple-git": "^2.47.0",
         "sqlite3": "^5.0.2",
         "unofficial-carbon-now": "^1.0.3",
         "urban-dictionary": "^3.0.2",

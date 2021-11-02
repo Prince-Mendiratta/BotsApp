@@ -13,6 +13,7 @@ const adminCommands = require("./sidekick/input-sanitization").adminCommands;
 const sudoCommands = require("./sidekick/input-sanitization").sudoCommands;
 const STRINGS = require("./lib/db");
 const GENERAL = STRINGS.general;
+const gitPull = require('./core/gitpull');
 
 var client = conn.WhatsApp;
 
@@ -21,6 +22,8 @@ async function main() {
     client.logger.level = 'error';
     console.log(banner);
     var commandHandler = new Map();
+    console.log(chalk.yellowBright.bold("[INFO] Checking for updates..."));
+    await gitPull();
     try{
         var session = conn.restoreSession(config.STRING_SESSION)
         client.loadAuthInfo(session)
@@ -48,7 +51,7 @@ async function main() {
     })
 
     client.on('open', async () => {
-        console.log(chalk.whiteBright.bold("[INFO] Installing Plugins... Please wait."));
+        console.log(chalk.yellowBright.bold("[INFO] Installing Plugins... Please wait."));
         var moduleFiles = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
         for(var file of moduleFiles){
             try{
@@ -60,7 +63,7 @@ async function main() {
                 commandHandler.set(command.name, command);
             }catch(error){
                 console.log(
-                    chalk.blueBright.bold("[INFO] Can not imported module"),
+                    chalk.blueBright.bold("[INFO] Could not import module"),
                     chalk.redBright.bold(`${file}`)
                 )
                 console.log(`[ERROR] `, error);
@@ -160,7 +163,7 @@ async function main() {
                     );
                     var messageSent = await Users.getUser(BotsApp.sender);
                     if(messageSent){
-                        return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                        return console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.sender));
                     }
                     else{
                         await Users.addUser(BotsApp.sender)

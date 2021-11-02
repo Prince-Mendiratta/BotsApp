@@ -6,5 +6,5 @@ build/Release
 package-lock.json
 tmp/*.*
 .vs/
-BotsApp.db
 .idea/
+BotsApp.db
