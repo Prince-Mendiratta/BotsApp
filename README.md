@@ -24,6 +24,7 @@ Utilize your personal chat assistant/group manager to make the most out of Whats
 1. Using BotsApp's [Official website](https://staging-botsapp.herokuapp.com/)
 
 2. Using Heroku directly from GitHub repository
+
     [![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FDTU-DCODER%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FDTU-DCODER%2FBotsApp%2Ftree%2Fmainhttps://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FDTU-DCODER%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FDTU-DCODER%2FBotsApp%2Ftree%2Fmain)
 
 3. Using Docker locally
