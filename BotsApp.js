@@ -195,7 +195,7 @@ async function main() {
                 );
                 var messageSent = await Users.getUser(BotsApp.sender);
                 if(messageSent){
-                    return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                    return console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.sender));
                 }
                 else{
                     await Users.addUser(BotsApp.sender)
