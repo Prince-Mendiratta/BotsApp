@@ -1,7 +1,7 @@
 ![Logo](images\BotsApp_Logo.png)
 
 
-# 💠[BotsApp](www.mybotsapp.com)💠
+# 💠[BotsApp](https://staging-botsapp.herokuapp.com/)💠
 
 ![GitHub top language](https://img.shields.io/github/languages/top/DTU-DCODER/BotsApp) ![GitHub contributors](https://img.shields.io/github/contributors/DTU-DCODER/BotsApp) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/DTU-DCODER/BotsApp) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/DTU-DCODER/BotsApp) ![GitHub Repo stars](https://img.shields.io/github/stars/DTU-DCODER/BotsApp?style=social) ![GitHub repo size](https://img.shields.io/github/repo-size/DTU-DCODER/BotsApp)
 
