@@ -1,4 +1,4 @@
-![Logo](images\BotsApp_Logo.png)
+![Logo](images/BotsApp_Logo.png)
 
 
 # 💠[BotsApp](https://staging-botsapp.herokuapp.com/)💠
