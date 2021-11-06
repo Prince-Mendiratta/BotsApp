@@ -2,7 +2,8 @@
 
 
 # 💠[BotsApp](https://staging-botsapp.herokuapp.com/)💠
-
+> Your Personal Assisstant, on WhatsApp!
+---
 ![GitHub top language](https://img.shields.io/github/languages/top/DTU-DCODER/BotsApp) [![GitHub release](https://img.shields.io/github/release/DTU-DCODER/BotsApp.svg)](https://github.com/bkimminich/juice-shop/releases/latest)
  ![GitHub contributors](https://img.shields.io/github/contributors/DTU-DCODER/BotsApp) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/DTU-DCODER/BotsApp) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/DTU-DCODER/BotsApp) ![GitHub Repo stars](https://img.shields.io/github/stars/DTU-DCODER/BotsApp?style=social) ![GitHub repo size](https://img.shields.io/github/repo-size/DTU-DCODER/BotsApp)
  
