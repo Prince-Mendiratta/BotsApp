@@ -10,7 +10,7 @@ RUN npm install
 
 RUN git init --initial-branch=main
 
-RUN git remote add origin https://github.com/DTU-DCODER/BotsApp.git
+RUN git remote add origin https://github.com/BotsAppOfficial/BotsApp.git
 
 RUN git fetch origin main
 
