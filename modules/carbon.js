@@ -74,12 +74,28 @@ module.exports = {
                         ""
                     );
                     if (text[0] === "-" && text[1] === "t") {
-                        await client.sendMessage(
-                            BotsApp.chatId,
-                            CARBON.NO_INPUT,
-                            MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                        return;
+                        if(text[2] == null){
+                            let counter = 1;
+                            var message = 'Available themes: ';
+                            themes.forEach((theme) => {
+                                message += `\n${counter}. ${theme}`;
+                                counter += 1;
+                            })
+                            await client.sendMessage(
+                                BotsApp.chatId,
+                                "```" + message + "```",
+                                MessageType.text
+                            )
+                            return;
+                        }
+                        else{
+                            await client.sendMessage(
+                                BotsApp.chatId,
+                                CARBON.NO_INPUT,
+                                MessageType.text
+                            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                            return;
+                        }
                     }
                     var body = BotsApp.body.split("-t");
                     code = body[0].replace(

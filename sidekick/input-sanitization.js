@@ -79,7 +79,7 @@ exports.isMember = async (chatId, groupMembers) => {
         }
 }
 
-exports.handleError = async(err, client, BotsApp, customMessage = "Something went wrong. The error has been logged in log chats") => {
+exports.handleError = async(err, client, BotsApp, customMessage = "```Something went wrong. The error has been logged in log chats```") => {
     console.log(chalk.redBright.bold("[ERROR] " + err));
     data = {
         commandName: BotsApp.commandName,
