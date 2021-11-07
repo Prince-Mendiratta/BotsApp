@@ -20,7 +20,7 @@ Utilize your personal chat assistant/group manager to make the most out of Whats
 
 ## Documentation
 
-[Documentation Link](https://staging-botsapp.herokuapp.com/documentation)
+[Documentation Link](https://mybotsapp.com/documentation)
 
 
 ## Tutorial
@@ -33,16 +33,15 @@ Here's a tutorial to set up BotsApp on your own account in *less than 3 minutes.
 
 ### Easiest Way
 
-You can create your own BotsApp bot in minimal time without any technical knowledge or prerequisites required using this method.
+You can deploy BotsApp in minimal time without any prior knowledge using this method.
 
-1. Head over to BotsApp's [Official website](https://staging-botsapp.herokuapp.com/) and create an account on heroku using your email ID.
-
+1. Head over to BotsApp's [Official website](https://mybotsapp.com/) and create an account on heroku using your email ID.
 2. Once logged in, click on the "Deploy BotsApp" button in the sidebar.
-3. Scan the QR code shown and click on the continue button once done.
-4. If required, change the form fields. Then, click on the submit button.
-5. Wait for 1-3 minutes for the bot to start. This is a one time process.
+3. Scan the QR code shown using your WhatsApp account (3 dots on top right corner -> Linked devices -> LINK A DEVICE). Click on the 'Continue'      button once done.
+4. Once the bot is linked to your account, you will come across a form which can be used to manage settings/permissions of BotsApp. If required,    change the form fields. Then, click on the submit button.
+5. Wait for 1-3 minutes for the bot to start. This is a one time process. Try using the '.alive' command in any of your chats to verify whether    your bot has been deployed succesfully.
 
-Voila! You have created your bot in 5 easy steps. Once the bot has started successfully, you'll see a integration message on your whatsapp account.
+Voila! You have deployed your bot in 5 easy steps. Once the bot has started successfully, you'll see a integration message on your whatsapp account.
 
 ### Manually on Heroku
 
