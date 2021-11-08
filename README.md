@@ -3,7 +3,7 @@
 </p>
 
 
-# 💠[BotsApp](https://staging-botsapp.herokuapp.com/)💠
+# 💠[BotsApp](https://mybotsapp.com/)💠
 > Your Personal Assisstant, on WhatsApp!
 ---
 ![GitHub top language](https://img.shields.io/github/languages/top/BotsAppOfficial/BotsApp) [![GitHub release](https://img.shields.io/github/release/BotsAppOfficial/BotsApp.svg)](https://github.com/bkimminich/juice-shop/releases/latest)
@@ -86,7 +86,7 @@ Feel free to post your queries or concerns on any of the discussion forums menti
 
 [![Join Telegram Group](https://img.shields.io/badge/Join-Telegram%20Group-blue.svg?logo=Telegram)](https://t.me/BotsAppChat)
 
-[![Join Telegram Channel](https://img.shields.io/badge/Join-Telegram%20Channel-red.svg?logo=Telegram)](https://t.me/BotsAppOffical)
+[![Join Telegram Channel](https://img.shields.io/badge/Join-Telegram%20Channel-red.svg?logo=Telegram)](https://t.me/BotsAppOfficial)
 
 
 
