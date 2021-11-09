@@ -13,7 +13,7 @@ module.exports = {
         try {
             client.sendMessage(
                 BotsApp.chatId,
-                alive.ALIVE_MSG,
+                "Bot is alive",
                 MessageType.text
             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
