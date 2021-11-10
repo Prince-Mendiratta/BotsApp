@@ -13,7 +13,7 @@ const adminCommands = require("./sidekick/input-sanitization").adminCommands;
 const sudoCommands = require("./sidekick/input-sanitization").sudoCommands;
 const STRINGS = require("./lib/db");
 const GENERAL = STRINGS.general;
-const gitPull = require('./core/gitpull');
+// const gitPull = require('./core/gitpull');
 
 var client = conn.WhatsApp;
 
@@ -23,7 +23,7 @@ async function main() {
     console.log(banner);
     var commandHandler = new Map();
     console.log(chalk.yellowBright.bold("[INFO] Checking for updates..."));
-    await gitPull();
+    // await gitPull();
     try{
         var session = conn.restoreSession(config.STRING_SESSION)
         client.loadAuthInfo(session)
