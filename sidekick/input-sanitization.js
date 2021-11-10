@@ -108,7 +108,8 @@ exports.adminCommands = [
     "welcome",
     "disappear",
     "goodbye",
-    "setdp"
+    "setdp",
+    "tagall"
 ];
 
 exports.sudoCommands = ["block", "unblock"];
