@@ -119,3 +119,8 @@ Feel free to post your queries or concerns on any of the discussion forums menti
 - Yusuf Usta 
 
 - [X-tra-Telegram](https://github.com/Prince-Mendiratta/X-tra-Telegram)
+
+## Copyright & License
+- Copyright (C) 2021 - 2022 by [BotsAppOfficial](https://github.com/BotsAppOfficial)
+
+- Licensed under the terms by [GNU GENERAL PUBLIC LICENSE](https://github.com/BotsAppOfficial/BotsApp/blob/main/LICENSE)
