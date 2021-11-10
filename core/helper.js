@@ -7,7 +7,7 @@ var BotsAppClass = require("../sidekick/sidekick")
 
 exports.resolve = function(messageInstance, client, groupMetadata) {
     var BotsApp = new BotsAppClass();
-    var prefix = config.PREFIX + '\\w*'
+    var prefix = config.PREFIX + '\\w+'
     var prefixRegex = new RegExp(prefix, 'g');
     var SUDOstring = config.SUDO;
     try{
