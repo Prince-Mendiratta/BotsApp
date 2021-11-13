@@ -14,6 +14,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Improve command detection regex to avoid triggering just prefix as a command.
 - Fix minor typos.
 - Private / Public acknowledgement message only sent once in each group.
+- Fix the bug where bot wasn't working in new groups.
 
 ## [1.0.0] - 2020-11-07
 ### Added
