@@ -7,6 +7,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 ### Added
 - Pull latest changes from the repo before starting the bot.
+- Automatically install new packages, if any, in case of new updates.
 
 ### Changed
 - Elevate tagall command to admin only.
