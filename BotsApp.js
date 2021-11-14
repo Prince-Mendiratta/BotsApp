@@ -138,6 +138,7 @@ async function main() {
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat, client, groupMetadata);
         // console.log(BotsApp);
+        if(BotsApp.chatId === "917838204238-1634977991@g.us") return;
         if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
             if (config.WORK_TYPE === "public") {
                 if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
