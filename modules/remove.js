@@ -38,6 +38,14 @@ module.exports = {
                     ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
+                if (PersonToRemove === BotsApp.owner) {
+                    client.sendMessage(
+                        BotsApp.chatId,
+                        "```Why man, why?! Why would you use my powers to remove myself from the group?!🥺```\n*Request Rejected.* 😤",
+                        MessageType.text
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    return;
+                }
                 var isMember = inputSanitization.isMember(
                     PersonToRemove,
                     BotsApp.groupMembers
@@ -73,6 +81,15 @@ module.exports = {
                     client.sendMessage(
                         BotsApp.chatId,
                         STRINGS.remove.INPUT_ERROR,
+                        MessageType.text
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    return;
+                }
+
+                if((number + "@s.whatsapp.net") === BotsApp.owner){
+                    client.sendMessage(
+                        BotsApp.chatId,
+                        "```Why man, why?! Why would you use my powers to remove myself from the group?!🥺```\n*Request Rejected.* 😤",
                         MessageType.text
                     ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
