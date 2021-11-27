@@ -201,8 +201,8 @@ async function main() {
                 else{
                     await Users.addUser(BotsApp.chatId)
                     return client.sendMessage(
-                        BotsApp.chatId,
-                        GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                        BotsApp.sender,
+                        GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName, commandName: BotsApp.commandName }),
                         MessageType.text,
                         {
                             contextInfo: {
@@ -215,6 +215,29 @@ async function main() {
                         }
                     );
                 }
+            }
+            else if(config.WORK_TYPE === "private" && !BotsApp.isSenderSUDO){
+                console.log(
+                    chalk.redBright.bold(`[INFO] commmand `),
+                    chalk.greenBright.bold(`${BotsApp.commandName}`),
+                    chalk.redBright.bold(
+                        `not executed in private Work Type.`
+                    )
+                );
+                return client.sendMessage(
+                    BotsApp.sender,
+                    GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName, commandName: BotsApp.commandName }),
+                    MessageType.text,
+                    {
+                        contextInfo: {
+                            stanzaId: chat.key.id,
+                            participant: BotsApp.sender,
+                            quotedMessage: {
+                                conversation: BotsApp.body,
+                            },
+                        },
+                    }
+                );
             }
         }
         if(BotsApp.isCmd){
