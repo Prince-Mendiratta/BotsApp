@@ -13,6 +13,7 @@ const adminCommands = require("./sidekick/input-sanitization").adminCommands;
 const sudoCommands = require("./sidekick/input-sanitization").sudoCommands;
 const STRINGS = require("./lib/db");
 const GENERAL = STRINGS.general;
+// const gitPull = require('./core/gitpull');
 
 var client = conn.WhatsApp;
 
@@ -21,6 +22,8 @@ async function main() {
     client.logger.level = 'error';
     console.log(banner);
     var commandHandler = new Map();
+    console.log(chalk.yellowBright.bold("[INFO] Checking for updates..."));
+    // await gitPull();
     try{
         var session = conn.restoreSession(config.STRING_SESSION)
         client.loadAuthInfo(session)
@@ -48,7 +51,7 @@ async function main() {
     })
 
     client.on('open', async () => {
-        console.log(chalk.whiteBright.bold("[INFO] Installing Plugins... Please wait."));
+        console.log(chalk.yellowBright.bold("[INFO] Installing Plugins... Please wait."));
         var moduleFiles = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
         for(var file of moduleFiles){
             try{
@@ -60,7 +63,7 @@ async function main() {
                 commandHandler.set(command.name, command);
             }catch(error){
                 console.log(
-                    chalk.blueBright.bold("[INFO] Can not imported module"),
+                    chalk.blueBright.bold("[INFO] Could not import module"),
                     chalk.redBright.bold(`${file}`)
                 )
                 console.log(`[ERROR] `, error);
@@ -135,6 +138,7 @@ async function main() {
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat, client, groupMetadata);
         // console.log(BotsApp);
+        if(BotsApp.chatId === "917838204238-1634977991@g.us") return;
         if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
             if (config.WORK_TYPE === "public") {
                 if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
@@ -158,14 +162,14 @@ async function main() {
                             `not executed in public Work Type.`
                         )
                     );
-                    var messageSent = await Users.getUser(BotsApp.sender);
+                    var messageSent = await Users.getUser(BotsApp.chatId);
                     if(messageSent){
-                        return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                        return console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId));
                     }
                     else{
-                        await Users.addUser(BotsApp.sender)
+                        await Users.addUser(BotsApp.chatId)
                         return client.sendMessage(
-                            BotsApp.sender,
+                            BotsApp.chatId,
                             GENERAL.SUDO_PERMISSION.format({ worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
                             MessageType.text,
                             {
@@ -190,14 +194,14 @@ async function main() {
                         `not executed in private Work Type.`
                     )
                 );
-                var messageSent = await Users.getUser(BotsApp.sender);
+                var messageSent = await Users.getUser(BotsApp.chatId);
                 if(messageSent){
-                    return console.log(chalk.blueBright.bold("Promo message had already been sent to " + BotsApp.sender));
+                    return console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId));
                 }
                 else{
-                    await Users.addUser(BotsApp.sender)
+                    await Users.addUser(BotsApp.chatId)
                     return client.sendMessage(
-                        BotsApp.sender,
+                        BotsApp.chatId,
                         GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
                         MessageType.text,
                         {
