@@ -91,4 +91,4 @@ exports.adminCommands = [
     "rbl"
 ];
 
-exports.sudoCommands = ["block", "unblock"];
+exports.sudoCommands = ["block", "unblock", "setdp", "sudo"];
