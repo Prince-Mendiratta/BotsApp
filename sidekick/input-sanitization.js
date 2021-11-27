@@ -89,4 +89,4 @@ exports.adminCommands = [
     "tagall"
 ];
 
-exports.sudoCommands = ["block", "unblock"];
+exports.sudoCommands = ["block", "unblock", "setdp", "sudo"];
