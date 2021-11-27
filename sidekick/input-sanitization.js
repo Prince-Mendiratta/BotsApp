@@ -64,39 +64,6 @@ exports.performanceTime = async (startTime) => {
     // );
 }
 
-exports.isMember = async (chatId, groupMembers) => {
-        var isMember = false;
-        if(!(chatId === undefined)){
-            for (const index in groupMembers) {
-                if (chatId == groupMembers[index].jid.split("@")[0]) {
-                    isMember = true;
-                }
-            }
-            return isMember;
-        }
-        else{
-            return isMember;
-        }
-}
-
-exports.handleError = async(err, client, BotsApp, customMessage = "```Something went wrong. The error has been logged in log chats```") => {
-    console.log(chalk.redBright.bold("[ERROR] " + err));
-    data = {
-        commandName: BotsApp.commandName,
-        fromMe: BotsApp.fromMe,
-        isReply: BotsApp.isReply,
-        isGroup: BotsApp.isGroup,
-        isPm: BotsApp.isPm,
-        isImage: BotsApp.isImage,
-        isBotGroupAdmin: BotsApp.isBotGroupAdmin,
-        isSenderGroupAdmin: BotsApp.isSenderGroupAdmin,
-        isSenderSudo: BotsApp.isSenderSUDO,
-        err: err
-    }
-    client.sendMessage(BotsApp.chatId, customMessage, MessageType.text);
-    client.sendMessage(BotsApp.logGroup, ERROR_TEMPLATE.format(data), MessageType.text);
-}
-
 exports.adminCommands = [
     "add",
     "demote",
