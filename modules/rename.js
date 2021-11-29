@@ -18,8 +18,16 @@ module.exports = {
             var startTime = window.performance.now();
 
             // Function to convert media to sticker
-            const changeName = async (replyChat,mediaType, mimetype) => {
-                mediaType = mediaType.substring(0, mediaType.indexOf("Message"));
+            const changeName = async (
+                replyChat,
+                mediaType,
+                mimetype,
+                title
+            ) => {
+                mediaType = mediaType.substring(
+                    0,
+                    mediaType.indexOf("Message")
+                );
                 var downloading = await client
                     .sendMessage(
                         BotsApp.chatId,
@@ -29,22 +37,25 @@ module.exports = {
                     .catch((err) =>
                         inputSanitization.handleError(err, client, BotsApp)
                     );
-
-                const fileName = "./tmp/" + args[0];
+                const updatedName = args.join(" ");
+                const fileName = "./tmp/" + updatedName;
                 const filePath = await client
                     .downloadAndSaveMediaMessage(replyChat, fileName)
                     .catch((err) =>
                         inputSanitization.handleError(err, client, BotsApp)
                     );
-                client
+                var endTime = window.performance.now();
+                const time = (endTime - startTime) / 1000;
+                await client
                     .sendMessage(
                         BotsApp.chatId,
                         fs.readFileSync(filePath),
-                        MessageType[mediaType],
+                        MessageType.document,
                         {
                             mimetype: mimetype,
                             thumbnail: null,
-                            filename: args[0],
+                            filename: updatedName,
+                            caption: `BotsApp changed file name from ${title} to ${updatedName} in ${time} second(s).`,
                         }
                     )
                     .catch((err) =>
@@ -76,13 +87,15 @@ module.exports = {
                             .quotedMessage,
                 };
                 let mediaType = Object.keys(replyChat.message)[0];
-                console.log(mediaType);
+                let title = replyChat.message[mediaType].title;
                 let mimetype = replyChat.message[mediaType].mimetype;
-                console.log(mimetype);
-                changeName(replyChat,mediaType, mimetype);
-            }
-            else{
-                return client.sendMessage(BotsApp.chatId , rename.REPLY_TO_DOCUMENT , MessageType.text);
+                changeName(replyChat, mediaType, mimetype, title);
+            } else {
+                return client.sendMessage(
+                    BotsApp.chatId,
+                    rename.REPLY_TO_DOCUMENT,
+                    MessageType.text
+                );
             }
         } catch (err) {
             await inputSanitization.handleError(
