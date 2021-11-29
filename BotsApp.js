@@ -140,10 +140,10 @@ async function main() {
         var BotsApp = wa.resolve(chat, client, groupMetadata);
         // console.log(BotsApp);
         let isBlacklist = await Blacklist.getBlacklistUser(BotsApp.sender , BotsApp.chatId);
-        if((!BotsApp.fromMe && isBlacklist) || (BotsApp.chatId === "917838204238-1634977991@g.us")){
+        if((!BotsApp.fromMe && !BotsApp.isSenderSUDO && !BotsApp.isSenderGroupAdmin) && (isBlacklist || BotsApp.chatId === "917838204238-1634977991@g.us")){
             return console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));};
         if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
-            if (config.WORK_TYPE === "public") {
+            if (config.WORK_TYPE.toLowerCase() === "public") {
                 if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
                     console.log(
                         chalk.redBright.bold(`[INFO] admin commmand `),
@@ -189,7 +189,7 @@ async function main() {
                     
                 }
             }
-            else if(config.WORK_TYPE === "private" && !BotsApp.isSenderSUDO){
+            else if(config.WORK_TYPE.toLowerCase() != "public" && !BotsApp.isSenderSUDO){
                 console.log(
                     chalk.redBright.bold(`[INFO] commmand `),
                     chalk.greenBright.bold(`${BotsApp.commandName}`),
