@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const STRINGS = require("../lib/db.js");
 const ADD = STRINGS.add;
 const inputSanitization = require("../sidekick/input-sanitization");
+const CONFIG = require("../config")
 const fs = require('fs');
 
 module.exports = {
@@ -46,7 +47,7 @@ module.exports = {
                 return;
             }
             if (args[0].length == 10 && !isNaN(args[0])) {
-                number = "91" + args[0];
+                number = CONFIG.COUNTRY_CODE + args[0];
             } else {
                 number = args[0];
             }
@@ -75,8 +76,12 @@ module.exports = {
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (response[number + "@c.us"] == 403) {
-                var code = response.participants[1][number + "@c.us"].invite_code;
-                var tom = response.participants[1][number + "@c.us"].invite_code_exp;
+                for (const index in response.participants) {
+                    if ([number + "@c.us"] in response.participants[index]) {
+                        var code = response.participants[index][number + "@c.us"].invite_code;
+                        var tom = response.participants[index][number + "@c.us"].invite_code_exp;
+                    }
+                }
                 var invite = {
                     caption: "```Hi! You have been invited to join this WhatsApp group by BotsApp!```\n\n🔗https://mybotsapp.com",
                     groupJid: BotsApp.groupId,
