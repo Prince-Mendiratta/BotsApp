@@ -12,6 +12,7 @@ const sequelize = config.DATABASE;
 const adminCommands = require("./sidekick/input-sanitization").adminCommands;
 const sudoCommands = require("./sidekick/input-sanitization").sudoCommands;
 const STRINGS = require("./lib/db");
+const Blacklist = require('./database/blacklist');
 const GENERAL = STRINGS.general;
 // const gitPull = require('./core/gitpull');
 
@@ -138,7 +139,9 @@ async function main() {
         const groupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : '';
         var BotsApp = wa.resolve(chat, client, groupMetadata);
         // console.log(BotsApp);
-        if(BotsApp.chatId === "917838204238-1634977991@g.us") return;
+        let isBlacklist = await Blacklist.getBlacklistUser(BotsApp.sender , BotsApp.chatId);
+        if((!BotsApp.fromMe && isBlacklist) || (BotsApp.chatId === "917838204238-1634977991@g.us")){
+            return console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));};
         if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
             if (config.WORK_TYPE === "public") {
                 if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
