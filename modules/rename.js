@@ -18,7 +18,7 @@ module.exports = {
             var startTime = window.performance.now();
 
             // Function to convert media to sticker
-            const changeName = async (replyChat, mimetype, ext) => {
+            const changeName = async (replyChat, mimetype) => {
                 var downloading = await client
                     .sendMessage(
                         BotsApp.chatId,
@@ -43,7 +43,7 @@ module.exports = {
                         {
                             mimetype: mimetype,
                             thumbnail: null,
-                            filename: args[0] + ext,
+                            filename: args[0],
                         }
                     )
                     .catch((err) =>
@@ -75,11 +75,7 @@ module.exports = {
                             .quotedMessage,
                 };
                 let mimetype = replyChat.message.documentMessage.mimetype;
-                let ext = replyChat.message.documentMessage.title.substring(
-                    replyChat.message.documentMessage.title.indexOf("."),
-                    replyChat.message.documentMessage.title.length
-                );
-                changeName(replyChat, mimetype, ext);
+                changeName(replyChat, mimetype);
             }
             else{
                 return client.sendMessage(BotsApp.chatId , rename.REPLY_TO_DOCUMENT , MessageType.text);
