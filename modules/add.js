@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const STRINGS = require("../lib/db.js");
 const ADD = STRINGS.add;
 const inputSanitization = require("../sidekick/input-sanitization");
+const fs = require('fs');
 
 module.exports = {
     name: "add",
@@ -73,6 +74,27 @@ module.exports = {
                     MessageType.text
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
+            } else if (response[number + "@c.us"] == 403) {
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    ADD.PRIVACY,
+                    MessageType.text
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                var tom = Math.round(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)).getTime() / 1000);
+                var invite = {
+                    caption: "```Hi! You have been invited to join this WhatsApp group by BotsApp!```\n\n🔗https://mybotsapp.com",
+                    groupJid: BotsApp.chatId,
+                    groupName: BotsApp.groupName,
+                    inviteCode: "botsappinvite",
+                    inviteExpiration: tom,
+                    jpegThumbnail: fs.readFileSync('./images/BotsApp_invite.jpeg')
+                }
+                client.sendMessage(
+                    number + "@s.whatsapp.net",
+                    invite,
+                    MessageType.groupInviteMessage
+                )
+                return;
             } else if (response[number + "@c.us"] == 409) {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -83,7 +105,7 @@ module.exports = {
             }
             client.sendMessage(
                 BotsApp.chatId,
-                "``` " + number + ADD.SUCCESS + "```",
+                "```" + number + ADD.SUCCESS + "```",
                 MessageType.text
             );
         } catch (err) {
