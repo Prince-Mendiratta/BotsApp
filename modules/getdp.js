@@ -11,11 +11,6 @@ module.exports = {
   extendedDescription: GETDP.EXTENDED_DESCRIPTION,
   demo: { isEnabled: true, text: ".getdp" },
   async handle(client, chat, BotsApp, args) {
-    const processing = await client.sendMessage(
-      BotsApp.chatId,
-      GETDP.PROCESSING,
-      MessageType.text
-    );
     try {
       let url;
       if (!args[0]) {
@@ -35,11 +30,7 @@ module.exports = {
           thumbnail: null,
         }
       );
-      return client.deleteMessage(BotsApp.chatId, {
-        id: processing.key.id,
-        remoteJid: BotsApp.chatId,
-        fromMe: true,
-      });
+      return 
     } catch (err) {
       if (err.status == 404) {
         await client.sendMessage(
@@ -48,25 +39,15 @@ module.exports = {
           MessageType.image,
           {
             mimetype: Mimetype.png,
-            caption: null,
+            caption: "```This is the display picture visible to me. :P```",
             thumbnail: null,
           }
-        );
-        await inputSanitization.handleError(
-          err,
-          client,
-          BotsApp,
-          GETDP.TRY_AGAIN
         );
       } else {
         await inputSanitization.handleError(err, client, BotsApp);
       }
 
-      return client.deleteMessage(BotsApp.chatId, {
-        id: processing.key.id,
-        remoteJid: BotsApp.chatId,
-        fromMe: true,
-      });
+      return 
     }
   },
 };
