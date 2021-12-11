@@ -10,7 +10,7 @@ const Strings = require("../lib/db");
 const DECODE = Strings.decodeqr;
 
 module.exports = {
-  name: "decodeqr",
+  name: "dqr",
   description: DECODE.DESCRIPTION,
   extendedDescription: DECODE.EXTENDED_DESCRIPTION,
   demo: { isEnabled: false },
@@ -19,7 +19,7 @@ module.exports = {
     var startTime = window.performance.now();
 
     var processing, filePath;
-    
+
     // Function to convert qr to text 
     const qrToText = async (imagePath, processing) => {
       var buffer = fs.readFileSync(imagePath);
@@ -64,7 +64,7 @@ module.exports = {
         .downloadAndSaveMediaMessage(replyChat, fileName)
         .catch((err) => inputSanitization.handleError(err, client, BotsApp));
       const imagePath = "./tmp/image-" + stickerId + ".png";
-      
+
       try {
         ffmpeg(filePath)
           .save(imagePath)
@@ -120,7 +120,7 @@ module.exports = {
             fileName
           )
           .catch((err) => inputSanitization.handleError(err, client, BotsApp));
-        
+
         qrToText(filePath, processing);
 
       } else if (!BotsApp.isImage) {
@@ -131,58 +131,7 @@ module.exports = {
         inputSanitization.performanceTime(startTime);
         return;
 
-      } //else {
-
-      //   processing = await client
-      //     .sendMessage(BotsApp.chatId, DECODE.PROCESSING, MessageType.text)
-      //     .catch((err) => inputSanitization.handleError(err, client, BotsApp));
-
-      //   var imageId = chat.key.id;
-      //   const fileName = "./tmp/qr_pic" + imageId + ".png";
-
-      //   filePath = await client
-      //     .downloadAndSaveMediaMessage(
-      //       {
-      //         message: chat.message,
-      //       },
-      //       fileName,
-      //     )
-      //     .catch((err) => inputSanitization.handleError(err, client, BotsApp));
-
-      //     var buffer = fs.readFileSync(filePath);
-      //     Jimp.read(buffer, function (err, image) {
-      //       if (err) {
-      //         console.error(err);
-      //       }
-      //       let qrcode = new qrCode();
-      //       qrcode.callback = async function (err, value) {
-      //         if (err) {
-      //           console.error(err);
-      //         } else {
-      //           // Printing the decrypted value
-      //           console.log(value.result);
-      //           await client
-      //             .sendMessage(BotsApp.chatId, value.result, MessageType.text)
-      //             .catch((err) =>
-      //               inputSanitization.handleError(err, client, BotsApp)
-      //             );
-      //         }
-      //       };
-          
-      //       // Decoding the QR code
-      //       qrcode.decode(image.bitmap);
-      //     });
-
-      //     //Image and message deletion
-      //     await inputSanitization.deleteFiles(filePath);
-      //     return await client
-      //       .deleteMessage(BotsApp.chatId, {
-      //         id: processing.key.id,
-      //         remoteJid: BotsApp.chatId,
-      //         fromMe: true,
-      //       })
-      //       .catch((err) => inputSanitization.handleError(err, client, BotsApp));
-      //  }
+      }
 
     } catch (err) {
       await inputSanitization.handleError(err, client, BotsApp);

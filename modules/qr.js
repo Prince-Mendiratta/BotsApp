@@ -9,7 +9,7 @@ module.exports = {
   name: "qr",
   description: QR.DESCRIPTION,
   extendedDescription: QR.EXTENDED_DESCRIPTION,
-  demo: {isEnabled: true, text: ".qr Hey, I am BotsApp."},
+  demo: { isEnabled: true, text: ".qr Hey, I am BotsApp." },
   async handle(client, chat, BotsApp, args) {
     try {
       if (args.length === 0 && !BotsApp.isReply) {
@@ -51,15 +51,15 @@ module.exports = {
       );
 
       await client.sendMessage(
-        BotsApp.chatId, 
-        fs.readFileSync(imagePath), 
+        BotsApp.chatId,
+        fs.readFileSync(imagePath),
         MessageType.image,
         {
           mimetype: Mimetype.png,
           caption: QR.IMAGE_CAPTION,
         }).catch((err) =>
-        inputSanitization.handleError(err, client, BotsApp)
-      );
+          inputSanitization.handleError(err, client, BotsApp)
+        );
 
       inputSanitization.deleteFiles(imagePath);
 
