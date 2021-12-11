@@ -11,6 +11,7 @@
     "license": "ISC",
     "dependencies": {
         "@adiwajshing/baileys": "^3.5.3",
+        "@nuintun/qrcode": "^3.0.1",
         "@vitalets/google-translate-api": "^7.0.0",
         "chalk": "^4.1.1",
         "dotenv": "^10.0.0",
@@ -23,6 +24,7 @@
         "ocr-space-api-wrapper": "^1.0.6",
         "pg": "^8.7.1",
         "python-format-js": "^1.3.9",
+        "qrcode-reader": "^1.0.4",
         "sequelize": "^6.7.0",
         "simple-git": "^2.47.0",
         "sqlite3": "^5.0.2",
