@@ -1,68 +1,59 @@
-const { MessageType } = require("@adiwajshing/baileys");
+const {MessageType} = require("@adiwajshing/baileys");
 const Strings = require("../lib/db");
 const inputSanitization = require("../sidekick/input-sanitization");
-const abl = Strings.abl;
+const MEANING = Strings.meaning;
 const googleDictionaryApi = require("google-dictionary-api");
 
 module.exports = {
-  name: "meaning",
-  description: abl.DESCRIPTION,
-  extendedDescription: abl.EXTENDED_DESCRIPTION,
-  demo: { isEnabled: true, text: ".abl" },
-  async handle(client, chat, BotsApp, args) {
-    try {
-      var word = "";
-      if (BotsApp.isReply) {
-        word = BotsApp.replyMessage;
-      } else if (args.length == 0) {
-        client.sendMessage(
-          BotsApp.chatId,
-          STRINGS.meaning.NO_ARG,
-          MessageType.text
-        );
-        return;
-      } else {
-        word = args.join(" ");
-      }
-      googleDictionaryApi
-        .search(word)
-        .then((results) => {
-          let mean = JSON.stringify(results[0].meaning);
-          let i = 0;
-          for (; i < mean.length; i++) {
-            if (mean.substring(i, i + 10) == "definition") {
-              i = i + 13;
-              break;
+    name: "meaning",
+    description: MEANING.DESCRIPTION,
+    extendedDescription: MEANING.EXTENDED_DESCRIPTION,
+    demo: {isEnabled: true, text: ".meaning meaning"},
+    async handle(client, chat, BotsApp, args) {
+        try {
+            var word = "";
+            if (BotsApp.isReply) {
+                word = BotsApp.replyMessage;
+            } else if (args.length === 0) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    MEANING.NO_ARG,
+                    MessageType.text
+                );
+                return;
+            } else {
+                word = args.join(" ");
             }
-          }
-          var j = i;
-          for (; j < mean.length; j++) {
-            if (mean.substring(j + 3, j + 10) == "example") {
-              break;
-            }
-          }
-          const msg =
-            "*Word :* " + word + "\n\n*Meaning :*\n" + mean.substring(i, j);
-          client
-            .sendMessage(BotsApp.chatId, msg, MessageType.text)
-            .catch((err) =>
-              inputSanitization.handleError(err, client, BotsApp)
-            );
-        })
-        .catch((error) => {
-          console.log(error);
-          client
-            .sendMessage(
-              BotsApp.chatId,
-              Strings.meaning.NOT_FOUND,
-              MessageType.text
-            )
-            .catch((err) =>
-              inputSanitization.handleError(err, client, BotsApp)
-            );
-        });
-    } catch (err) {
-      await inputSanitization.handleError(err, client, BotsApp);
-    }
-  },
+            googleDictionaryApi
+                .search(word)
+                .then((results) => {
+                    let mean = "";
+                    for(let key in results[0].meaning){
+                        mean += "\n\n"
+                        mean += "*[" + key + "]* : "
+                        mean += results[0].meaning[key][0].definition
+                    }
+                    const msg =
+                        "*Word :* " + results[0].word + "\n\n*Meaning :*" + mean;
+                    client
+                        .sendMessage(BotsApp.chatId, msg, MessageType.text)
+                        .catch((err) =>
+                            inputSanitization.handleError(err, client, BotsApp)
+                        );
+                })
+                .catch(() => {
+                    client
+                        .sendMessage(
+                            BotsApp.chatId,
+                            MEANING.NOT_FOUND.format(word),
+                            MessageType.text
+                        )
+                        .catch((err) =>
+                            inputSanitization.handleError(err, client, BotsApp)
+                        );
+                });
+        } catch (err) {
+            await inputSanitization.handleError(err, client, BotsApp);
+        }
+    },
 };
