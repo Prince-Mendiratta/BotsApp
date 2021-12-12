@@ -88,7 +88,7 @@ const clearance = async(BotsApp, client, isBlacklist) => {
                     MessageType.text,
                     {
                         contextInfo: {
-                            stanzaId: chat.key.id,
+                            stanzaId: BotsApp.chatId,
                             participant: BotsApp.sender,
                             quotedMessage: {
                                 conversation: BotsApp.body,

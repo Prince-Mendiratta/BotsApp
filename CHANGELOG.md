@@ -20,6 +20,8 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Removed case sensitivity issue for WORK_TYPE.
 - The getdp module can now get profile pictures of a tagged person as well.
 - Improved the lyrics search module.
+- Make the permission check asynchronous.
+- Switch back to stable version of baileys.
 
 ## [1.0.1] - 2020-11-15
 ### Added

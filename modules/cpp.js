@@ -13,7 +13,7 @@ module.exports = {
     name: "cpp",
     description: CPP.DESCRIPTION,
     extendedDescription: CPP.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: true, text: ['.cpp printf("Hello from BotsApp!");', '.cpp float x, y;\ncin >> x >> y;\ncout<<"sum of provide numbers is -> " << x + y; -i 6 0.9', '.cpp #include <bits/stdc++.h>\n#include <bits/stdc++.h>\n#include <queue>\nusing namespace std;\n\nint main() {\n  cout << "BotsApp is the best!" << endl;\n}'] },
+    demo: { isEnabled: true, text: ['.cpp printf("Hello from BotsApp!");', '.cpp float x, y;\ncin >> x >> y;\ncout<<"sum of provide numbers is -> " << x + y; -i 6 0.9', '.cpp #include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n  cout << "BotsApp is the best!" << endl;\n}'] },
     async handle(client, chat, BotsApp, args) {
         try {
             if (args[0] == null) {
@@ -103,11 +103,15 @@ module.exports = {
                 })
             }
             setTimeout(() => {
-                child.kill(); // Does not terminate the Node.js process in the shell.
-                inputSanitization.deleteFiles(
-                    "./tmp/cppBotsApp.out",
-                    "./tmp/cpp-botsapp.cpp"
-                );
+                try{
+                    child.kill(); // Does not terminate the Node.js process in the shell.
+                    inputSanitization.deleteFiles(
+                        "./tmp/cppBotsApp.out",
+                        "./tmp/cpp-botsapp.cpp"
+                    );
+                }catch(err){
+                    // Do nothing lmao
+                }
             }, 10000);
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);

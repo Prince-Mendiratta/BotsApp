@@ -8,9 +8,17 @@ module.exports = {
     name: "yt",
     description: YT.DESCRIPTION,
     extendedDescription: YT.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: true, text: ".yt Boston Dynamics Atlas" },
+    demo: { isEnabled: true, text: ".yt BotsApp Deployment Tutorial" },
     async handle(client, chat, BotsApp, args) {
         try {
+            if(args.length === 0){
+                await client.sendMessage(
+                    BotsApp.chatId,
+                    YT.ENTER_INPUT,
+                    MessageType.text
+                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                return;
+            }
             const keyword = await yts(args.join(" "));
             const videos = keyword.videos.slice(0, 10);
             var topRequests = "";
@@ -49,7 +57,11 @@ module.exports = {
                 fromMe: true,
             });
         } catch (err) {
-            inputSanitization.handleError(err, client, BotsApp, YT.NO_VIDEOS);
+            await client.sendMessage(
+                BotsApp.chatId,
+                YT.NO_VIDEOS,
+                MessageType.text
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             await client.deleteMessage(BotsApp.chatId, {
                 id: reply.key.id,
                 remoteJid: BotsApp.chatId,
