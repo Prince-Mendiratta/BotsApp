@@ -46,6 +46,11 @@ module.exports = {
                     Id = args[0];
                 }
                 else{
+                    client.sendMessage(
+                        BotsApp.chatId,
+                        SONG.SONG_NOT_FOUND,
+                        MessageType.text
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     return;
                 }
             } else {
