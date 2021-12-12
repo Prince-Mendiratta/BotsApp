@@ -2,12 +2,13 @@ const got = require("got");
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const inputSanitization = require("../sidekick/input-sanitization");
 const STRINGS = require("../lib/db");
+const songlyrics = require("songlyrics").default;
 
 module.exports = {
     name: "lyrics",
     description: STRINGS.lyrics.DESCRIPTION,
     extendedDescription: STRINGS.lyrics.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: true, text: ".lyrics love nwantiti" },
+    demo: { isEnabled: true, text: ".lyrics Stairway to heaven" },
     async handle(client, chat, BotsApp, args) {
         const processing = await client.sendMessage(
             BotsApp.chatId,
@@ -61,17 +62,35 @@ module.exports = {
             });
             // return;
         } catch (err) {
-            await inputSanitization.handleError(
-                err,
-                client,
-                BotsApp,
-                STRINGS.lyrics.NOT_FOUND
-            );
-            return await client.deleteMessage(BotsApp.chatId, {
-                id: processing.key.id,
-                remoteJid: BotsApp.chatId,
-                fromMe: true,
-            });
+            try{
+                let data = await songlyrics(song)
+                let caption =
+                    "*Title :* " +
+                    song +
+                    "\n*Source :* " +
+                    data.source.link +
+                    "\n*Lyrics :*\n" +
+                    data.lyrics;
+    
+                await client.sendMessage(BotsApp.chatId, caption, MessageType.text);
+                await client.deleteMessage(BotsApp.chatId, {
+                    id: processing.key.id,
+                    remoteJid: BotsApp.chatId,
+                    fromMe: true,
+                });
+            }catch(err){
+                await inputSanitization.handleError(
+                    err,
+                    client,
+                    BotsApp,
+                    STRINGS.lyrics.NOT_FOUND
+                );
+                return await client.deleteMessage(BotsApp.chatId, {
+                    id: processing.key.id,
+                    remoteJid: BotsApp.chatId,
+                    fromMe: true,
+                });
+            }
         }
     },
 };

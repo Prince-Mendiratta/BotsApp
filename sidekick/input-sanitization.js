@@ -18,7 +18,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
         }
         else {
             client.sendMessage(BotsApp.chatId,"*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",MessageType.text);
-            return;
+            return undefined;
         }
     } else {
         jidNumber = args[0];       
@@ -30,7 +30,7 @@ exports.getCleanedContact = async (args,client,BotsApp) => {
             "*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_",
             MessageType.text
         );
-        return;
+        return undefined;
     } 
     else if (jidNumber.length === 10) { 
         jidNumber = countryCode + jidNumber;
@@ -109,7 +109,9 @@ exports.adminCommands = [
     "disappear",
     "goodbye",
     "setdp",
-    "tagall"
+    "tagall",
+    "abl",
+    "rbl"
 ];
 
 exports.sudoCommands = ["block", "unblock"];
