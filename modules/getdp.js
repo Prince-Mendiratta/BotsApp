@@ -32,7 +32,7 @@ module.exports = {
       );
       return 
     } catch (err) {
-      if (err.status == 404) {
+      if (err.status == 404 || err.status == 401) {
         await client.sendMessage(
           BotsApp.chatId,
           fs.readFileSync("./images/default_dp.png"),
