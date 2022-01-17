@@ -12,7 +12,7 @@ const clearance = async(BotsApp, client, isBlacklist) => {
         console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
         return false;
     }
-    else if(BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us"){
+    else if(BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363020858647962@g.us"){
         console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
         return false;
     }
@@ -76,29 +76,29 @@ const clearance = async(BotsApp, client, isBlacklist) => {
                     `not executed in private Work Type.`
                 )
             );
-            var messageSent = await Users.getUser(BotsApp.chatId);
-            if(messageSent){
-                console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId))
-                return false;
-            }
-            else{
-                await client.sendMessage(
-                    BotsApp.chatId,
-                    GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
-                    MessageType.text,
-                    {
-                        contextInfo: {
-                            stanzaId: BotsApp.chatId,
-                            participant: BotsApp.sender,
-                            quotedMessage: {
-                                conversation: BotsApp.body,
-                            },
-                        },
-                    }
-                );
-                await Users.addUser(BotsApp.chatId)
-                return false;
-            }
+//             var messageSent = await Users.getUser(BotsApp.chatId);
+//             if(messageSent){
+//                 console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId))
+//                 return false;
+//             }
+//             else{
+//                 await client.sendMessage(
+//                     BotsApp.chatId,
+//                     GENERAL.SUDO_PERMISSION.format({ worktype: "private", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+//                     MessageType.text,
+//                     {
+//                         contextInfo: {
+//                             stanzaId: BotsApp.chatId,
+//                             participant: BotsApp.sender,
+//                             quotedMessage: {
+//                                 conversation: BotsApp.body,
+//                             },
+//                         },
+//                     }
+//                 );
+//                 await Users.addUser(BotsApp.chatId)
+//                 return false;
+//             }
         }
     }else{
         return true;

@@ -82,7 +82,7 @@ npm start
 
 Feel free to post your queries or concerns on any of the discussion forums mentioned below:
 
-[![Join WhatsApp Group](https://img.shields.io/badge/Join-WhatsApp%20Group-bl.svg?logo=WhatsApp)](https://chat.whatsapp.com/Gc8gNMoue2uHyd6xhFwvEP)
+[![Join WhatsApp Group](https://img.shields.io/badge/Join-WhatsApp%20Group-bl.svg?logo=WhatsApp)](https://chat.whatsapp.com/DGEZ2VUgpAdJzcS7g7TID3)
 
 [![Join Telegram Group](https://img.shields.io/badge/Join-Telegram%20Group-blue.svg?logo=Telegram)](https://t.me/BotsAppChat)
 
