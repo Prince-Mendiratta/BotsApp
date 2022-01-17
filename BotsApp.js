@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const wa = require('./core/helper');
 const { MessageType } = require('@adiwajshing/baileys');
 const Greetings = require('./database/greeting');
+const Module = require('./database/module');
 const sequelize = config.DATABASE;
 const STRINGS = require("./lib/db");
 const Blacklist = require('./database/blacklist');
@@ -154,7 +155,7 @@ async function main() {
             if (!command) {
                 client.sendMessage(BotsApp.chatId, "```Woops, invalid command! Use```  *.help*  ```to display the command list.```", MessageType.text);
                 return;
-            } else if (command && BotsApp.commandName == "help") {
+            } else if (command && (BotsApp.commandName == "help" || BotsApp.commandName == "disable" || BotsApp.commandName == "enable")) {
                 try {
                     command.handle(client, chat, BotsApp, args, commandHandler);
                     return;

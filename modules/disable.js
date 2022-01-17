@@ -10,7 +10,7 @@ module.exports = {
     description: disable.DESCRIPTION,
     extendedDescription: disable.EXTENDED_DESCRIPTION,
     demo: { isEnabled: true, text: ".disable" },
-    async handle(client, chat, BotsApp, args) {
+    async handle(client, chat, BotsApp, args , commandHandler) {
         try {
             if (args.length == 0) {
                 return client.sendMessage(
@@ -24,12 +24,14 @@ module.exports = {
             for (var i in args) {
                 const command = commandHandler.get(args[i]);
                 if (!command) {
-                    incorrectNames += args[i] + " ";
+                    incorrectNames += "," + args[i];
                     continue;
                 }
                 await Module.disableModule(args[i], BotsApp.chatId);
-                correctNames += args[i] + " ";
+                correctNames += "," + args[i];
             }
+            correctNames = correctNames.substring(correctNames.indexOf(",")+1);
+            incorrectNames = incorrectNames.substring(incorrectNames.indexOf(",")+1);
             if (correctNames != "") {
                 client.sendMessage(
                     BotsApp.chatId,
