@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const exec = require('child_process').exec;
 
 const gitPull = async () => {
+    console.log(chalk.yellowBright.bold("[INFO] Checking for updates..."));
     await git.fetch();
     var newCommits = await git.log(['main..origin/main'])
     if (newCommits.total) {

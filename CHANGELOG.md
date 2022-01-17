@@ -6,7 +6,22 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
-- Disable the bot in support group #1.
+- Disable the bot in support group #1 and support group #2.
+- Ability to blacklist certain people / chats from using the bot in public mode.
+- Generate invite link to invite people who cannot be added directly.
+- Rename and resend file directly on WhatsApp.
+- Create groups with the tagged person directly.
+- Execute C++ code and get output directly on WhatsApp.
+- Search for meaning in the dictionary for a word.
+- Create QR code from text.
+- Decode QR code to extract text.
+
+### Changed
+- Removed case sensitivity issue for WORK_TYPE.
+- The getdp module can now get profile pictures of a tagged person as well.
+- Improved the lyrics search module.
+- Make the permission check asynchronous.
+- Switch back to stable version of baileys.
 
 ## [1.0.1] - 2020-11-15
 ### Added
