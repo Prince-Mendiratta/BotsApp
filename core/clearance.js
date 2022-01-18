@@ -12,7 +12,7 @@ const clearance = async(BotsApp, client, isBlacklist) => {
         console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
         return false;
     }
-    else if(BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363020858647962@g.us"){
+    else if(BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363023294554225@g.us"){
         console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
         return false;
     }
