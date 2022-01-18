@@ -79,6 +79,14 @@ exports.isMember = async (chatId, groupMembers) => {
         }
 }
 
+exports.invalidFormat = async(err, client, BotsApp) => {
+    client.sendMessage(
+        BotsApp.chatId,
+        "*Invalid format.*\nApproved Syntax:\n```1. 1 + 2``` \n```2. (1*2) + 2``` \n```3. 4! + 2^2```",
+        MessageType.text
+    );
+}
+
 exports.handleError = async(err, client, BotsApp, customMessage = "```Something went wrong. The error has been logged in log chats```") => {
     console.log(chalk.redBright.bold("[ERROR] " + err));
     data = {
