@@ -15,6 +15,9 @@ module.exports = {
     },
     async handle(client, chat, BotsApp, args) {
         try {
+            if(BotsApp.chatId === "917838204238-1632576208@g.us"){
+                return; // Disable this for Spam Chat
+            }
             if (!BotsApp.isGroup) {
                 client.sendMessage(
                     BotsApp.chatId,
