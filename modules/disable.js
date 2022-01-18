@@ -32,18 +32,26 @@ module.exports = {
             }
             correctNames = correctNames.substring(correctNames.indexOf(",")+1);
             incorrectNames = incorrectNames.substring(incorrectNames.indexOf(",")+1);
+            var ss = " ";
             if (correctNames != "") {
+                if(correctNames.indexOf(",") > 0){
+                    ss = "s "
+                }
                 client.sendMessage(
                     BotsApp.chatId,
-                    disable.CORRECT.format({ correctNames: correctNames }),
+                    disable.CORRECT.format({ s: ss, correctNames: correctNames }),
                     MessageType.text
                 );
             }
             if (incorrectNames != "") {
+                if(incorrectNames.indexOf(",") > 0){
+                    ss = "s "
+                }
                 client.sendMessage(
                     BotsApp.chatId,
                     disable.INCORRECT.format({
                         incorrectNames: incorrectNames,
+                        s: ss
                     }),
                     MessageType.text
                 );
