@@ -9,20 +9,18 @@ module.exports = {
     name: "calc",
     description: calc.DESCRIPTION,
     extendedDescription: calc.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: true, text: ".calc" },
+    demo: { isEnabled: true, text: ".calc 2^4+5!" },
     async handle(client, chat, BotsApp, args) {
-        let output;
-        try{
-                output = math.evaluate(args[0]);
-        }
-        catch(err){
-                await inputSanitization.invalidFormat(err, client, BotsApp);
-                return;
+        let output = math.evaluate(args[0]);
+        if(!isNaN(output)) {
+            await client
+            .sendMessage(BotsApp.chatId, calc.INVALID_FORMAT, MessageType.text);
+            return;
         }
         try {
             client.sendMessage(
                 BotsApp.chatId,
-                `output: ${output}`,
+                `${args[0]} = ${output}`,
                 MessageType.text
             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
