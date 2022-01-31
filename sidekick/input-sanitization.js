@@ -111,7 +111,9 @@ exports.adminCommands = [
     "setdp",
     "tagall",
     "abl",
-    "rbl"
+    "rbl",
+    "disable",
+    "enable"
 ];
 
 exports.sudoCommands = ["block", "unblock"];
