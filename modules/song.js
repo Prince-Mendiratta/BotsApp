@@ -42,16 +42,16 @@ module.exports = {
             var startTime = window.performance.now();
             var Id = " ";
             if (args[0].includes("youtu")) {
-                Id = args[0];
-                try {
-                    if (args[0].includes("watch?v=")) {
-                        var songId = args[0].split("watch?v=")[1];
-                    } else {
-                        var songId = args[0].split("/")[3];
-                    }
-                    const video = await yts({ videoId: songId });
-                } catch (err) {
-                    throw err;
+                if(ytdl.validateURL(args[0])){
+                    Id = args[0];
+                }
+                else{
+                    client.sendMessage(
+                        BotsApp.chatId,
+                        SONG.SONG_NOT_FOUND,
+                        MessageType.text
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                    return;
                 }
             } else {
                 var song = await yts(args.join(" "));
