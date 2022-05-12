@@ -1,25 +1,25 @@
-const config = require("../config");
-const { DataTypes } = require("sequelize");
-const sequelize = config.DATABASE;
+import config from "../config";
+import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
-const Blacklist = sequelize.define(
-    "Blacklist",
-    {
-        JID: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        GRPID: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
+const sequelize: Sequelize = config.DATABASE;
+
+class Blacklist extends Model<InferAttributes<Blacklist>, InferCreationAttributes<Blacklist>> {
+    declare JID: string;
+    declare GRPID: string;
+}
+
+Blacklist.init({
+    JID: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-    {
-        tableName: "Blacklist",
-    }
-);
+    GRPID: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+}, {sequelize, tableName: "Blacklist"});
 
-async function addBlacklistUser(jid = "", GrpId = "") {
+async function addBlacklistUser(jid: string = "", GrpId: string = "") : Promise<void> {
     Blacklist.findOrCreate({
         where: {
             JID: jid,
@@ -28,7 +28,7 @@ async function addBlacklistUser(jid = "", GrpId = "") {
     });
 }
 
-async function getBlacklistUser(jid = "", GrpId = "") {
+async function getBlacklistUser(jid: string = "", GrpId: string = "") : Promise<boolean> {
     var Msg = await Blacklist.findAll({
         where: {
             JID: "",
@@ -65,7 +65,7 @@ async function getBlacklistUser(jid = "", GrpId = "") {
     }
 }
 
-async function removeBlacklistUser(jid = "", GrpId = "") {
+async function removeBlacklistUser(jid: string = "", GrpId: string = "") : Promise<boolean | void> {
     var Msg = await Blacklist.findAll({
         where: {
             JID: jid,
@@ -79,7 +79,7 @@ async function removeBlacklistUser(jid = "", GrpId = "") {
     }
 }
 
-module.exports = {
+export = {
     Blacklist: Blacklist,
     addBlacklistUser: addBlacklistUser,
     getBlacklistUser: getBlacklistUser,

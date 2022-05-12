@@ -1,56 +1,62 @@
-const config = require("../config");
-const { DataTypes } = require("sequelize");
-const sequelize = config.DATABASE;
+import config from "../config";
+import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
-const Greeting = sequelize.define(
-    "Greeting", {
-        chat: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        switched: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: "ON",
-        },
-        greetingType: {
-            type: DataTypes.TEXT,
-        },
-        message: {
-            type: DataTypes.TEXT,
-        },
-    }, {
-        tableName: "Greetings",
-    }
-);
+const sequelize: Sequelize = config.DATABASE;
 
-async function getMessage(jid = null, type) {
+class Greeting extends Model<InferAttributes<Greeting>, InferCreationAttributes<Greeting>> {
+    declare chat: string;
+    declare switched: string;
+    declare greetingType: string | null;
+    declare message: string | null;
+}
+
+Greeting.init({
+    chat: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    switched: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "ON",
+    },
+    greetingType: {
+        type: DataTypes.TEXT,
+    },
+    message: {
+        type: DataTypes.TEXT,
+    },
+}, {sequelize, tableName: "Greetings"});
+
+async function getMessage(jid: string | null = null, type: string) : Promise<boolean | Greeting> {
     var Msg = await Greeting.findAll({
         where: {
             chat: jid,
             greetingType: type,
         },
+        raw: true
     });
 
     if (Msg.length < 1) {
         return false;
     } else {
-        return Msg[0].dataValues;
+        return Msg[0];
     }
 }
 
-async function checkSettings(jid = null, type) {
+async function checkSettings(jid: string | null = null, type: string) : Promise<boolean | string> {
     var Msg = await Greeting.findAll({
         where: {
             chat: jid,
             greetingType: type,
         },
+        raw: true
     });
 
     if (Msg.length < 1) {
         return false;
     } else {
-        if (Msg[0].dataValues.switched === "ON") {
+        if (Msg[0].switched === "ON") {
             return "ON";
         } else {
             return "OFF";
@@ -58,7 +64,7 @@ async function checkSettings(jid = null, type) {
     }
 }
 
-async function changeSettings(groupJid = null, isWorking) {
+async function changeSettings(groupJid: string = null, isWorking: string) : Promise<void> {
     await Greeting.update({
         switched: isWorking
     }, {
@@ -68,7 +74,7 @@ async function changeSettings(groupJid = null, isWorking) {
     });
 }
 
-async function setWelcome(jid = null, text = null) {
+async function setWelcome(jid: string = null, text: string = null) : Promise<void> {
     Greeting.findOrCreate({
         where: {
             chat: jid,
@@ -82,7 +88,7 @@ async function setWelcome(jid = null, text = null) {
         },
     });
 }
-async function setGoodbye(jid, text = null) {
+async function setGoodbye(jid: string, text: string = null) : Promise<void> {
     Greeting.findOrCreate({
         where: {
             chat: jid,
@@ -97,7 +103,7 @@ async function setGoodbye(jid, text = null) {
     });
 }
 
-async function deleteMessage(jid = null, type = null) {
+async function deleteMessage(jid: string = null, type: string = null) : Promise<boolean | void> {
     var Msg = await Greeting.findAll({
         where: {
             chat: jid,
@@ -111,7 +117,7 @@ async function deleteMessage(jid = null, type = null) {
     }
 }
 
-module.exports = {
+export = {
     Greeting: Greeting,
     getMessage: getMessage,
     changeSettings: changeSettings,

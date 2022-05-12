@@ -3,8 +3,10 @@ node_modules
 build/Release
 *.env
 .env.test
-package-lock.json
 tmp/*.*
 .vs/
 .idea/
 BotsApp.db
+yarn-error.log
+dist/
+baileys_store_multi.json
