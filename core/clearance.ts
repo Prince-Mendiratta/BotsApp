@@ -4,16 +4,18 @@ import { adminCommands, sudoCommands } from "../sidekick/input-sanitization"
 import STRINGS from "../lib/db";
 import Users from '../database/user';
 import format from 'string-format';
+import BotsApp from '../sidekick/sidekick';
+import { WASocket } from '@adiwajshing/baileys';
 
 const GENERAL = STRINGS.general;
 
-const clearance = async (BotsApp, client, isBlacklist) => {
+const clearance = async (BotsApp: BotsApp, client: WASocket, isBlacklist: boolean): Promise<boolean> => {
     if ((!BotsApp.fromMe && !BotsApp.isSenderSUDO && !BotsApp.isSenderGroupAdmin) && (isBlacklist)) {
         console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
         return false;
     }
     else if (BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363023294554225@g.us") {
-        console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
+        console.log(chalk.blueBright.bold(`[INFO] Bot disabled in Support Groups.`));
         return false;
     }
     if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
@@ -39,7 +41,7 @@ const clearance = async (BotsApp, client, isBlacklist) => {
                         `not executed in public Work Type.`
                     )
                 );
-                var messageSent = await Users.getUser(BotsApp.chatId);
+                let messageSent = await Users.getUser(BotsApp.chatId);
                 if (messageSent) {
                     console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId))
                     return false;
@@ -47,9 +49,9 @@ const clearance = async (BotsApp, client, isBlacklist) => {
                 else {
                     await client.sendMessage(
                         BotsApp.chatId,
-                        { text: format(GENERAL.SUDO_PERMISSION, { worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName })}
+                        { text: format(GENERAL.SUDO_PERMISSION, { worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }) }
                     );
-                    await Users.addUser(BotsApp.chatId)
+                    await Users.addUser(BotsApp.chatId);
                     return false;
                 }
 
@@ -65,7 +67,7 @@ const clearance = async (BotsApp, client, isBlacklist) => {
                     `not executed in private Work Type.`
                 )
             );
-            //             var messageSent = await Users.getUser(BotsApp.chatId);
+            //             let messageSent = await Users.getUser(BotsApp.chatId);
             //             if(messageSent){
             //                 console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId))
             //                 return false;

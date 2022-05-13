@@ -1,5 +1,5 @@
 import gitPull from './core/gitpull';
 
-(async () => {
+(async () : Promise<void> => {
     await gitPull();
 })();

@@ -5,7 +5,7 @@ import { exec } from 'child_process';
 const gitPull = async () : Promise<void> => {
     console.log(chalk.yellowBright.bold("[INFO] Checking for updates..."));
     await git.fetch();
-    var newCommits = await git.log(['main..origin/main'])
+    let newCommits: any = await git.log(['main..origin/main'])
     if (newCommits.total) {
         console.log(chalk.blueBright("[INFO] New Update pending, updating..."));
         await git.pull("origin", "main", (err: any, update: { summary: { changes: any; }; files: string | string[]; }) => {

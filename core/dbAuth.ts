@@ -1,7 +1,7 @@
 import { AuthenticationCreds, BufferJSON, initAuthCreds, proto, SignalDataSet, SignalDataTypeMap } from '@adiwajshing/baileys'
+import chalk from 'chalk';
 import type { Logger } from 'pino';
-import { Cred, Key } from '../database/auth';
-
+import {Cred, Key} from '../database/auth';
 const KEY_MAP: { [T in keyof SignalDataTypeMap]: string } = {
     'pre-key': 'preKeys',
     'session': 'sessions',
@@ -33,7 +33,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
 
     const loadCreds = async () => {
         const allCreds = await Cred.findAll();
-        var temp = {};
+        let temp = {};
         allCreds.forEach((res) => {
             let val = res.getDataValue('value');
             let key = res.getDataValue('key');
@@ -79,12 +79,12 @@ const useRemoteFileAuthState = async (logger: Logger) => {
             if (cred) {
                 await cred.update({
                     value: JSON.stringify(data[_key], BufferJSON.replacer, 2)
-                }).then((res) => { console.log(`updated value ${_key} `) }).catch(err => { console.log(err) });
+                }).then((res) => { console.log(`updated value ${_key} `) }).catch(err => { console.log(chalk.whiteBright(err)) });
             } else {
                 await Cred.create({
                     key: _key,
                     value: JSON.stringify(data[_key], BufferJSON.replacer, 2)
-                }).then((res) => { console.log(`inserted value ${_key}`) }).catch(err => { console.log(err) });
+                }).then((res) => { console.log(`inserted value ${_key}`) }).catch(err => { console.log(chalk.whiteBright(err)) });
             }
         }
     }
@@ -103,7 +103,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
                     value: JSON.stringify(data[_key][subKey], BufferJSON.replacer, 2)
                 }).then((res) => { 
                     // console.log(`updated key ${key} and subKey ${subKey}`)
-                }).catch(err => { console.log(err) });
+                }).catch(err => { console.log(chalk.blueBright(err)) });
             } else {
                 await Key.create({
                     key: subKey,
@@ -111,7 +111,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
                     type: key
                 }).then((res) => {
                     // console.log(`inserted key ${key} and subKey ${subKey}`) 
-                }).catch(err => { console.log(err) });
+                }).catch(err => { console.log(chalk.blueBright(err)) });
             }
         }
         return;
@@ -120,7 +120,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
     let credsExist = await checkCreds();
     if (credsExist) {
         console.log('loading values back.');
-        var parent = {
+        let parent = {
             creds: {},
             keys: {}
         }
@@ -131,7 +131,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
         parent.keys = allKeys;
 
         const final = JSON.parse(JSON.stringify(parent), BufferJSON.reviver);
-        console.log(final);
+        // console.log(final);
         creds = final.creds;
         keys = final.keys;
     }
@@ -148,7 +148,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
                 get: (type: string, ids: any[]) => {
                     const key = KEY_MAP[type];
                     return ids.reduce((dict, id) => {
-                        var _a;
+                        let _a;
                         let value = (_a = keys[key]) === null || _a === void 0 ? void 0 : _a[id];
                         if (value) {
                             if (type === 'app-state-sync-key') {

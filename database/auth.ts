@@ -1,9 +1,14 @@
-import { DataTypes, Sequelize } from "sequelize";
 import config from "../config";
-const sequelize = config.DATABASE;
+import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
-export const Cred = sequelize.define(
-    "Cred", {
+const sequelize: Sequelize = config.DATABASE;
+
+class Cred extends Model<InferAttributes<Cred>, InferCreationAttributes<Cred>> {
+    declare key: string;
+    declare value: string;
+}
+
+Cred.init({
         key: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -12,27 +17,34 @@ export const Cred = sequelize.define(
             type: DataTypes.JSON,
         }
 
-    }, {
+    }, { sequelize,
         tableName: "Creds",
-        timestamps: false,
+        timestamps: false
     }
 );
 
-export const Key = sequelize.define(
-    "Key", {
+class Key extends Model<InferAttributes<Key>, InferCreationAttributes<Key>> {
+    declare key: string;
+    declare value: string;
+    declare type: string;
+}
+
+Key.init({
         key: {
             type: DataTypes.STRING(1000000),
             allowNull: false,
         },
         value: {
-            type: DataTypes.STRING(1000000),
+            type: DataTypes.STRING(1000000)
         },
         type: {
             type: DataTypes.STRING(1000000),
         }
-
     }, {
+        sequelize,
         tableName: "Keys",
         timestamps: false,
     }
 );
+
+export {Cred, Key};

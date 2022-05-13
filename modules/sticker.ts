@@ -1,38 +1,39 @@
-const { MessageType, MimetypeMap } = require("@adiwajshing/baileys");
-const ffmpeg = require("fluent-ffmpeg");
-const fs = require("fs");
-const inputSanitization = require("../sidekick/input-sanitization");
-const { JSDOM } = require("jsdom");
-const { window } = new JSDOM();
+import ffmpeg from "fluent-ffmpeg";
+import fs from "fs";
+import inputSanitization from "../sidekick/input-sanitization";
+import { JSDOM } from "jsdom";
+import { MessageType } from "../sidekick/message-type";
+import Strings from "../lib/db";
+import Client from "../sidekick/client";
+import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
+import BotsApp from "../sidekick/sidekick";
+import { Transform } from "stream";
 
-const Strings = require("../lib/db");
 const STICKER = Strings.sticker;
+const { window } = new JSDOM();
 
 module.exports = {
     name: "sticker",
     description: STICKER.DESCRIPTION,
     extendedDescription: STICKER.EXTENDED_DESCRIPTION,
     demo: { isEnabled: false },
-    async handle(client, chat, BotsApp, args) {
+    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]) {
         // Task starts here
-        var startTime = window.performance.now();
         try {
             // Function to convert media to sticker
-            const convertToSticker = async (imageId, replyChat) => {
-                var downloading = await client.sendMessage(
+            const convertToSticker = async (imageId: string, replyChat: { message: any; type: any; }) => {
+                var downloading: proto.WebMessageInfo = await client.sendMessage(
                     BotsApp.chatId,
                     STICKER.DOWNLOADING,
                     MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-
-                const fileName = "./tmp/convert_to_sticker-" + imageId;
-                const filePath = await client.downloadAndSaveMediaMessage(
-                    replyChat,
-                    fileName
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                const stickerPath = "./tmp/st-" + imageId + ".webp";
+                );
+                const fileName: string = "./tmp/convert_to_sticker-" + imageId;
+                const stream: Transform = await downloadContentFromMessage(replyChat.message, replyChat.type);
+                await inputSanitization.saveBuffer(fileName, stream);
+                const stickerPath: string = "./tmp/st-" + imageId + ".webp";
+                // If is an image
                 if (BotsApp.type === "image" || BotsApp.isReplyImage) {
-                    ffmpeg(filePath)
+                    ffmpeg(fileName)
                         .outputOptions(["-y", "-vcodec libwebp"])
                         .videoFilters(
                             "scale=2000:2000:flags=lanczos:force_original_aspect_ratio=decrease,format=rgba,pad=2000:2000:(ow-iw)/2:(oh-ih)/2:color=#00000000,setsar=1"
@@ -45,17 +46,16 @@ module.exports = {
                                 MessageType.sticker
                             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                             inputSanitization.deleteFiles(
-                                filePath,
+                                fileName,
                                 stickerPath
                             );
-                            inputSanitization.performanceTime(startTime);
                             await client.deleteMessage(BotsApp.chatId, {
                                 id: downloading.key.id,
                                 remoteJid: BotsApp.chatId,
                                 fromMe: true,
                             }).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         })
-                        .on('error', async() => {
+                        .on('error', async (err: any) => {
                             inputSanitization.handleError(err, client, BotsApp)
                             await client.deleteMessage(BotsApp.chatId, {
                                 id: downloading.key.id,
@@ -65,7 +65,8 @@ module.exports = {
                         });
                     return;
                 }
-                ffmpeg(filePath)
+                // If is a video
+                ffmpeg(fileName)
                     .duration(8)
                     .outputOptions([
                         "-y",
@@ -82,21 +83,20 @@ module.exports = {
                         "scale=600:600:flags=lanczos:force_original_aspect_ratio=decrease,format=rgba,pad=600:600:(ow-iw)/2:(oh-ih)/2:color=#00000000,setsar=1"
                     )
                     .save(stickerPath)
-                    .on("end", async (err) => {
+                    .on("end", async (err: any) => {
                         await client.sendMessage(
                             BotsApp.chatId,
                             fs.readFileSync(stickerPath),
                             MessageType.sticker
                         ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                        inputSanitization.deleteFiles(filePath, stickerPath);
-                        inputSanitization.performanceTime(startTime);
+                        inputSanitization.deleteFiles(fileName, stickerPath);
                         await client.deleteMessage(BotsApp.chatId, {
                             id: downloading.key.id,
                             remoteJid: BotsApp.chatId,
                             fromMe: true,
                         }).catch(err => inputSanitization.handleError(err, client, BotsApp));
                     })
-                    .on('error', async(err) => {
+                    .on('error', async (err: any) => {
                         inputSanitization.handleError(err, client, BotsApp)
                         await client.deleteMessage(BotsApp.chatId, {
                             id: downloading.key.id,
@@ -110,9 +110,10 @@ module.exports = {
             // User sends media message along with command in caption
             if (BotsApp.isImage || BotsApp.isGIF || BotsApp.isVideo) {
                 var replyChatObject = {
-                    message: chat.message,
+                    message: (BotsApp.type === 'image' ? chat.message.imageMessage : chat.message.videoMessage),
+                    type: BotsApp.type
                 };
-                var imageId = chat.key.id;
+                var imageId: string = chat.key.id;
                 convertToSticker(imageId, replyChatObject);
             }
             // Replied to an image , gif or video
@@ -122,11 +123,10 @@ module.exports = {
                 BotsApp.isReplyVideo
             ) {
                 var replyChatObject = {
-                    message:
-                        chat.message.extendedTextMessage.contextInfo
-                            .quotedMessage,
+                    message: (BotsApp.isReplyImage ? chat.message.extendedTextMessage.contextInfo.quotedMessage.imageMessage : chat.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage),
+                    type: (BotsApp.isReplyImage ? 'image' : 'video')
                 };
-                var imageId =
+                var imageId: string =
                     chat.message.extendedTextMessage.contextInfo.stanzaId;
                 convertToSticker(imageId, replyChatObject);
             } else {
@@ -135,7 +135,6 @@ module.exports = {
                     STICKER.TAG_A_VALID_MEDIA_MESSAGE,
                     MessageType.text
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                inputSanitization.performanceTime(startTime);
             }
             return;
         } catch (err) {
