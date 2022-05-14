@@ -1,4 +1,4 @@
-import { proto, WASocket } from "@adiwajshing/baileys";
+import { AnyMessageContent, proto, WASocket } from "@adiwajshing/baileys";
 import { MessageType } from "./message-type";
 
 class Client {
@@ -8,12 +8,16 @@ class Client {
         this.sock = sock;
     }
 
-    async sendMessage(jid: string, content: any, type: string, options?: object) {
+    async sendMessage(jid: string, content: any, type: string, options?: any) {
         let res: proto.WebMessageInfo;
         if (type === MessageType.text) {
-            res = await this.sock.sendMessage(jid, { 
+            let ops: AnyMessageContent = {
                 text: content
-            });
+            }
+            if(options?.contextInfo?.mentionedJid){
+                ops.mentions = options.contextInfo.mentionedJid
+            }
+            res = await this.sock.sendMessage(jid, ops);
         }else if(type === MessageType.sticker){
             res = await this.sock.sendMessage(jid, {
                 sticker: new Buffer(content)
