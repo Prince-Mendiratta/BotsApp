@@ -271,7 +271,8 @@ const data = {
         PROCESSING: "```Converting text to speech. Please wait...```",
         TOO_LONG: "*Total characters should be less than 200.*\n```Total characters for current input were``` ```{}.```",
         INVALID_LANG_CODE: "*The Language Code was incorrect.*\n```The Language Code is generally the first two letters of the language you're trying to convert to.```",
-        NO_INPUT: "```No input was detected. Please use``` *.help tts* ```for info on how to use this module.```"
+        NO_INPUT: "```No input was detected. Please use``` *.help tts* ```for info on how to use this module.```",
+        INCORRECT_REPLY: "```Please reply to a valid text message only.```"
     },
     tagall: {
         DESCRIPTION: "Module to tag evryone in a group.",

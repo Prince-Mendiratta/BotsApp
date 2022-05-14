@@ -5,19 +5,21 @@ import BotsAppClass from '../sidekick/sidekick'
 import { Contact, GroupMetadata, GroupParticipant, proto, WASocket } from '@adiwajshing/baileys'
 
 
-const resolve = function(messageInstance: proto.IWebMessageInfo, client: WASocket, groupMetadata: GroupMetadata) {
-    var BotsApp : BotsAppClass = new BotsAppClass();
+const resolve = async function (messageInstance: proto.IWebMessageInfo, client: WASocket) {
+    var BotsApp: BotsAppClass = new BotsAppClass();
     var prefix: string = config.PREFIX + '\\w+'
     var prefixRegex: RegExp = new RegExp(prefix, 'g');
     var SUDOstring: string = config.SUDO;
-    try{
+    let sender: string = messageInstance.key.remoteJid;
+    const groupMetadata: GroupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : null;
+    try {
         var jsonMessage: string = JSON.stringify(messageInstance);
-    }catch(err){
+    } catch (err) {
         console.log(chalk.redBright("[ERROR] Something went wrong. ", err))
     }
     BotsApp.chatId = messageInstance.key.remoteJid;
     BotsApp.fromMe = messageInstance.key.fromMe;
-    BotsApp.owner = client.user.id.replace(/:.*@/g ,'@');
+    BotsApp.owner = client.user.id.replace(/:.*@/g, '@');
     BotsApp.mimeType = messageInstance.message ? (Object.keys(messageInstance.message)[0] === 'senderKeyDistributionMessage' ? Object.keys(messageInstance.message)[2] : Object.keys(messageInstance.message)[0]) : null;
     BotsApp.type = BotsApp.mimeType === 'imageMessage' ? 'image' : (BotsApp.mimeType === 'videoMessage') ? 'video' : (BotsApp.mimeType === 'conversation' || BotsApp.mimeType == 'extendedTextMessage') ? 'text' : (BotsApp.mimeType === 'audioMessage') ? 'audio' : (BotsApp.mimeType === 'stickerMessage') ? 'sticker' : (BotsApp.mimeType === 'senderKeyDistributionMessage' && messageInstance.message?.senderKeyDistributionMessage?.groupId === 'status@broadcast') ? 'status' : null;
     BotsApp.isTextReply = (BotsApp.mimeType === 'extendedTextMessage' && messageInstance.message?.extendedTextMessage?.contextInfo?.stanzaId) ? true : false;
@@ -39,22 +41,22 @@ const resolve = function(messageInstance: proto.IWebMessageInfo, client: WASocke
     BotsApp.isReplyVideo = BotsApp.isTextReply ? (jsonMessage.indexOf("videoMessage") !== -1 && !messageInstance.message?.extendedTextMessage?.contextInfo.quotedMessage.videoMessage.gifPlayback) : false;
     BotsApp.isAudio = BotsApp.type === 'audio';
     BotsApp.isReplyAudio = messageInstance.message?.extendedTextMessage?.contextInfo?.quotedMessage?.audioMessage ? true : false;
-    BotsApp.logGroup = client.user.id.replace(/:.*@/g ,'@');;
+    BotsApp.logGroup = client.user.id.replace(/:.*@/g, '@');;
     BotsApp.isGroup = BotsApp.chatId.endsWith('@g.us');
     BotsApp.isPm = !BotsApp.isGroup;
-    BotsApp.sender =  (BotsApp.isGroup && messageInstance.message && BotsApp.fromMe) ? BotsApp.owner : (BotsApp.isGroup && messageInstance.message) ? messageInstance.key.participant : (!BotsApp.isGroup) ? BotsApp.chatId: null;
+    BotsApp.sender = (BotsApp.isGroup && messageInstance.message && BotsApp.fromMe) ? BotsApp.owner : (BotsApp.isGroup && messageInstance.message) ? messageInstance.key.participant : (!BotsApp.isGroup) ? BotsApp.chatId : null;
     BotsApp.groupName = BotsApp.isGroup ? groupMetadata.subject : null;
     BotsApp.groupMembers = BotsApp.isGroup ? groupMetadata.participants : null;
     BotsApp.groupAdmins = BotsApp.isGroup ? getGroupAdmins(BotsApp.groupMembers) : null;
     BotsApp.groupId = BotsApp.isGroup ? groupMetadata.id : null;
-    BotsApp.isSenderSUDO = SUDOstring.includes(BotsApp.sender?.substring(0,BotsApp.sender.indexOf("@")));
+    BotsApp.isSenderSUDO = SUDOstring.includes(BotsApp.sender?.substring(0, BotsApp.sender.indexOf("@")));
     BotsApp.isBotGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.owner)) : false;
     BotsApp.isSenderGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.sender)) : false;
 
     return BotsApp;
 }
 
-function getGroupAdmins(participants: GroupParticipant[]): string[]{
+function getGroupAdmins(participants: GroupParticipant[]): string[] {
     var admins: string[] = [];
     for (var i in participants) {
         participants[i].admin ? admins.push(participants[i].id) : '';

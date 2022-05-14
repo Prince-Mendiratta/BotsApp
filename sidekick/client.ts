@@ -14,9 +14,14 @@ class Client {
             res = await this.sock.sendMessage(jid, { 
                 text: content
             });
-        }else if(type == MessageType.sticker){
+        }else if(type === MessageType.sticker){
             res = await this.sock.sendMessage(jid, {
                 sticker: new Buffer(content)
+            })
+        }else if(type === MessageType.audio){
+            res = await this.sock.sendMessage(jid, {
+                audio: content,
+                mimetype: 'audio/mp4'
             })
         }
         return res;

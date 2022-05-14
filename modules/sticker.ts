@@ -1,7 +1,6 @@
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 import inputSanitization from "../sidekick/input-sanitization";
-import { JSDOM } from "jsdom";
 import { MessageType } from "../sidekick/message-type";
 import Strings from "../lib/db";
 import Client from "../sidekick/client";
@@ -10,9 +9,8 @@ import BotsApp from "../sidekick/sidekick";
 import { Transform } from "stream";
 
 const STICKER = Strings.sticker;
-const { window } = new JSDOM();
 
-module.exports = {
+export = {
     name: "sticker",
     description: STICKER.DESCRIPTION,
     extendedDescription: STICKER.EXTENDED_DESCRIPTION,

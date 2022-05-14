@@ -80,7 +80,6 @@ setInterval(() => {
             printQRInTerminal: true,
             auth: state,
             browser: ["BotsAppMD", "Chrome", "4.0.0"],
-            version: [2, 2204, 13],
             // implement to handle retries
             getMessage: async key => {
                 return {
@@ -93,17 +92,16 @@ setInterval(() => {
 
         sock.ev.on('messages.upsert', async m => {
             console.log(JSON.stringify(m, undefined, 2))
-            if(m.type === 'append' && !config.OFFLINE_RESPONSE){
-                return;
-            }
+            // if(m.type === 'append' && !config.OFFLINE_RESPONSE){
+            //     return;
+            // }
             if(m.type !== 'notify'){
-                console.log(chalk.redBright(JSON.stringify(m, undefined, 2)));
+                // console.log(chalk.redBright(JSON.stringify(m, undefined, 2)));
+                return;
             }
             
             let chat: proto.IWebMessageInfo = m.messages[0];
-            let sender: string = chat.key.remoteJid;
-            const groupMetadata: GroupMetadata = sender.endsWith("@g.us") ? await sock.groupMetadata(sender) : null;
-            let BotsApp: BotsApp = resolve(chat, sock, groupMetadata);
+            let BotsApp: BotsApp = await resolve(chat, sock);
             console.log(BotsApp);
             let client : Client = new Client(sock);
             if(BotsApp.isCmd){
@@ -151,14 +149,14 @@ setInterval(() => {
                 console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
                 if (firstInit) {
                     firstInit = false;
-                    sock.sendMessage(
-                        sock.user.id,
-                        {
-                            text: format(GENERAL.SUCCESSFUL_CONNECTION, {
-                                worktype: config.WORK_TYPE,
-                            })
-                        }
-                    );
+                    // sock.sendMessage(
+                    //     sock.user.id,
+                    //     {
+                    //         text: format(GENERAL.SUCCESSFUL_CONNECTION, {
+                    //             worktype: config.WORK_TYPE,
+                    //         })
+                    //     }
+                    // );
                 }
             } else {
                 console.log('connection update', update)

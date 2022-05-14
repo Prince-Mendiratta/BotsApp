@@ -14,7 +14,7 @@ const clearance = async (BotsApp: BotsApp, client: WASocket, isBlacklist: boolea
         console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
         return false;
     }
-    else if (BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363023294554225@g.us") {
+    else if ((BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363023294554225@g.us") && !BotsApp.isSenderGroupAdmin) {
         console.log(chalk.blueBright.bold(`[INFO] Bot disabled in Support Groups.`));
         return false;
     }

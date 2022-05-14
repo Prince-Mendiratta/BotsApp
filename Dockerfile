@@ -12,7 +12,7 @@ RUN git remote add origin https://github.com/BotsAppOfficial/BotsApp.git
 
 RUN git fetch origin main
 
-RUN git reset --hard origin/main
+# RUN git reset --hard origin/main
 
 RUN npm install
 
