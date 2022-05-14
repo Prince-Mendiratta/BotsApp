@@ -1,8 +1,13 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const chalk = require("chalk");
-const String = require("../lib/db.js");
-const Carbon = require("unofficial-carbon-now");
-const inputSanitization = require("../sidekick/input-sanitization");
+import chalk from "chalk";
+import String from "../lib/db.js";
+import Carbon from "unofficial-carbon-now";
+import inputSanitization from "../sidekick/input-sanitization";
+import format from "string-format";
+import Client from "../sidekick/client.js";
+import BotsApp from "../sidekick/sidekick";
+import { MessageType } from "../sidekick/message-type";
+import { proto } from "@adiwajshing/baileys";
+
 const CARBON = String.carbon;
 
 module.exports = {
@@ -17,7 +22,7 @@ module.exports = {
             ".carbon -t",
         ],
     },
-    async handle(client, chat, BotsApp, args) {
+    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
             let themes = [
                 "3024 night",
@@ -50,21 +55,22 @@ module.exports = {
                 "zenburn",
             ];
             var code = "";
-            if (args[0] == null && !BotsApp.isReply) {
+            let themeInput: string;
+            if (args[0] == null && !BotsApp.isTextReply) {
                 await client.sendMessage(
                     BotsApp.chatId,
                     CARBON.NO_INPUT,
                     MessageType.text
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
-            } else if (BotsApp.isReply && !BotsApp.replyMessage) {
+            } else if (BotsApp.isTextReply && !BotsApp.replyMessage) {
                 await client.sendMessage(
                     BotsApp.chatId,
                     CARBON.INVALID_REPLY,
                     MessageType.text
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
-            } else if (BotsApp.isReply) {
+            } else if (BotsApp.isTextReply) {
                 code = BotsApp.replyMessage;
                 themeInput = themes[Math.floor(Math.random() * themes.length)];
             } else {
@@ -127,7 +133,7 @@ module.exports = {
                     BotsApp.chatId,
                     CARBON.CARBONIZING,
                     MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                );
                 const carbon = new Carbon.createCarbon()
                     .setCode(code)
                     .setPrettify(true)
@@ -138,8 +144,7 @@ module.exports = {
                     output,
                     MessageType.image,
                     {
-                        mimetype: Mimetype.png,
-                        caption: CARBON.OUTPUT.format(themeInput),
+                        caption: format(CARBON.OUTPUT, themeInput),
                     }
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return await client.deleteMessage(BotsApp.chatId, {

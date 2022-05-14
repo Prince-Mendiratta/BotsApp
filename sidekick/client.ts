@@ -10,8 +10,9 @@ class Client {
 
     async sendMessage(jid: string, content: any, type: string, options?: any) {
         let res: proto.WebMessageInfo;
+        let ops: AnyMessageContent;
         if (type === MessageType.text) {
-            let ops: AnyMessageContent = {
+            ops = {
                 text: content
             }
             if(options?.contextInfo?.mentionedJid){
@@ -27,6 +28,14 @@ class Client {
                 audio: content,
                 mimetype: 'audio/mp4'
             })
+        }else if(type === MessageType.image){
+            ops = {
+                image: content,
+            }
+            if(options?.caption){
+                ops.caption = options.caption;
+            }
+            res = await this.sock.sendMessage(jid, ops);
         }
         return res;
     };
