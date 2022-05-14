@@ -4,8 +4,7 @@ import Strings from "../lib/db";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
-import { Transform } from "stream";
-import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
+import { proto } from "@adiwajshing/baileys";
 const GETDP = Strings.getdp;
 
 module.exports = {

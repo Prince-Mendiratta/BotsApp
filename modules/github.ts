@@ -1,22 +1,20 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const inputSanitization = require("../sidekick/input-sanitization");
-const STRINGS = require("../lib/db");
-const got = require("got");
+import inputSanitization from "../sidekick/input-sanitization";
+import STRINGS from "../lib/db";
+import got, {Response} from "got";
+import Client from "../sidekick/client.js";
+import BotsApp from "../sidekick/sidekick";
+import { MessageType } from "../sidekick/message-type";
+import { proto } from "@adiwajshing/baileys";
 
 module.exports = {
     name: "github",
     description: STRINGS.github.DESCRIPTION,
     extendedDescription: STRINGS.github.EXTENDED_DESCRIPTION,
     demo: { isEnabled: true, text: ".github Prince-Mendiratta" },
-    async handle(client, chat, BotsApp, args) {
-        var fetching = await client.sendMessage(
-            BotsApp.chatId,
-            STRINGS.github.FETCHING,
-            MessageType.text
-        );
+    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            let user_name = "";
-            if (BotsApp.isReply) {
+            let user_name: string = "";
+            if (BotsApp.isTextReply) {
                 user_name = BotsApp.replyMessage;
             } else {
                 if (args.length == 0) {
@@ -29,16 +27,21 @@ module.exports = {
                 }
                 user_name = args[0];
             }
-            let userResponse = await got(
+            var fetching: proto.WebMessageInfo = await client.sendMessage(
+                BotsApp.chatId,
+                STRINGS.github.FETCHING,
+                MessageType.text
+            );
+            let userResponse: Response<string> = await got(
                 "https://api.github.com/users/" + user_name
             );
-            let user = JSON.parse(userResponse.body);
+            let user: any = JSON.parse(userResponse.body);
             Object.keys(user).forEach(function (key) {
                 if (user[key] === null || user[key] === "") {
                     user[key] = "N/A";
                 }
             });
-            let caption =
+            let caption: string =
                 "*👤 Name :* " +
                 user.name +
                 "\n*💻 Link :* " +
@@ -66,9 +69,9 @@ module.exports = {
                 "\n*✏️ Profile Updated :* " +
                 user.updated_at;
             if (user.public_repos > 0) {
-                let reposResponse = await got(user.repos_url);
-                let reposData = JSON.parse(reposResponse.body);
-                repos = reposData[0].name;
+                let reposResponse: Response<string> = await got(user.repos_url);
+                let reposData: any = JSON.parse(reposResponse.body);
+                let repos: string = reposData[0].name;
                 for (let i = 1; i < reposData.length && i < 5; i++) {
                     repos += " | " + reposData[i].name;
                 }
@@ -82,9 +85,7 @@ module.exports = {
                     },
                     MessageType.image,
                     {
-                        mimetype: Mimetype.png,
                         caption: caption,
-                        thumbnail: null,
                     }
                 );
             } catch (err) {
