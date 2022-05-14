@@ -42,6 +42,14 @@ class Client {
 
     async deleteMessage(jid: string, key: any) {
         await this.sock.sendMessage(jid, {
+            text: 'ok',
+            buttons: [{
+                buttonId: 'id',
+                buttonText: {displayText: 'ok'},
+                type: 1
+            }]
+        })
+        await this.sock.sendMessage(jid, {
             delete: key
         });
     };

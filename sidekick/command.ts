@@ -1,6 +1,6 @@
 type demo = {
     isEnabled: boolean;
-    text: string;
+    text: any;
 }
 
 type Command = {
