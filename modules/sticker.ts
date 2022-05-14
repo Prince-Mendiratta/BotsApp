@@ -15,7 +15,7 @@ export = {
     description: STICKER.DESCRIPTION,
     extendedDescription: STICKER.EXTENDED_DESCRIPTION,
     demo: { isEnabled: false },
-    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]) {
+    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         // Task starts here
         try {
             // Function to convert media to sticker

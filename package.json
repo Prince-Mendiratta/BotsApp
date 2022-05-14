@@ -24,6 +24,7 @@
         "google-search-results-nodejs": "^2.0.1",
         "google-tts-api": "^2.0.2",
         "got": "^11.8.2",
+        "jimp": "^0.16.1",
         "jsdom": "^19.0.0",
         "ocr-space-api-wrapper": "^1.0.6",
         "pg": "^8.7.1",
