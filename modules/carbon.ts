@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import String from "../lib/db.js";
-import Carbon from "unofficial-carbon-now";
+import * as Carbon from "unofficial-carbon-now";
 import inputSanitization from "../sidekick/input-sanitization";
 import format from "string-format";
 import Client from "../sidekick/client.js";
@@ -24,7 +24,7 @@ module.exports = {
     },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            let themes = [
+            let themes: string[] = [
                 "3024 night",
                 "a11y dark",
                 "blackboard",
@@ -54,7 +54,7 @@ module.exports = {
                 "yeti",
                 "zenburn",
             ];
-            var code = "";
+            let code: string = "";
             let themeInput: string;
             if (args[0] == null && !BotsApp.isTextReply) {
                 await client.sendMessage(
@@ -75,14 +75,14 @@ module.exports = {
                 themeInput = themes[Math.floor(Math.random() * themes.length)];
             } else {
                 try {
-                    var text = BotsApp.body.replace(
+                    let text: string = BotsApp.body.replace(
                         BotsApp.body[0] + BotsApp.commandName + " ",
                         ""
                     );
                     if (text[0] === "-" && text[1] === "t") {
                         if(text[2] == null){
-                            let counter = 1;
-                            var message = 'Available themes: ';
+                            let counter: number = 1;
+                            let message: string = 'Available themes: ';
                             themes.forEach((theme) => {
                                 message += `\n${counter}. ${theme}`;
                                 counter += 1;
@@ -103,7 +103,7 @@ module.exports = {
                             return;
                         }
                     }
-                    var body = BotsApp.body.split("-t");
+                    let body: string[] = BotsApp.body.split("-t");
                     code = body[0].replace(
                         BotsApp.body[0] + BotsApp.commandName + " ",
                         ""
@@ -129,7 +129,7 @@ module.exports = {
                 }
             }
             try {
-                const processing = await client.sendMessage(
+                const processing: proto.WebMessageInfo = await client.sendMessage(
                     BotsApp.chatId,
                     CARBON.CARBONIZING,
                     MessageType.text

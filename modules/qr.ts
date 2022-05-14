@@ -29,13 +29,13 @@ module.exports = {
                 message = BotsApp.replyMessage;
             }
 
-            const qrcode = new Encoder();
+            const qrcode: Encoder = new Encoder();
 
             qrcode.setEncodingHint(true);
             qrcode.setErrorCorrectionLevel(ErrorCorrectionLevel.Q);
             qrcode.write(new QRByte(message));
             qrcode.make();
-            const output = qrcode.toDataURL().split(",")[1];
+            const output: string = qrcode.toDataURL().split(",")[1];
 
             const imagePath = "./tmp/qr.png";
             fs.writeFileSync(

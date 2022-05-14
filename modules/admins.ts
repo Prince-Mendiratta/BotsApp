@@ -22,9 +22,9 @@ module.exports = {
                 return;
             }
 
-            var message = "";
+            let message: string = "";
             for (let admin of BotsApp.groupAdmins) {
-                let number = admin.split("@")[0];
+                let number: string = admin.split("@")[0];
                 message += `@${number} `;
             }
 

@@ -41,7 +41,7 @@ const clearance = async (BotsApp: BotsApp, client: WASocket, isBlacklist: boolea
                         `not executed in public Work Type.`
                     )
                 );
-                let messageSent = await Users.getUser(BotsApp.chatId);
+                let messageSent: boolean = await Users.getUser(BotsApp.chatId);
                 if (messageSent) {
                     console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId))
                     return false;

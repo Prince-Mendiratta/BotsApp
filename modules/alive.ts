@@ -14,7 +14,6 @@ export = {
     demo: { isEnabled: true, text: ".alive" },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            console.log('sending message');
             client.sendMessage(
                 BotsApp.chatId,
                 alive.ALIVE_MSG,

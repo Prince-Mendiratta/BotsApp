@@ -1,4 +1,4 @@
-import { AuthenticationCreds, BufferJSON, initAuthCreds, proto, SignalDataSet, SignalDataTypeMap } from '@adiwajshing/baileys'
+import { AuthenticationCreds, AuthenticationState, BufferJSON, initAuthCreds, proto, SignalDataSet, SignalDataTypeMap } from '@adiwajshing/baileys'
 import chalk from 'chalk';
 import type { Logger } from 'pino';
 import {Cred, Key} from '../database/auth';
@@ -18,7 +18,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
     let creds: AuthenticationCreds;
     let keys = {};
 
-    const checkCreds = async () => {
+    const checkCreds = async (): Promise<boolean> => {
         const lock = await Cred.findOne({
             where: {
                 key: 'noiseKey'
@@ -65,7 +65,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
         return keys;
     }
 
-    const saveCreds = async (data?: Partial<AuthenticationCreds>) => {
+    const saveCreds = async (data?: Partial<AuthenticationCreds>): Promise<void> => {
         if (!data) {
             console.log('Saving all creds');
             data = creds;
@@ -89,7 +89,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
         }
     }
 
-    const saveKey = async (key: string, data: SignalDataSet, _key: string) => {
+    const saveKey = async (key: string, data: SignalDataSet, _key: string): Promise<void> => {
         for(const subKey in data[_key]){
         // console.log(`Trying to find key ${key} and subKey ${subKey}.`);
             const res = await Key.findOne({
@@ -117,7 +117,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
         return;
     }
 
-    let credsExist = await checkCreds();
+    let credsExist: boolean = await checkCreds();
     if (credsExist) {
         console.log('loading values back.');
         let parent = {
@@ -146,9 +146,9 @@ const useRemoteFileAuthState = async (logger: Logger) => {
             creds,
             keys: {
                 get: (type: string, ids: any[]) => {
-                    const key = KEY_MAP[type];
+                    const key: string = KEY_MAP[type];
                     return ids.reduce((dict, id) => {
-                        let _a;
+                        let _a: { [x: string]: any; };
                         let value = (_a = keys[key]) === null || _a === void 0 ? void 0 : _a[id];
                         if (value) {
                             if (type === 'app-state-sync-key') {
@@ -161,7 +161,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
                 },
                 set: async (data: SignalDataSet) => {
                     for (const _key in data) {
-                        const key = KEY_MAP[_key];
+                        const key: string = KEY_MAP[_key];
                         // console.log(`Got raw key - ${_key} and got mapped key ${key}. The value is ${data[_key]}`)
                         keys[key] = keys[key] || {};
                         Object.assign(keys[key], data[_key]);

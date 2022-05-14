@@ -19,7 +19,7 @@ export = {
         // Task starts here
         try {
             // Function to convert media to sticker
-            const convertToSticker = async (imageId: string, replyChat: { message: any; type: any; }) => {
+            const convertToSticker = async (imageId: string, replyChat: { message: any; type: any; }): Promise<void> => {
                 var downloading: proto.WebMessageInfo = await client.sendMessage(
                     BotsApp.chatId,
                     STICKER.DOWNLOADING,

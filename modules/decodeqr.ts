@@ -9,6 +9,7 @@ import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import { Transform } from "stream";
 import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
+import { URL } from "url";
 
 const DECODE = Strings.decodeqr;
 
@@ -18,17 +19,17 @@ module.exports = {
     extendedDescription: DECODE.EXTENDED_DESCRIPTION,
     demo: { isEnabled: false },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
-        var processing;
+        var processing: proto.WebMessageInfo;
 
         // Function to convert qr to text 
-        const qrToText = async (imagePath, processing) => {
-            var buffer = fs.readFileSync(imagePath);
+        const qrToText = async (imagePath: string, processing: proto.WebMessageInfo): Promise<void> => {
+            var buffer: Buffer = fs.readFileSync(imagePath);
             Jimp.read(buffer, function (err, image) {
                 if (err) {
                     console.error(err);
                 }
-                let qrcode = new qrCode();
-                qrcode.callback = async function (err, value) {
+                let qrcode: any = new qrCode();
+                qrcode.callback = async function (err: string | string[], value: { result: any; }) {
                     if (err) {
                         console.error(err);
                         if (err.includes('enough finder patterns')) {
@@ -60,11 +61,11 @@ module.exports = {
         };
 
         // Function to convert sticker to image
-        const convertToImage = async (stickerId, replyChat, processing) => {
-            const fileName = "./tmp/convert_to_image-" + stickerId;
+        const convertToImage = async (stickerId: string, replyChat: { message: any; type: any; }, processing: proto.WebMessageInfo): Promise<void> => {
+            const fileName: string = "./tmp/convert_to_image-" + stickerId;
             const stream: Transform = await downloadContentFromMessage(replyChat.message, replyChat.type);
             await inputSanitization.saveBuffer(fileName, stream);
-            const imagePath = "./tmp/image-" + stickerId + ".png";
+            const imagePath: string = "./tmp/image-" + stickerId + ".png";
 
             try {
                 ffmpeg(fileName)
@@ -99,16 +100,15 @@ module.exports = {
                     message: chat.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage,
                     type: 'sticker'
                 };
-                var stickerId = chat.message?.extendedTextMessage?.contextInfo?.stanzaId;
+                var stickerId: string = chat.message?.extendedTextMessage?.contextInfo?.stanzaId;
                 await convertToImage(stickerId, replyChatObject, processing);
 
             } else if (BotsApp.isReplyImage) {
 
                 processing = await client
-                    .sendMessage(BotsApp.chatId, DECODE.PROCESSING, MessageType.text)
-                    .catch((err) => inputSanitization.handleError(err, client, BotsApp));
-                var imageId = chat?.message?.extendedTextMessage?.contextInfo?.stanzaId;
-                const fileName = "./tmp/qr_pic" + imageId;
+                    .sendMessage(BotsApp.chatId, DECODE.PROCESSING, MessageType.text);
+                var imageId: string = chat?.message?.extendedTextMessage?.contextInfo?.stanzaId;
+                const fileName: string = "./tmp/qr_pic" + imageId;
                 const stream: Transform = await downloadContentFromMessage(chat.message.extendedTextMessage.contextInfo.quotedMessage.imageMessage, 'image');
                 await inputSanitization.saveBuffer(fileName, stream);
                 qrToText(fileName, processing);
