@@ -80,6 +80,7 @@ setInterval(() => {
             printQRInTerminal: true,
             auth: state,
             browser: ["BotsApp", "Chrome", "4.0.0"],
+            version: [2, 2204, 13],
             // implement to handle retries
             getMessage: async key => {
                 return {
