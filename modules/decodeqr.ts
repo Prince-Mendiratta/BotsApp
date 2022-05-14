@@ -4,7 +4,6 @@ import ffmpeg from "fluent-ffmpeg";
 import inputSanitization from "../sidekick/input-sanitization";
 import qrCode from "qrcode-reader";
 import Strings from "../lib/db";
-import format from "string-format";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
@@ -32,7 +31,7 @@ module.exports = {
                 qrcode.callback = async function (err, value) {
                     if (err) {
                         console.error(err);
-                        if(err.includes('enough finder patterns')){
+                        if (err.includes('enough finder patterns')) {
                             await client
                                 .sendMessage(BotsApp.chatId, Strings.decodeqr.INVALID_INPUT, MessageType.text);
                         }
