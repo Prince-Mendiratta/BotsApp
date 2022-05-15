@@ -1,5 +1,6 @@
-import { AnyMessageContent, proto, WASocket } from "@adiwajshing/baileys";
+import { AnyMessageContent, GroupMetadata, GroupParticipant, proto, WASocket } from "@adiwajshing/baileys";
 import { MessageType } from "./message-type";
+import BotsApp from "./sidekick";
 
 class Client {
     sock: WASocket;
@@ -53,6 +54,24 @@ class Client {
             delete: key
         });
     };
+
+    async getGroupMetaData(jid: string, BotsApp: BotsApp){
+        const groupMetadata: GroupMetadata = jid.endsWith("@g.us") ? await this.sock.groupMetadata(jid) : null;
+        const getGroupAdmins = (participants: GroupParticipant[]): string[] => {
+            var admins: string[] = [];
+            for (var i in participants) {
+                participants[i].admin ? admins.push(participants[i].id) : '';
+            }
+            // console.log("ADMINS -> " + admins);
+            return admins;
+        }
+        BotsApp.groupName = BotsApp.isGroup ? groupMetadata.subject : null;
+        BotsApp.groupMembers = BotsApp.isGroup ? groupMetadata.participants : null;
+        BotsApp.groupAdmins = BotsApp.isGroup ? getGroupAdmins(BotsApp.groupMembers) : null;
+        BotsApp.groupId = BotsApp.isGroup ? groupMetadata.id : null;
+        BotsApp.isBotGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.owner)) : false;
+        BotsApp.isSenderGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.sender)) : false;
+    }
 }
 
 export = Client;

@@ -10,8 +10,6 @@ const resolve = async function (messageInstance: proto.IWebMessageInfo, client: 
     var prefix: string = config.PREFIX + '\\w+'
     var prefixRegex: RegExp = new RegExp(prefix, 'g');
     var SUDOstring: string = config.SUDO;
-    let sender: string = messageInstance.key.remoteJid;
-    const groupMetadata: GroupMetadata = sender.endsWith("@g.us") ? await client.groupMetadata(sender) : null;
     try {
         var jsonMessage: string = JSON.stringify(messageInstance);
     } catch (err) {
@@ -45,24 +43,9 @@ const resolve = async function (messageInstance: proto.IWebMessageInfo, client: 
     BotsApp.isGroup = BotsApp.chatId.endsWith('@g.us');
     BotsApp.isPm = !BotsApp.isGroup;
     BotsApp.sender = (BotsApp.isGroup && messageInstance.message && BotsApp.fromMe) ? BotsApp.owner : (BotsApp.isGroup && messageInstance.message) ? messageInstance.key.participant : (!BotsApp.isGroup) ? BotsApp.chatId : null;
-    BotsApp.groupName = BotsApp.isGroup ? groupMetadata.subject : null;
-    BotsApp.groupMembers = BotsApp.isGroup ? groupMetadata.participants : null;
-    BotsApp.groupAdmins = BotsApp.isGroup ? getGroupAdmins(BotsApp.groupMembers) : null;
-    BotsApp.groupId = BotsApp.isGroup ? groupMetadata.id : null;
     BotsApp.isSenderSUDO = SUDOstring.includes(BotsApp.sender?.substring(0, BotsApp.sender.indexOf("@")));
-    BotsApp.isBotGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.owner)) : false;
-    BotsApp.isSenderGroupAdmin = BotsApp.isGroup ? (BotsApp.groupAdmins.includes(BotsApp.sender)) : false;
 
     return BotsApp;
-}
-
-function getGroupAdmins(participants: GroupParticipant[]): string[] {
-    var admins: string[] = [];
-    for (var i in participants) {
-        participants[i].admin ? admins.push(participants[i].id) : '';
-    }
-    // console.log("ADMINS -> " + admins);
-    return admins;
 }
 
 export = resolve;

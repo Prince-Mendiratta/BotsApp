@@ -80,7 +80,7 @@ setInterval(() => {
             printQRInTerminal: true,
             auth: state,
             browser: ["BotsApp", "Chrome", "4.0.0"],
-            version: [2, 2204, 13],
+            // version: [2, 2204, 13],
             // implement to handle retries
             getMessage: async key => {
                 return {
@@ -107,7 +107,7 @@ setInterval(() => {
             let client : Client = new Client(sock);
             if(BotsApp.isCmd){
                 let isBlacklist: boolean = await Blacklist.getBlacklistUser(BotsApp.sender, BotsApp.chatId);
-                const cleared: boolean = await clearance(BotsApp, sock, isBlacklist);
+                const cleared: boolean = await clearance(BotsApp, client, isBlacklist);
                 if (!cleared) {
                     return;
                 }

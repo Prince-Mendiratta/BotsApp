@@ -23,6 +23,7 @@ module.exports = {
             }
 
             let message: string = "";
+            await client.getGroupMetaData(BotsApp.chatId, BotsApp);
             for (let admin of BotsApp.groupAdmins) {
                 let number: string = admin.split("@")[0];
                 message += `@${number} `;

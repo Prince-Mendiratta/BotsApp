@@ -6,33 +6,46 @@ import Users from '../database/user';
 import format from 'string-format';
 import BotsApp from '../sidekick/sidekick';
 import { WASocket } from '@adiwajshing/baileys';
+import Client from '../sidekick/client';
+import { MessageType } from '../sidekick/message-type';
 
 const GENERAL = STRINGS.general;
 
-const clearance = async (BotsApp: BotsApp, client: WASocket, isBlacklist: boolean): Promise<boolean> => {
-    if ((!BotsApp.fromMe && !BotsApp.isSenderSUDO && !BotsApp.isSenderGroupAdmin) && (isBlacklist)) {
-        console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
-        return false;
+const clearance = async (BotsApp: BotsApp, client: Client, isBlacklist: boolean): Promise<boolean> => {
+    if (isBlacklist) {
+        if(BotsApp.isGroup){
+            await client.getGroupMetaData(BotsApp.chatId, BotsApp);
+            if((!BotsApp.fromMe && !BotsApp.isSenderSUDO && !BotsApp.isSenderGroupAdmin)){
+                return false;
+            }
+        }else if((!BotsApp.fromMe && !BotsApp.isSenderSUDO)){
+            console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
+            return false;
+        }
     }
-    else if ((BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363023294554225@g.us") && !BotsApp.isSenderGroupAdmin) {
+    else if ((BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363023294554225@g.us")) {
         console.log(chalk.blueBright.bold(`[INFO] Bot disabled in Support Groups.`));
         return false;
     }
     if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
-        if (config.WORK_TYPE.toLowerCase() === "public") {
-            if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
-                console.log(
-                    chalk.redBright.bold(`[INFO] admin commmand `),
-                    chalk.greenBright.bold(`${BotsApp.commandName}`),
-                    chalk.redBright.bold(
-                        `not executed in public Work Type.`
-                    )
-                );
-                await client.sendMessage(
-                    BotsApp.chatId,
-                    { text: GENERAL.ADMIN_PERMISSION }
-                );
-                return false;
+        if (config.WORK_TYPE.toLowerCase() === "public" && BotsApp.isGroup) {
+            if (adminCommands.indexOf(BotsApp.commandName) >= 0) {
+                await client.getGroupMetaData(BotsApp.chatId, BotsApp);
+                if(!BotsApp.isSenderGroupAdmin){
+                    console.log(
+                        chalk.redBright.bold(`[INFO] admin commmand `),
+                        chalk.greenBright.bold(`${BotsApp.commandName}`),
+                        chalk.redBright.bold(
+                            `not executed in public Work Type.`
+                        )
+                    );
+                    await client.sendMessage(
+                        BotsApp.chatId,
+                        GENERAL.ADMIN_PERMISSION,
+                        MessageType.text
+                    );
+                    return false;
+                }
             } else if (sudoCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderSUDO) {
                 console.log(
                     chalk.redBright.bold(`[INFO] sudo commmand `),
@@ -49,7 +62,8 @@ const clearance = async (BotsApp: BotsApp, client: WASocket, isBlacklist: boolea
                 else {
                     await client.sendMessage(
                         BotsApp.chatId,
-                        { text: format(GENERAL.SUDO_PERMISSION, { worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }) }
+                        format(GENERAL.SUDO_PERMISSION, { worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                        MessageType.text
                     );
                     await Users.addUser(BotsApp.chatId);
                     return false;
