@@ -1,31 +1,23 @@
+export
 const got = require("got");
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const inputSanitization = require("../sidekick/input-sanitization");
 const STRINGS = require("../lib/db");
 const songlyrics = require("songlyrics").default;
+const TRANSMIT = require('../core/transmission')
 
 module.exports = {
     name: "lyrics",
     description: STRINGS.lyrics.DESCRIPTION,
     extendedDescription: STRINGS.lyrics.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: true, text: ".lyrics Stairway to heaven" },
+    demo: { isEnabled: true, text: ".lyrics Eminem Not afraid" },
     async handle(client, chat, BotsApp, args) {
-        const processing = await client.sendMessage(
-            BotsApp.chatId,
-            STRINGS.lyrics.PROCESSING,
-            MessageType.text
-        );
+        await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: STRINGS.lyrics.PROCESSING})
         try {
             var song = "";
             if (BotsApp.isReply) {
                 song = BotsApp.replyMessage;
             } else if (args.length == 0) {
-                client.sendMessage(
-                    BotsApp.chatId,
-                    STRINGS.lyrics.NO_ARG,
-                    MessageType.text
-                );
-                return;
+                return await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: STRINGS.lyrics.NO_ARG})
             } else {
                 song = args.join(" ");
             }
@@ -42,25 +34,12 @@ module.exports = {
                 data.lyrics;
 
             try {
-                await client.sendMessage(
-                    BotsApp.chatId,
-                    { url: data.thumbnail.genius },
-                    MessageType.image,
-                    {
-                        mimetype: Mimetype.png,
-                        caption: caption,
-                        thumbnail: null,
-                    }
-                );
+                await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {image:{url:data.thumbnail.genius},caption:caption,thumbnail:null})
             } catch (err) {
-                client.sendMessage(BotsApp.chatId, caption, MessageType.text);
+                console.log(err)
+                await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: caption})
             }
-            await client.deleteMessage(BotsApp.chatId, {
-                id: processing.key.id,
-                remoteJid: BotsApp.chatId,
-                fromMe: true,
-            });
-            // return;
+
         } catch (err) {
             try{
                 let data = await songlyrics(song)
@@ -71,13 +50,9 @@ module.exports = {
                     data.source.link +
                     "\n*Lyrics :*\n" +
                     data.lyrics;
-    
-                await client.sendMessage(BotsApp.chatId, caption, MessageType.text);
-                await client.deleteMessage(BotsApp.chatId, {
-                    id: processing.key.id,
-                    remoteJid: BotsApp.chatId,
-                    fromMe: true,
-                });
+
+                await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: caption})
+
             }catch(err){
                 await inputSanitization.handleError(
                     err,
@@ -85,11 +60,6 @@ module.exports = {
                     BotsApp,
                     STRINGS.lyrics.NOT_FOUND
                 );
-                return await client.deleteMessage(BotsApp.chatId, {
-                    id: processing.key.id,
-                    remoteJid: BotsApp.chatId,
-                    fromMe: true,
-                });
             }
         }
     },

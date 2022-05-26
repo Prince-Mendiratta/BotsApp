@@ -1,39 +1,46 @@
-import Strings from "../lib/db";
+const Strings = require("../lib/db");
 const ADMINS = Strings.admins;
-import inputSanitization from "../sidekick/input-sanitization";
-import Client from "../sidekick/client.js";
-import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
-import { proto } from "@adiwajshing/baileys";
+const inputSanitization = require("../sidekick/input-sanitization");
+const TRANSPORT = require('../core/transmission')
 
 module.exports = {
     name: "admins",
     description: ADMINS.DESCRIPTION,
     extendedDescription: ADMINS.EXTENDED_DESCRIPTION,
     demo: { text: ".admins", isEnabled: true },
-    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
+    async handle(client, chat, BotsApp, args) {
         try {
             if (!BotsApp.isGroup) {
-                client.sendMessage(
-                    BotsApp.chatId,
-                    ADMINS.NOT_GROUP_CHAT,
-                    MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                await TRANSPORT.sendMessageWTyping(client, chat, {text: ADMINS.NOT_GROUP_CHAT}).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
 
-            let message: string = "";
+            var message = "";
             for (let admin of BotsApp.groupAdmins) {
-                let number: string = admin.split("@")[0];
+                let number = admin.split("@")[0];
                 message += `@${number} `;
             }
+            message += "\n\n*Group Owner:* @"+BotsApp.groupOwner.split("@")[0];
 
-            client.sendMessage(BotsApp.chatId, message, MessageType.text, {
-                contextInfo: {
-                    mentionedJid: BotsApp.groupAdmins,
-                },
-            }).catch(err => inputSanitization.handleError(err, client, BotsApp));
-            return;
+
+             if (!BotsApp.isReply) {
+                return  await TRANSPORT.sendMessageWTyping(client, chat, {
+                     text: message,
+                     contextInfo:{
+                         mentionedJid:BotsApp.groupAdmins
+                     }}).catch(err => inputSanitization.handleError(err, client, BotsApp));
+
+            }
+
+            await TRANSPORT.sendMessageWTyping(client, chat, {text: message,
+                contextInfo:{
+                    stanzaId: BotsApp.replyMessageId,
+                    participant: BotsApp.replyParticipant,
+                    quotedMessage:{
+                        conversation:BotsApp.replyMessage
+                    },
+                    mentionedJid:BotsApp.groupAdmins
+            }}).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }

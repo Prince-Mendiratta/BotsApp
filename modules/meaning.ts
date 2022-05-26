@@ -1,26 +1,23 @@
-const {MessageType} = require("@adiwajshing/baileys");
+export
 const Strings = require("../lib/db");
 const inputSanitization = require("../sidekick/input-sanitization");
 const MEANING = Strings.meaning;
 const googleDictionaryApi = require("google-dictionary-api");
+const TRANSMIT = require('../core/transmission')
+require('python-format-js');
 
 module.exports = {
     name: "meaning",
     description: MEANING.DESCRIPTION,
     extendedDescription: MEANING.EXTENDED_DESCRIPTION,
-    demo: {isEnabled: true, text: ".meaning meaning"},
+    demo: {isEnabled: true, text: ".meaning obfuscate"},
     async handle(client, chat, BotsApp, args) {
         try {
-            var word = "";
+            let word = "";
             if (BotsApp.isReply) {
                 word = BotsApp.replyMessage;
             } else if (args.length === 0) {
-                client.sendMessage(
-                    BotsApp.chatId,
-                    MEANING.NO_ARG,
-                    MessageType.text
-                );
-                return;
+                return await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: MEANING.NO_ARG})
             } else {
                 word = args.join(" ");
             }
@@ -35,19 +32,12 @@ module.exports = {
                     }
                     const msg =
                         "*Word :* " + results[0].word + "\n\n*Meaning :*" + mean;
-                    client
-                        .sendMessage(BotsApp.chatId, msg, MessageType.text)
-                        .catch((err) =>
-                            inputSanitization.handleError(err, client, BotsApp)
-                        );
+
+                    TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: msg})
+
                 })
                 .catch(() => {
-                    client
-                        .sendMessage(
-                            BotsApp.chatId,
-                            MEANING.NOT_FOUND.format(word),
-                            MessageType.text
-                        )
+                    TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: MEANING.NOT_FOUND.format(word)})
                         .catch((err) =>
                             inputSanitization.handleError(err, client, BotsApp)
                         );

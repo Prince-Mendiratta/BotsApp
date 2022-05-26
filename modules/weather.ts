@@ -1,10 +1,12 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
+export
 const inputSanitization = require("../sidekick/input-sanitization");
 const https = require("https");
 const config = require("../config");
 const apiKey = config.WEATHER_API_KEY;
 const Strings = require("../lib/db");
 const WEATHER = Strings.weather;
+const TRANSMIT = require('../core/transmission')
+require('python-format-js');
 
 module.exports = {
     name: "weather",
@@ -13,12 +15,14 @@ module.exports = {
     demo: {
         isEnabled: true,
         text: [
-            ".weather New Delhi",
-            ".weather New Delhi tomorrow",
-            ".weather New Delhi tom",
+            ".weather Nsawam",
+            ".weather Asokwa",
+            ".weather Accra tomorrow",
         ],
     },
     async handle(client, chat, BotsApp, args) {
+
+        let cityName;
         try {
             const weatherTypes = {
                 sunny: "sunny",
@@ -33,42 +37,21 @@ module.exports = {
                 haze: "haze",
                 mist: "mist",
             };
-            async function result(imageUrl, weatherDataVariables, downloading) {
-                await client.sendMessage(
-                    BotsApp.chatId,
-                    { url: imageUrl },
-                    MessageType.image,
-                    {
-                        mimetype: Mimetype.png,
-                        caption:
-                            WEATHER.WEATHER_DATA.format(weatherDataVariables),
-                        thumbnail: null,
-                    }
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                await client.deleteMessage(BotsApp.chatId, {
-                    id: downloading.key.id,
-                    remoteJid: BotsApp.chatId,
-                    fromMe: true,
-                });
-            }
+            const result = async (imageUrl, weatherDataVariables, downloading) => {
+                await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {image:{url:imageUrl},caption:WEATHER.WEATHER_DATA.format(weatherDataVariables),thumbnail:null})
+                .catch(err => inputSanitization.handleError(err, client, BotsApp));
+
+            };
             if (args.length < 1) {
-                client.sendMessage(
-                    BotsApp.chatId,
-                    WEATHER.CITY_NAME_REQUIRED,
-                    MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                return;
+                return await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: WEATHER.CITY_NAME_REQUIRED})
             } else if (
                 args[args.length - 1] === "tom" ||
                 args[args.length - 1] === "tomorrow"
             ) {
-                var downloading = await client.sendMessage(
-                    BotsApp.chatId,
-                    WEATHER.DOWNLOADING,
-                    MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                var downloading = await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: WEATHER.DOWNLOADING})
+
                 args[args.length - 1] = "";
-                var cityName = args.join(" ");
+                cityName = args.join(" ");
                 const unit = "metric";
 
                 const url =
@@ -91,16 +74,19 @@ module.exports = {
                             const tempInC = Number(
                                 weatherData.list[7].main.temp
                             ).toFixed(2);
+                            // @ts-ignore
                             const tempInF = (tempInC * 1.8 + 32).toFixed(2);
                             const minTempInC = Number(
                                 weatherData.list[7].main.temp_min
                             ).toFixed(2);
+                            // @ts-ignore
                             const minTempInF = (minTempInC * 1.8 + 32).toFixed(
                                 2
                             );
                             const maxTempInC = Number(
                                 weatherData.list[7].main.temp_max
                             ).toFixed(2);
+                            // @ts-ignore
                             const maxTempInF = (maxTempInC * 1.8 + 32).toFixed(
                                 2
                             );
@@ -112,8 +98,9 @@ module.exports = {
                             const windSpeedInkmph = (
                                 Number(weatherData.list[7].wind.speed) * 3.6
                             ).toFixed(2);
+                            // @ts-ignore
                             const windSpeedInmph = (
-                                windSpeedInkmph * 0.621371
+                                +windSpeedInkmph * 0.621371
                             ).toFixed(2);
                             const windDegree =
                                 weatherData.list[7].wind.deg.toFixed(2);
@@ -142,6 +129,7 @@ module.exports = {
                             var weatherDescription =
                                 weatherData.list[7].weather[0].description;
 
+                            let imageName
                             for (var type in weatherTypes) {
                                 if (
                                     weatherDescription.includes(
@@ -179,8 +167,7 @@ module.exports = {
                                 minTempInC: minTempInC,
                                 minTempInF: minTempInF,
                                 maxTempInC: maxTempInC,
-                                maxTempInF,
-                                maxTempInF,
+                                maxTempInF: maxTempInF,
                                 humidity: humidity,
                                 windSpeedInkmph: windSpeedInkmph,
                                 windSpeedInmph: windSpeedInmph,
@@ -199,30 +186,19 @@ module.exports = {
                                 ".jpg";
                             result(imageUrl, weatherDataVariables, downloading);
                         } catch (err) {
-                            client.deleteMessage(BotsApp.chatId, {
-                                id: downloading.key.id,
-                                remoteJid: BotsApp.chatId,
-                                fromMe: true,
-                            });
+
                             inputSanitization.handleError(
                                 err,
                                 client,
                                 BotsApp,
                                 WEATHER.ERROR_OCCURED
                             );
-
-                            return;
                         }
                     });
                 });
                 return;
             } else {
-                var downloading = await client.sendMessage(
-                    BotsApp.chatId,
-                    WEATHER.DOWNLOADING,
-                    MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                var cityName = args.join(" ");
+                cityName = args.join(" ");
                 const unit = "metric";
 
                 const url =
@@ -243,16 +219,19 @@ module.exports = {
                             const tempInC = Number(
                                 weatherData.main.temp
                             ).toFixed(2);
+                            // @ts-ignore
                             const tempInF = (tempInC * 1.8 + 32).toFixed(2);
                             const minTempInC = Number(
                                 weatherData.main.temp_min
                             ).toFixed(2);
+                            // @ts-ignore
                             const minTempInF = (minTempInC * 1.8 + 32).toFixed(
                                 2
                             );
                             const maxTempInC = Number(
                                 weatherData.main.temp_max
                             ).toFixed(2);
+                            // @ts-ignore
                             const maxTempInF = (maxTempInC * 1.8 + 32).toFixed(
                                 2
                             );
@@ -262,8 +241,9 @@ module.exports = {
                             const windSpeedInkmph = (
                                 Number(weatherData.wind.speed) * 3.6
                             ).toFixed(2);
+                            // @ts-ignore
                             const windSpeedInmph = (
-                                windSpeedInkmph * 0.621371
+                                +windSpeedInkmph * 0.621371
                             ).toFixed(2);
                             const windDegree = weatherData.wind.deg.toFixed(2);
                             const sunriseTimeStamp = Number(
@@ -288,7 +268,7 @@ module.exports = {
                                 sunsetDate.getSeconds();
                             var weatherDescription =
                                 weatherData.weather[0].description;
-
+                            let imageName
                             for (var type in weatherTypes) {
                                 if (
                                     weatherDescription.includes(
@@ -326,8 +306,7 @@ module.exports = {
                                 minTempInC: minTempInC,
                                 minTempInF: minTempInF,
                                 maxTempInC: maxTempInC,
-                                maxTempInF,
-                                maxTempInF,
+                                maxTempInF: maxTempInF,
                                 humidity: humidity,
                                 windSpeedInkmph: windSpeedInkmph,
                                 windSpeedInmph: windSpeedInmph,
@@ -346,11 +325,6 @@ module.exports = {
 
                             result(imageUrl, weatherDataVariables, downloading);
                         } catch (err) {
-                            client.deleteMessage(BotsApp.chatId, {
-                                id: downloading.key.id,
-                                remoteJid: BotsApp.chatId,
-                                fromMe: true,
-                            });
                             inputSanitization.handleError(
                                 err,
                                 client,

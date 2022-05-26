@@ -1,32 +1,27 @@
+export
 const got = require("got");
-const { MessageType } = require("@adiwajshing/baileys");
 const inputSanitization = require("../sidekick/input-sanitization");
 const STRINGS = require("../lib/db");
-const format = require("python-format-js");
+require("python-format-js");
 const ud = require("urban-dictionary");
+const TRANSMIT = require('../core/transmission')
 
 module.exports = {
     name: "ud",
     description: STRINGS.ud.DESCRIPTION,
     extendedDescription: STRINGS.ud.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: true, text: ".ud bruh" },
+    demo: { isEnabled: true, text: [".ud bruh",".ud nbs",".ud wmt"]},
     async handle(client, chat, BotsApp, args) {
-        const processing = await client.sendMessage(
-            BotsApp.chatId,
-            STRINGS.ud.PROCESSING,
-            MessageType.text
-        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+        let text;
+        await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: STRINGS.ud.PROCESSING})
+
         try {
-            var text = "";
-            if (!(BotsApp.replyMessage === "")) {
+            text = "";
+            if (BotsApp.isReply) {
                 text = BotsApp.replyMessage;
             } else if (args.length == 0) {
-                client.sendMessage(
-                    BotsApp.chatId,
-                    STRINGS.ud.NO_ARG,
-                    MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                return;
+                return await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: STRINGS.ud.NO_ARG})
+
             } else {
                 text = args.join(" ");
             }
@@ -56,13 +51,8 @@ module.exports = {
                 "  👎" +
                 result.thumbs_down;
 
-            await client.deleteMessage(BotsApp.chatId, {
-                id: processing.key.id,
-                remoteJid: BotsApp.chatId,
-                fromMe: true,
-            });
+            await TRANSMIT.sendMessageWTyping(client, BotsApp.chat, {text: msg})
 
-            await client.sendMessage(BotsApp.chatId, msg, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
             await inputSanitization.handleError(
                 err,
@@ -70,12 +60,6 @@ module.exports = {
                 BotsApp,
                 STRINGS.ud.NOT_FOUND.format(text)
             );
-            return await client.deleteMessage(BotsApp.chatId, {
-                id: processing.key.id,
-                remoteJid: BotsApp.chatId,
-                fromMe: true,
-            });
         }
-        return;
     },
 };

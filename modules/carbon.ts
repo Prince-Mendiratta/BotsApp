@@ -1,14 +1,9 @@
-import chalk from "chalk";
-import String from "../lib/db.js";
-import * as Carbon from "unofficial-carbon-now";
-import inputSanitization from "../sidekick/input-sanitization";
-import format from "string-format";
-import Client from "../sidekick/client.js";
-import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
-import { proto } from "@adiwajshing/baileys";
-
+export
+const String = require("../lib/db");
+const Carbon = require("unofficial-carbon-now");
+const inputSanitization = require("../sidekick/input-sanitization");
 const CARBON = String.carbon;
+const TRANSMIT = require('../core/transmission')
 
 module.exports = {
     name: "carbon",
@@ -22,9 +17,9 @@ module.exports = {
             ".carbon -t",
         ],
     },
-    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
+    async handle(client, chat, BotsApp, args,fromCode = "") {
         try {
-            let themes: string[] = [
+            let themes = [
                 "3024 night",
                 "a11y dark",
                 "blackboard",
@@ -54,68 +49,47 @@ module.exports = {
                 "yeti",
                 "zenburn",
             ];
-            let code: string = "";
-            let themeInput: string;
-            if (args[0] == null && !BotsApp.isTextReply) {
-                await client.sendMessage(
-                    BotsApp.chatId,
-                    CARBON.NO_INPUT,
-                    MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                return;
-            } else if (BotsApp.isTextReply && !BotsApp.replyMessage) {
-                await client.sendMessage(
-                    BotsApp.chatId,
-                    CARBON.INVALID_REPLY,
-                    MessageType.text
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                return;
-            } else if (BotsApp.isTextReply) {
+            var code = ""
+            var themeInput = ""
+            if (args[0] == null && !BotsApp.isReply) {
+                return  await  TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:CARBON.NO_INPUT});
+            } else if (BotsApp.isReply && !BotsApp.replyMessage) {
+                return  await  TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:CARBON.INVALID_REPLY});
+            } else if (BotsApp.isReply) {
                 code = BotsApp.replyMessage;
                 themeInput = themes[Math.floor(Math.random() * themes.length)];
             } else {
                 try {
-                    let text: string = BotsApp.body.replace(
+                    var text = BotsApp.body.replace(
                         BotsApp.body[0] + BotsApp.commandName + " ",
                         ""
                     );
                     if (text[0] === "-" && text[1] === "t") {
                         if(text[2] == null){
-                            let counter: number = 1;
-                            let message: string = 'Available themes: ';
+                            let counter = 1;
+                            var message = 'Available themes: ';
                             themes.forEach((theme) => {
                                 message += `\n${counter}. ${theme}`;
                                 counter += 1;
                             })
-                            await client.sendMessage(
-                                BotsApp.chatId,
-                                "```" + message + "```",
-                                MessageType.text
-                            )
-                            return;
+
+                            return  await  TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:"```" + message + "```"});
+
                         }
                         else{
-                            await client.sendMessage(
-                                BotsApp.chatId,
-                                CARBON.NO_INPUT,
-                                MessageType.text
-                            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                            return;
+                            return  await  TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:CARBON.NO_INPUT});
+
                         }
                     }
-                    let body: string[] = BotsApp.body.split("-t");
+                    var body = BotsApp.body.split("-t");
                     code = body[0].replace(
                         BotsApp.body[0] + BotsApp.commandName + " ",
                         ""
                     );
-                    themeInput = body[1].substring(1);
+                     themeInput = body[1].substring(1);
                     if (!themes.includes(themeInput)) {
-                        await client.sendMessage(
-                            BotsApp.chatId,
-                            CARBON.INVALID_THEME,
-                            MessageType.text
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                        return;
+                        return  await  TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:CARBON.INVALID_THEME});
+
                     }
                 } catch (err) {
                     if (err instanceof TypeError) {
@@ -129,31 +103,19 @@ module.exports = {
                 }
             }
             try {
-                const processing: proto.WebMessageInfo = await client.sendMessage(
-                    BotsApp.chatId,
-                    CARBON.CARBONIZING,
-                    MessageType.text
-                );
+                if(!fromCode)
+                await TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:CARBON.CARBONIZING});
+
                 const carbon = new Carbon.createCarbon()
                     .setCode(code)
                     .setPrettify(true)
                     .setTheme(themeInput);
                 const output = await Carbon.generateCarbon(carbon);
-                await client.sendMessage(
-                    BotsApp.chatId,
-                    output,
-                    MessageType.image,
-                    {
-                        caption: format(CARBON.OUTPUT, themeInput),
-                    }
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                return await client.deleteMessage(BotsApp.chatId, {
-                    id: processing.key.id,
-                    remoteJid: BotsApp.chatId,
-                    fromMe: true,
-                });
+
+               return await TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{image:output,caption:fromCode?fromCode:""})
+
             } catch (err) {
-                throw err;
+                await inputSanitization.handleError(err, client, BotsApp);
             }
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);

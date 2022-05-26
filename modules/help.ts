@@ -1,46 +1,52 @@
-import Strings from "../lib/db";
-import format from "string-format";
-import inputSanitization from "../sidekick/input-sanitization";
-import config from "../config";
-import Client from "../sidekick/client.js";
-import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
-import { AnyMediaMessageContent, AnyMessageContent, proto } from "@adiwajshing/baileys";
-import Command from "../sidekick/command";
+export
+const Strings = require("../lib/db")
+const inputSanitization = require("../sidekick/input-sanitization");
+const config = require("../config");
+const TRANSMIT = require('../core/transmission')
 const HELP = Strings.help;
+require('python-format-js');
+
 
 module.exports = {
     name: "help",
     description: HELP.DESCRIPTION,
     extendedDescription: HELP.EXTENDED_DESCRIPTION,
     demo: {isEnabled: false},
-    async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[], commandHandler: Map<string, Command>): Promise<void> {
+    async handle(client, chat, BotsApp, args, commandHandler) {
+        var helpMessage = ""
         try {
-            var prefixRegex: any = new RegExp(config.PREFIX, "g");
-            var prefixes: string = /\/\^\[(.*)+\]\/\g/g.exec(prefixRegex)[1];
-            let helpMessage: string;
+            var prefixRegex = new RegExp(config.PREFIX, "g");
+            // @ts-ignore
+            var prefixes = /\/\^\[(.*)+]\/g/g.exec(prefixRegex)[1]
+
             if(!args[0]){
-                helpMessage = HELP.HEAD;
+                 helpMessage = HELP.HEAD;
                 commandHandler.forEach(element => {
-                    helpMessage += format(HELP.TEMPLATE, prefixes[0] + element.name, element.description);
+                    helpMessage += HELP.TEMPLATE.format(prefixes[0] + element.name, element.description);
                 });
-                client.sendMessage(BotsApp.chatId, helpMessage, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                await TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:helpMessage})
                 return;
             }
             helpMessage = HELP.COMMAND_INTERFACE;
-            var command: Command = commandHandler.get(args[0]);
+            var command = commandHandler.get(args[0].toLowerCase())
             if(command){
-                var triggers: string = " | "
+                var triggers = "\n"
                 prefixes.split("").forEach(prefix => {
                     triggers += prefix + command.name + " | "
-                });
+                })
+                var triggerss = ""
+                for(let i = 0;i<triggers.length-3;i++){
+                    triggerss += triggers[i]
+                }
+                triggerss += '\n'
+
 
                 if(command.demo.isEnabled) {
-                    var buttons: proto.IButton[] = [];
-                    helpMessage += format(HELP.COMMAND_INTERFACE_TEMPLATE, triggers, command.extendedDescription) + HELP.FOOTER;
+                    var buttons = [];
+                    helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggerss, command.extendedDescription) + HELP.FOOTER;
                     if(command.demo.text instanceof Array){
                         for (var i in command.demo.text){
-                            var button: proto.IButton = {
+                            var button = {
                                 buttonId: 'id' + i,
                                 buttonText: {displayText: command.demo.text[i]},
                                 type: 1
@@ -52,18 +58,19 @@ module.exports = {
                     }
                     const buttonMessage = {
                         text: helpMessage,
+                        footer:"\n *tap the button below to try it out*",
                         buttons: buttons,
                         headerType: 1
                     }
-                    await client.sendMessage(BotsApp.chatId, buttonMessage, MessageType.buttonsMessage).catch(err => inputSanitization.handleError(err, client, BotsApp))
-                    return;
+                    return await TRANSMIT.sendMessageWTyping(client,BotsApp.chat,buttonMessage)
+
                 }
 
-                helpMessage += format(HELP.COMMAND_INTERFACE_TEMPLATE, triggers, command.extendedDescription);
-                client.sendMessage(BotsApp.chatId, helpMessage, MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                return;
+                helpMessage += HELP.COMMAND_INTERFACE_TEMPLATE.format(triggerss, command.extendedDescription);
+                return await TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:helpMessage})
+
             }
-            client.sendMessage(BotsApp.chatId, HELP.COMMAND_INTERFACE + "```Invalid Command. Check the correct name from```  *.help*  ```command list.```", MessageType.text).catch(err => inputSanitization.handleError(err, client, BotsApp));
+            await TRANSMIT.sendMessageWTyping(client,BotsApp.chat,{text:HELP.COMMAND_INTERFACE + "```Invalid Command. Check the correct name from```  *.help*  ```command list.```"})
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }
