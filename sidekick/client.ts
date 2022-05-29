@@ -37,8 +37,35 @@ class Client {
                 ops.caption = options.caption;
             }
             res = await this.sock.sendMessage(jid, ops);
+        }else if(type == MessageType.audio){
+            res = await this.sock.sendMessage(jid, {
+                audio: content,
+                mimetype: 'audio/mp3'
+            });
         }else if(type === MessageType.buttonsMessage){
-            this.sock.sendMessage(jid, content);
+            res = await this.sock.sendMessage(jid, content);
+        }else if(type == MessageType.video){
+            ops = {
+                video: content,
+            }
+            if(options?.caption){
+                ops.caption = options.caption;
+            }
+            res = await this.sock.sendMessage(jid, ops);
+        }else if(type === MessageType.document){
+            ops = {
+                text: options.caption
+            }
+            let ops2: any = {
+                document: content,
+            }
+            if(options?.mimetype){
+                ops2.mimetype = options.mimetype;
+                ops2.fileName = options.filename;
+            }
+            console.log(ops2);
+            await this.sock.sendMessage(jid, ops);
+            res = await this.sock.sendMessage(jid, ops2);
         }
         return res;
     };

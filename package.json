@@ -13,13 +13,13 @@
         "@adiwajshing/baileys": "^4.1.0",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@nuintun/qrcode": "^3.0.1",
-        "@types/node": "^17.0.32",
-        "@types/string-format": "^2.0.0",
-        "@types/ws": "^8.5.3",
         "@vitalets/google-translate-api": "^7.0.0",
+        "axios": "^0.27.2",
         "chalk": "^4.1.1",
+        "cheerio": "^1.0.0-rc.11",
         "dotenv": "^10.0.0",
         "fluent-ffmpeg": "^2.1.2",
+        "form-data": "^4.0.0",
         "google-dictionary-api": "^1.0.8",
         "google-search-results-nodejs": "^2.0.1",
         "google-tts-api": "^2.0.2",
@@ -43,6 +43,10 @@
         "ytdl-core": "^4.9.1"
     },
     "devDependencies": {
-        "@types/jsdom": "^16.2.14"
+        "@types/jsdom": "^16.2.14",
+        "@types/node": "^17.0.32",
+        "@types/string-format": "^2.0.0",
+        "@types/urban-dictionary": "^3.0.0",
+        "@types/ws": "^8.5.3"
     }
 }

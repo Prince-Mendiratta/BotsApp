@@ -84,7 +84,6 @@ setInterval(() => {
             // implement to handle retries
             getMessage: async key => {
                 return {
-                    conversation: 'hello'
                 }
             }
         });
@@ -92,7 +91,7 @@ setInterval(() => {
         store?.bind(sock.ev);
 
         sock.ev.on('messages.upsert', async m => {
-            console.log(JSON.stringify(m, undefined, 2))
+            // console.log(JSON.stringify(m, undefined, 2))
             // if(m.type === 'append' && !config.OFFLINE_RESPONSE){
             //     return;
             // }
@@ -140,9 +139,9 @@ setInterval(() => {
                 // reconnect if not logged out
                 if ((lastDisconnect.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut) {
                     startSock()
-                    // process.exit(0)
                 } else {
                     console.log('Connection closed. You are logged out.')
+                    process.exit(0);
                 }
             } else if (connection === 'connecting') {
                 console.log(chalk.yellowBright("[INFO] Connecting to WhatsApp..."));
@@ -150,14 +149,14 @@ setInterval(() => {
                 console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
                 if (firstInit) {
                     firstInit = false;
-                    // sock.sendMessage(
-                    //     sock.user.id,
-                    //     {
-                    //         text: format(GENERAL.SUCCESSFUL_CONNECTION, {
-                    //             worktype: config.WORK_TYPE,
-                    //         })
-                    //     }
-                    // );
+                    sock.sendMessage(
+                        sock.user.id,
+                        {
+                            text: format(GENERAL.SUCCESSFUL_CONNECTION, {
+                                worktype: config.WORK_TYPE,
+                            })
+                        }
+                    );
                 }
             } else {
                 console.log('connection update', update)

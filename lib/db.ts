@@ -17,10 +17,10 @@ const data = {
         DESCRIPTION: "Module to blacklist a person or a chat from using the bot.",
         EXTENDED_DESCRIPTION:
             "```Add people to blacklist and``` *restrict them* ```from using the bot. You can blacklist specific``` *groups* or *people in groups* or *people altogether* ```from using the bot. These are the configurations -\n\n1. If you send the command in a group``` *without replying* ```to anyone, the bot will be``` *disabled for that group.*\n```2. If you send the command in a group and``` *reply to someone*, ```they will not be able to use the bot in that``` *specific group.*\n```3. If you tag someone in a group like``` *.abl @<person>*, ```they will not be able to use the bot in that specific group.\n4. If you send the command in``` *personal chat* ```of a person, they will be blacklisted from using the bot in``` *any group.*",
-        PM_ACKNOWLEDGEMENT: "```{user} banned from using the bot in all chats.```",
+        PM_ACKNOWLEDGEMENT: "```{} banned from using the bot in all chats.```",
         CAN_NOT_BLACKLIST_BOT: "```Bot cannot blacklist itself. Tag or reply to a different user.```",
-        GRP_ACKNOWLEDGEMENT: "```{user} has been blacklisted from using the bot in this group.```",
-        GRP_BAN: "```Bot has been disabled for the group {user}. For more configurations use the``` *.help abl* ```command.```"
+        GRP_ACKNOWLEDGEMENT: "```{} has been blacklisted from using the bot in this group.```",
+        GRP_BAN: "```Bot has been disabled for the group``` *{}*. ```For more configurations use the``` *.help abl* ```command.```"
     },
     add: {
         DESCRIPTION: "Module to add a person to a group.",
@@ -35,7 +35,7 @@ const data = {
         ALREADY_MEMBER:
             "```The number entered is already a member of this group.```",
         NOT_ON_WHATSAPP:
-            "```The number you're trying to add isn't available on WhatsApp.\nPlease verify the number again.```",
+            "```The number you're trying to add, {}, isn't available on WhatsApp.\nPlease verify the number again.```",
         SUCCESS: " added successfully!",
         PRIVACY: "```The number you're trying to add cannot be added to the group directly. An invite link has been sent to them.```"
     },
@@ -199,10 +199,10 @@ const data = {
         DESCRIPTION: "Module to enable a blacklist person or group to use the bot.",
         EXTENDED_DESCRIPTION:
             "```Remove people or group from blacklist. Works in a similar manner to abl. Use``` *.help abl* ```for more info.```",
-        PM_ACKNOWLEDGEMENT: "```{user} removed from Blacklist for all the chats.```",
-        GRP_ACKNOWLEDGEMENT: "```{user} has been removed from the Blacklist for this group.```",
-        GRP_BAN: "```Bot has been enabled for the group {user}```",
-        NOT_IN_BLACKLIST: "```Entry for {user} not found in the Blacklist.```",
+        PM_ACKNOWLEDGEMENT: "```{} removed from Blacklist for all the chats.```",
+        GRP_ACKNOWLEDGEMENT: "```{} has been removed from the Blacklist for this group.```",
+        GRP_BAN: "```Bot has been enabled for the group``` *{}*",
+        NOT_IN_BLACKLIST: "```Entry for {} not found in the Blacklist.```",
     },
     remove: {
         DESCRIPTION: "Module to remove a person from a group.",
@@ -217,8 +217,8 @@ const data = {
         DOWNLOADING: "```Your document is being processed...```",
         PROVIDE_NEW_NAME: "```Provide a new name for your document.```",
         REPLY_TO_DOCUMENT: "```Reply to a valid document message to change it's file name.```",
-        ERROR: "```Woops, something went wrong. Try again later, or proabaly not with this again...```"
-
+        ERROR: "```Woops, something went wrong. Try again later, or proabaly not with this again...```",
+        VALID_REPLY: "```Please tag a valid image / sticker / audio / document / pdf / GIF.```"
     },
     setdp: {
         DESCRIPTION: "Change the group icon",
@@ -226,7 +226,7 @@ const data = {
             "```Use this module to change the group's icon. Tag image with the command or send the desired image with caption as the command```",
         NOT_AN_IMAGE: "```Please reply or caption the image you want to make the group icon.```",
         NOT_A_GROUP: "```This command is only applicable in a group chat.```",
-        ICON_CHANGED: "```Chnaging icon/group image...```"
+        ICON_CHANGED: "```Changing icon/group image...```"
     },
     song: {
         DESCRIPTION: "Download songs",
@@ -253,6 +253,16 @@ const data = {
         TAG_A_VALID_STICKER_MESSAGE:
             "```Please tag a valid sticker message to convert to an image.```",
         DOWNLOADING: "```Your image is downloading. Please wait...```",
+        ERROR: "```Woops, something went wrong. Try again later, or proabaly not with this again...```"
+    },
+    stov: {
+        DESCRIPTION: "Module to convert animated sticker to video",
+        EXTENDED_DESCRIPTION:
+            "```Use this module to convert any animated sticker from your chat to a video. Reply to an animated sticker message with the command```  *.stov*  ```to convert and send that sticker as a video.```",
+        ANIMATED_STICKER_ERROR: "```Tagged sticker message is animated, ``` *Can not convert animated sticker to image*, ```Try again with a static sticker.```",
+        TAG_A_VALID_STICKER_MESSAGE:
+            "```Please tag a valid animated sticker message to convert to a video.```",
+        DOWNLOADING: "```Your sticker is downloading. Please wait...```",
         ERROR: "```Woops, something went wrong. Try again later, or proabaly not with this again...```"
     },
     tr: {
