@@ -60,7 +60,6 @@ module.exports = {
                             inputSanitization.handleError(err, client, BotsApp)
                         );
                     inputSanitization.deleteFiles(fileName);
-                    inputSanitization.performanceTime(startTime);
                     return client
                         .deleteMessage(BotsApp.chatId, {
                             id: downloading.key.id,
