@@ -13,12 +13,12 @@ const GENERAL = STRINGS.general;
 
 const clearance = async (BotsApp: BotsApp, client: Client, isBlacklist: boolean): Promise<boolean> => {
     if (isBlacklist) {
-        if(BotsApp.isGroup){
+        if (BotsApp.isGroup) {
             await client.getGroupMetaData(BotsApp.chatId, BotsApp);
-            if((!BotsApp.fromMe && !BotsApp.isSenderSUDO && !BotsApp.isSenderGroupAdmin)){
+            if ((!BotsApp.fromMe && !BotsApp.isSenderSUDO && !BotsApp.isSenderGroupAdmin)) {
                 return false;
             }
-        }else if((!BotsApp.fromMe && !BotsApp.isSenderSUDO)){
+        } else if ((!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
             console.log(chalk.blueBright.bold(`[INFO] Blacklisted Chat or User.`));
             return false;
         }
@@ -28,10 +28,10 @@ const clearance = async (BotsApp: BotsApp, client: Client, isBlacklist: boolean)
         return false;
     }
     if (BotsApp.isCmd && (!BotsApp.fromMe && !BotsApp.isSenderSUDO)) {
-        if (config.WORK_TYPE.toLowerCase() === "public" && BotsApp.isGroup) {
-            if (adminCommands.indexOf(BotsApp.commandName) >= 0) {
+        if (config.WORK_TYPE.toLowerCase() === "public") {
+            if (BotsApp.isGroup) {
                 await client.getGroupMetaData(BotsApp.chatId, BotsApp);
-                if(!BotsApp.isSenderGroupAdmin){
+                if (adminCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderGroupAdmin) {
                     console.log(
                         chalk.redBright.bold(`[INFO] admin commmand `),
                         chalk.greenBright.bold(`${BotsApp.commandName}`),
@@ -45,35 +45,35 @@ const clearance = async (BotsApp: BotsApp, client: Client, isBlacklist: boolean)
                         MessageType.text
                     );
                     return false;
-                }
-            } else if (sudoCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderSUDO) {
-                console.log(
-                    chalk.redBright.bold(`[INFO] sudo commmand `),
-                    chalk.greenBright.bold(`${BotsApp.commandName}`),
-                    chalk.redBright.bold(
-                        `not executed in public Work Type.`
-                    )
-                );
-                let messageSent: boolean = await Users.getUser(BotsApp.chatId);
-                if (messageSent) {
-                    console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId))
-                    return false;
-                }
-                else {
-                    await client.sendMessage(
-                        BotsApp.chatId,
-                        format(GENERAL.SUDO_PERMISSION, { worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
-                        MessageType.text
+                } else if (sudoCommands.indexOf(BotsApp.commandName) >= 0 && !BotsApp.isSenderSUDO) {
+                    console.log(
+                        chalk.redBright.bold(`[INFO] sudo commmand `),
+                        chalk.greenBright.bold(`${BotsApp.commandName}`),
+                        chalk.redBright.bold(
+                            `not executed in public Work Type.`
+                        )
                     );
-                    await Users.addUser(BotsApp.chatId);
-                    return false;
+                    let messageSent: boolean = await Users.getUser(BotsApp.chatId);
+                    if (messageSent) {
+                        console.log(chalk.blueBright.bold("[INFO] Promo message had already been sent to " + BotsApp.chatId))
+                        return false;
+                    }
+                    else {
+                        await client.sendMessage(
+                            BotsApp.chatId,
+                            format(GENERAL.SUDO_PERMISSION, { worktype: "public", groupName: BotsApp.groupName ? BotsApp.groupName : "private chat", commandName: BotsApp.commandName }),
+                            MessageType.text
+                        );
+                        await Users.addUser(BotsApp.chatId);
+                        return false;
+                    }
+                } else {
+                    return true;
                 }
-
-            } else {
+            }else if(BotsApp.isPm){
                 return true;
             }
-        }
-        else if (config.WORK_TYPE.toLowerCase() != "public" && !BotsApp.isSenderSUDO) {
+        } else if (config.WORK_TYPE.toLowerCase() != "public" && !BotsApp.isSenderSUDO) {
             console.log(
                 chalk.redBright.bold(`[INFO] commmand `),
                 chalk.greenBright.bold(`${BotsApp.commandName}`),

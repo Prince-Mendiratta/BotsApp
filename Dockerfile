@@ -14,7 +14,7 @@ RUN git fetch origin main
 
 # RUN git reset --hard origin/main
 
-RUN npm install
+RUN yarn
 
 # RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
 
