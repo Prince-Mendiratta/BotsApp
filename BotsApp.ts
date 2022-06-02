@@ -28,10 +28,10 @@ logger.level = 'error'
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
 const store = makeInMemoryStore({ logger })
-store?.readFromFile('./baileys_store_multi.json')
+store?.readFromFile('./session.data.json')
 // save every 10s
 setInterval(() => {
-    store?.writeToFile('./baileys_store_multi.json')
+    store?.writeToFile('./session.data.json')
 }, 10_000);
 
 (async () : Promise<void> => {
@@ -159,7 +159,7 @@ setInterval(() => {
                     );
                 }
             } else {
-                console.log('connection update', update)
+                console.log('connection update', update);
             }
         })
 

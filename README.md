@@ -25,11 +25,16 @@ Utilize your personal chat assistant/group manager to make the most out of Whats
 
 ## Tutorial
 
-Here's a tutorial to set up BotsApp on your own account in *less than 3 minutes.*
+Here's a tutorial to set up BotsApp on your own account in *less than 3 minutes.* For now, the Multi Device Bot can only be used locally, the tutorial for which is attached below.
 
-[![Join WhatsApp Group](https://img.shields.io/badge/How%20To-Deploy-red.svg?logo=Youtube)](https://www.youtube.com/watch?v=tGrjEZ3roY0&ab_channel=BotsApp)
+[![How to deploy](https://img.shields.io/badge/How%20To-Deploy-red.svg?logo=Youtube)](https://www.youtube.com/watch?v=tGrjEZ3roY0&ab_channel=BotsApp)
+
+[![Multi Device](https://img.shields.io/badge/Host%20Multi%20Device%20bot%20on-Windows-red.svg?logo=Youtube)](https://youtu.be/NZy4sZqncjg&ab_channel=BotsApp)
+
 
 ## Deployment
+
+<b>Only local deployment is working for now!</b>
 
 ### Easiest Way
 
@@ -45,6 +50,8 @@ Voila! You have deployed your bot in 5 easy steps. Once the bot has started succ
 
 ### Manually on Heroku
 
+<b>Deployment to heroku using the button is not working for now!</b>
+
 You can deploy the bot the heroku yourself using the button below!
 
 [![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmainhttps://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmain)
@@ -56,8 +63,9 @@ To follow this method, you will need to have docker installed on your machine an
 To host the bot on your own device using docker, follow the following steps on your terminal / command prompt -
 
 ```bash
-git clone https://github.com/BotsAppOfficial/BotsApp.git
-cd BotsApp
+wget -O BotsApp.tar.gz https://github.com/BotsAppOfficial/BotsApp/archive/refs/tags/v2.0.0-beta.tar.gz
+tar -xvzf BotsApp.tar.gz
+cd BotsApp-2.0.0-beta
 docker build -t botsapp .
 docker run --rm --name botsapp botsapp
 ```
@@ -73,16 +81,22 @@ To run the bot on your device manually, you can use the following commands -
 ```bash
 git clone https://github.com/BotsAppOfficial/BotsApp.git
 cd BotsApp
-npm install
+yarn
 npm start
 ```
 
+## Scan QR Code again
+If you're having issues when running locally it is recommended to scan the code again. To get the QR code again, follow these commands -
+```
+rm -rf BotsApp.db session.data.json
+npm start
+```
 
 ## Support and Discussion groups
 
 Feel free to post your queries or concerns on any of the discussion forums mentioned below:
 
-[![Join WhatsApp Group](https://img.shields.io/badge/Join-WhatsApp%20Group-bl.svg?logo=WhatsApp)](https://chat.whatsapp.com/DGEZ2VUgpAdJzcS7g7TID3)
+[![Join WhatsApp Group](https://img.shields.io/badge/Join-WhatsApp%20Group-bl.svg?logo=WhatsApp)](https://chat.whatsapp.com/GPEHkFlspzOKpSBTsYx7Wt)
 
 [![Join Telegram Group](https://img.shields.io/badge/Join-Telegram%20Group-blue.svg?logo=Telegram)](https://t.me/BotsAppChat)
 

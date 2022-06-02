@@ -5,7 +5,7 @@
     "main": "main.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "tsc && node --max-old-space-size=512 dist/BotsApp.js"
+        "start": "tsc && node --max-old-space-size=512 --optimize_for_size dist/BotsApp.js"
     },
     "author": "Prince Mendiratta",
     "license": "ISC",

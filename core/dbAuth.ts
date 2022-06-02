@@ -67,7 +67,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
 
     const saveCreds = async (data?: Partial<AuthenticationCreds>): Promise<void> => {
         if (!data) {
-            console.log('Saving all creds');
+            // console.log('Saving all creds');
             data = creds;
         }
         for (const _key in data) {
@@ -79,12 +79,14 @@ const useRemoteFileAuthState = async (logger: Logger) => {
             if (cred) {
                 await cred.update({
                     value: JSON.stringify(data[_key], BufferJSON.replacer, 2)
-                }).then((res) => { console.log(`updated value ${_key} `) }).catch(err => { console.log(chalk.whiteBright(err)) });
+                })
+                // .then((res) => { console.log(`updated value ${_key} `) }).catch(err => { console.log(chalk.whiteBright(err)) });
             } else {
                 await Cred.create({
                     key: _key,
                     value: JSON.stringify(data[_key], BufferJSON.replacer, 2)
-                }).then((res) => { console.log(`inserted value ${_key}`) }).catch(err => { console.log(chalk.whiteBright(err)) });
+                })
+                // .then((res) => { console.log(`inserted value ${_key}`) }).catch(err => { console.log(chalk.whiteBright(err)) });
             }
         }
     }
@@ -119,7 +121,7 @@ const useRemoteFileAuthState = async (logger: Logger) => {
 
     let credsExist: boolean = await checkCreds();
     if (credsExist) {
-        console.log('loading values back.');
+        // console.log('loading values back.');
         let parent = {
             creds: {},
             keys: {}
