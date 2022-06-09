@@ -199,7 +199,7 @@ const data = {
     PROCESSING: "```Pasting text to nekobin. Please wait...```",
   },
   news: {
-    DESCRIPTION: "Fetch news in PDF",
+    DESCRIPTION: "Fetch news in a mobile readable format",
     EXTENDED_DESCRIPTION:
       "```Use this module to fetch news in mobile readable format from around 1500 publications. Enter text with the command```  *.news* .\n\nTo search for publications, use:-\n```.news search``` _search term_\n\nTo fetch news, use:-\n```.news fetch``` _Publication Name_",
     NO_COMMMAND: "```Please provide an action.```",
