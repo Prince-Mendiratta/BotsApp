@@ -6,7 +6,7 @@ import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import inputSanitization from "../sidekick/input-sanitization";
 import Axios from "axios";
-import fs from "fs";
+import config from "../config";
 
 module.exports = {
   name: "news",
@@ -62,15 +62,19 @@ module.exports = {
       args.shift();
       var searchTerm = args.join(" ");
       let searchResponse;
-      await Axios.get(
-        "http://localhost:3000/news-list?searchTerm=" + searchTerm
-      )
-        .then((res) => {
-          searchResponse = res.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      try {
+        await Axios.get(
+          config.NEWS_API_URL + "news-list?searchTerm=" + searchTerm
+        )
+          .then((res) => {
+            searchResponse = res.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        throw error;
+      }
 
       for (let i = 0; i < searchResponse.length; i++) {
         searchResponse[i] = `${i + 1}` + ".)  " + `${searchResponse[i]}`;
@@ -86,15 +90,19 @@ module.exports = {
       args.shift();
       var searchTerm = args.join(" ");
       let searchResponse;
-      await Axios.get(
-        "http://localhost:3000/news-list?searchTerm=" + searchTerm
-      )
-        .then((res) => {
-          searchResponse = res.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      try {
+        await Axios.get(
+          config.NEWS_API_URL + "news-list?searchTerm=" + searchTerm
+        )
+          .then((res) => {
+            searchResponse = res.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        throw error;
+      }
       let foundPub = await checkPub(searchResponse, searchTerm);
       let message =
         "```Your requested publication``` *" +
@@ -112,12 +120,12 @@ module.exports = {
           BotsApp.chatId,
           {
             url:
-              "http://localhost:3000/news?pubName=" + foundPub + "&format=pdf",
+              config.NEWS_API_URL + "news?pubName=" + foundPub + "&format=html",
           },
           MessageType.document,
           {
-            mimetype: "application/pdf",
-            filename: foundPub + ".pdf",
+            mimetype: "text/html",
+            filename: foundPub + ".html",
             caption: message,
           }
         )
