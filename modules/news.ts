@@ -12,7 +12,13 @@ module.exports = {
     name: "news",
     description: NEWS.DESCRIPTION,
     extendedDescription: NEWS.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: false },
+    demo: {
+        isEnabled: true,
+        text: [
+            ".news search The Times",
+            ".news fetch The Hindu"
+        ]
+    },
     async handle(
         client: Client,
         chat: proto.IWebMessageInfo,
@@ -79,7 +85,10 @@ module.exports = {
                 searchResponse[i] = `${i + 1}` + ".)  " + `${searchResponse[i]}`;
             }
 
-            let message = searchResponse.join("\n\n");
+            let message = "```The following publications are available with the term ``` *" + searchTerm + "* ``` in it:``` \n\n" + searchResponse.join("\n\n");
+            if (searchResponse.length < 1) {
+                message = "```Sorry, no publication found by that name!```"
+            }
             await client
                 .sendMessage(BotsApp.chatId, message, MessageType.text)
                 .catch((err) => inputSanitization.handleError(err, client, BotsApp));
@@ -88,6 +97,12 @@ module.exports = {
         if (args[0] == "fetch") {
             args.shift();
             var searchTerm = args.join(" ");
+            if (!searchTerm) {
+                await client
+                    .sendMessage(BotsApp.chatId, NEWS.NO_PUB_NAME, MessageType.text)
+                    .catch((err) => inputSanitization.handleError(err, client, BotsApp));
+                return;
+            }
             let searchResponse;
             try {
                 await Axios.get(
