@@ -63,7 +63,7 @@ class Client {
                 ops2.mimetype = options.mimetype;
                 ops2.fileName = options.filename;
             }
-            console.log(ops2);
+            // console.log(ops2);
             await this.sock.sendMessage(jid, ops);
             res = await this.sock.sendMessage(jid, ops2);
         }
