@@ -35,7 +35,7 @@ module.exports = {
                     triggers += prefix + command.name + " | "
                 });
 
-                if(command.demo.isEnabled) {
+                if(command.demo?.isEnabled) {
                     var buttons: proto.IButton[] = [];
                     helpMessage += format(HELP.COMMAND_INTERFACE_TEMPLATE, triggers, command.extendedDescription) + HELP.FOOTER;
                     if(command.demo.text instanceof Array){

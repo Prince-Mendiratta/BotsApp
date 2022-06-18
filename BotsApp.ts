@@ -91,7 +91,7 @@ setInterval(() => {
         store?.bind(sock.ev);
 
         sock.ev.on('messages.upsert', async m => {
-            // console.log(JSON.stringify(m, undefined, 2))
+            console.log(JSON.stringify(m, undefined, 2))
             // if(m.type === 'append' && !config.OFFLINE_RESPONSE){
             //     return;
             // }

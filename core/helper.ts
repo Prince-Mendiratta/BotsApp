@@ -22,7 +22,7 @@ const resolve = async function (messageInstance: proto.IWebMessageInfo, client: 
     BotsApp.type = BotsApp.mimeType === 'imageMessage' ? 'image' : (BotsApp.mimeType === 'videoMessage') ? 'video' : (BotsApp.mimeType === 'conversation' || BotsApp.mimeType == 'extendedTextMessage') ? 'text' : (BotsApp.mimeType === 'audioMessage') ? 'audio' : (BotsApp.mimeType === 'stickerMessage') ? 'sticker' : (BotsApp.mimeType === 'senderKeyDistributionMessage' && messageInstance.message?.senderKeyDistributionMessage?.groupId === 'status@broadcast') ? 'status' : null;
     BotsApp.isTextReply = (BotsApp.mimeType === 'extendedTextMessage' && messageInstance.message?.extendedTextMessage?.contextInfo?.stanzaId) ? true : false;
     BotsApp.replyMessageId = messageInstance.message?.extendedTextMessage?.contextInfo?.stanzaId;
-    BotsApp.replyParticipant = messageInstance.message?.extendedTextMessage?.contextInfo?.participant;
+    BotsApp.replyParticipant = messageInstance.message?.extendedTextMessage?.contextInfo?.participant.replace(/:.*@/g, '@');;
     BotsApp.replyMessage = messageInstance.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation;
     BotsApp.body = BotsApp.mimeType === 'conversation' ? messageInstance.message?.conversation : (BotsApp.mimeType == 'imageMessage') ? messageInstance.message?.imageMessage.caption : (BotsApp.mimeType == 'videoMessage') ? messageInstance.message?.videoMessage.caption : (BotsApp.mimeType == 'extendedTextMessage') ? messageInstance.message?.extendedTextMessage?.text : (BotsApp.mimeType == 'buttonsResponseMessage') ? messageInstance.message?.buttonsResponseMessage.selectedDisplayText : null;
     BotsApp.isCmd = prefixRegex.test(BotsApp.body);
@@ -42,7 +42,7 @@ const resolve = async function (messageInstance: proto.IWebMessageInfo, client: 
     BotsApp.logGroup = client.user.id.replace(/:.*@/g, '@');;
     BotsApp.isGroup = BotsApp.chatId.endsWith('@g.us');
     BotsApp.isPm = !BotsApp.isGroup;
-    BotsApp.sender = (BotsApp.isGroup && messageInstance.message && BotsApp.fromMe) ? BotsApp.owner : (BotsApp.isGroup && messageInstance.message) ? messageInstance.key.participant : (!BotsApp.isGroup) ? BotsApp.chatId : null;
+    BotsApp.sender = (BotsApp.isGroup && messageInstance.message && BotsApp.fromMe) ? BotsApp.owner : (BotsApp.isGroup && messageInstance.message) ? messageInstance.key.participant.replace(/:.*@/g, '@') : (!BotsApp.isGroup) ? BotsApp.chatId : null;
     BotsApp.isSenderSUDO = SUDOstring.includes(BotsApp.sender?.substring(0, BotsApp.sender.indexOf("@")));
 
     return BotsApp;
