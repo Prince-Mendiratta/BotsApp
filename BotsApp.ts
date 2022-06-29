@@ -1,7 +1,8 @@
 import { Boom } from '@hapi/boom'
 import P, { Logger } from 'pino'
-import makeWASocket, { AuthenticationCreds, AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, useSingleFileAuthState, WASocket, GroupMetadata, proto } from '@adiwajshing/baileys'
-import useRemoteFileAuthState from './core/dbAuth'
+import makeWASocket, { MessageRetryMap, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, WASocket, proto } from '@adiwajshing/baileys'
+// @ts-ignore
+import useRemoteFileAuthState from './core/dbAuth.js'
 import fs from 'fs'
 import { join } from 'path'
 import config from './config'
@@ -22,6 +23,7 @@ import { MessageType } from './sidekick/message-type'
 
 const sequelize: Sequelize = config.DATABASE;
 const GENERAL: any = STRINGS.general;
+const msgRetryCounterMap: MessageRetryMap = { };
 const logger: Logger = P({ timestamp: () => `,"time":"${new Date().toJSON()}"` }).child({})
 logger.level = 'error'
 
@@ -72,18 +74,21 @@ setInterval(() => {
 
     let firstInit: boolean = true;
 
-    const { state, saveCreds } = await useRemoteFileAuthState(logger);
-
     const startSock = async () => {
+        // @ts-ignore
+        const { state, saveCreds } = await useRemoteFileAuthState();
+        const { version, isLatest } = await fetchLatestBaileysVersion()
         const sock: WASocket = makeWASocket({
+            version,
             logger,
             printQRInTerminal: true,
             auth: state,
             browser: ["BotsApp", "Chrome", "4.0.0"],
-            // version: [2, 2204, 13],
+            msgRetryCounterMap,
             // implement to handle retries
             getMessage: async key => {
                 return {
+                    conversation: '-pls ignore-'
                 }
             }
         });
@@ -140,34 +145,32 @@ setInterval(() => {
                 if ((lastDisconnect.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut) {
                     startSock()
                 } else {
-                    console.log('Connection closed. You are logged out.')
+                    console.log(chalk.redBright('Connection closed. You are logged out. Delete the BotsApp.db and session.data.json files to rescan the code.'));
                     process.exit(0);
                 }
             } else if (connection === 'connecting') {
                 console.log(chalk.yellowBright("[INFO] Connecting to WhatsApp..."));
             } else if (connection === 'open') {
                 console.log(chalk.greenBright.bold("[INFO] Connected! Welcome to BotsApp"));
-                if (firstInit) {
-                    firstInit = false;
-                    sock.sendMessage(
-                        sock.user.id,
-                        {
-                            text: format(GENERAL.SUCCESSFUL_CONNECTION, {
-                                worktype: config.WORK_TYPE,
-                            })
-                        }
-                    );
-                }
+                // if (firstInit) {
+                //     firstInit = false;
+                //     sock.sendMessage(
+                //         sock.user.id,
+                //         {
+                //             text: format(GENERAL.SUCCESSFUL_CONNECTION, {
+                //                 worktype: config.WORK_TYPE,
+                //             })
+                //         }
+                //     );
+                // }
             } else {
                 console.log('connection update', update);
             }
         })
 
-        sock.ev.on('creds.update', (creds) => {
-            saveCreds(creds)
-        })
+        sock.ev.on('creds.update', saveCreds);
 
-        return sock
+        return sock;
     }
 
     startSock();
