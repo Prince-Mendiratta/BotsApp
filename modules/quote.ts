@@ -32,7 +32,6 @@ export = {
                 MessageType.text
             );
             const contact = client.store.contacts[BotsApp.replyParticipant];
-            console.log(contact);
             let quotedReply = BotsApp.replyMessage.replace(/```/g, '');
             let name = contact?.name || contact?.notify || (BotsApp.replyParticipant === BotsApp.owner ? client.sock.user.name : BotsApp.replyParticipant.split("@")[0]);
             let fileName = './tmp/quote-' + chat.key.id;
@@ -47,7 +46,6 @@ export = {
                     await inputSanitization.handleError(err, client, BotsApp);
                 }
             }
-            console.log(url);
             let img = await getQuotly(quotedReply, name, url);
             await writeFile(fileName, img);
             ffmpeg(fileName)
@@ -115,7 +113,6 @@ const getQuotly = async (text: String, name: Object, url: String) => {
             }
         ]
     }
-    console.log(console.log(body))
     let res = await Axios.post('https://bot.lyo.su/quote/generate', body);
     return Buffer.alloc(res.data.result.image.length ,res.data.result.image, "base64");
 }
