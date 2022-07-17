@@ -4,9 +4,11 @@ import BotsApp from "./sidekick";
 
 class Client {
     sock: WASocket;
+    store: any;
 
-    constructor(sock: WASocket) {
+    constructor(sock: WASocket, store: any) {
         this.sock = sock;
+        this.store = store;
     }
 
     async sendMessage(jid: string, content: any, type: string, options?: any) {
@@ -16,50 +18,50 @@ class Client {
             ops = {
                 text: content
             }
-            if(options?.contextInfo?.mentionedJid){
+            if (options?.contextInfo?.mentionedJid) {
                 ops.mentions = options.contextInfo.mentionedJid
             }
             res = await this.sock.sendMessage(jid, ops);
-        }else if(type === MessageType.sticker){
+        } else if (type === MessageType.sticker) {
             res = await this.sock.sendMessage(jid, {
                 sticker: new Buffer(content)
             })
-        }else if(type === MessageType.audio){
+        } else if (type === MessageType.audio) {
             res = await this.sock.sendMessage(jid, {
                 audio: content,
                 mimetype: 'audio/mp4'
             })
-        }else if(type === MessageType.image){
+        } else if (type === MessageType.image) {
             ops = {
                 image: content,
             }
-            if(options?.caption){
+            if (options?.caption) {
                 ops.caption = options.caption;
             }
             res = await this.sock.sendMessage(jid, ops);
-        }else if(type == MessageType.audio){
+        } else if (type == MessageType.audio) {
             res = await this.sock.sendMessage(jid, {
                 audio: content,
                 mimetype: 'audio/mp3'
             });
-        }else if(type === MessageType.buttonsMessage){
+        } else if (type === MessageType.buttonsMessage) {
             res = await this.sock.sendMessage(jid, content);
-        }else if(type == MessageType.video){
+        } else if (type == MessageType.video) {
             ops = {
                 video: content,
             }
-            if(options?.caption){
+            if (options?.caption) {
                 ops.caption = options.caption;
             }
             res = await this.sock.sendMessage(jid, ops);
-        }else if(type === MessageType.document){
+        } else if (type === MessageType.document) {
             ops = {
                 text: options.caption
             }
             let ops2: any = {
                 document: content,
             }
-            if(options?.mimetype){
+            if (options?.mimetype) {
                 ops2.mimetype = options.mimetype;
                 ops2.fileName = options.filename;
             }
@@ -76,7 +78,7 @@ class Client {
         });
     };
 
-    async getGroupMetaData(jid: string, BotsApp: BotsApp){
+    async getGroupMetaData(jid: string, BotsApp: BotsApp) {
         const groupMetadata: GroupMetadata = jid.endsWith("@g.us") ? await this.sock.groupMetadata(jid) : null;
         const getGroupAdmins = (participants: GroupParticipant[]): string[] => {
             var admins: string[] = [];
