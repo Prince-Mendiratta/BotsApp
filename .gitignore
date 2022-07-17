@@ -3,7 +3,7 @@ node_modules
 build/Release
 *.env
 .env.test
-tmp/*.*
+tmp/*
 .vs/
 .idea/
 BotsApp.db

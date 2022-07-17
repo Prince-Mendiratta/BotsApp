@@ -225,6 +225,12 @@ const data = {
         MESSAGE_NOT_TAGGED:
             "```Reply/tag/enter contact number of the person to be promoted.```",
     },
+    quote: {
+        DESCRIPTION: "```Quote someone's text and convert it to sticker.```",
+        EXTENDED_DESCRIPTION: "```Reply to any person's text to convert it to text.```",
+        NO_REPLY: "```Please reply to a text message.```",
+        PROCESSING: "```Quoting text, please wait!```"
+    },
     qr: {
         DESCRIPTION: "Convert a text/image to a QR code",
         EXTENDED_DESCRIPTION:
