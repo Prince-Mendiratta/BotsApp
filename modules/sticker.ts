@@ -43,7 +43,7 @@ export = {
                                 fs.readFileSync(stickerPath),
                                 MessageType.sticker
                             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                            inputSanitization.deleteFiles(
+                            await inputSanitization.deleteFiles(
                                 fileName,
                                 stickerPath
                             );
@@ -87,7 +87,7 @@ export = {
                             fs.readFileSync(stickerPath),
                             MessageType.sticker
                         ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                        inputSanitization.deleteFiles(fileName, stickerPath);
+                        await inputSanitization.deleteFiles(fileName, stickerPath);
                         await client.deleteMessage(BotsApp.chatId, {
                             id: downloading.key.id,
                             remoteJid: BotsApp.chatId,

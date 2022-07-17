@@ -77,7 +77,7 @@ setInterval(() => {
     const startSock = async () => {
         // @ts-ignore
         const { state, saveCreds } = await useRemoteFileAuthState();
-        const { version, isLatest } = await fetchLatestBaileysVersion()
+        const { version, isLatest } = await fetchLatestBaileysVersion();
         const sock: WASocket = makeWASocket({
             version,
             logger,
@@ -112,7 +112,7 @@ setInterval(() => {
             
             let chat: proto.IWebMessageInfo = m.messages[0];
             let BotsApp: BotsApp = await resolve(chat, sock);
-            // console.log(BotsApp);
+            console.log(BotsApp);
             let client : Client = new Client(sock, store);
             if(BotsApp.isCmd){
                 let isBlacklist: boolean = await Blacklist.getBlacklistUser(BotsApp.sender, BotsApp.chatId);
@@ -181,6 +181,35 @@ setInterval(() => {
         })
 
         sock.ev.on('creds.update', saveCreds);
+
+        sock.ev.on('contacts.upsert', (contacts) => {
+            const contactsUpsert = (newContacts) => {
+                for (const contact of newContacts) {
+                    if(store.contacts[contact.id]){
+                        Object.assign(store.contacts[contact.id], contact);
+                    }else{
+                        store.contacts[contact.id] = contact;
+                    }
+                }
+                return;
+            };
+            contactsUpsert(contacts);
+        })
+
+        sock.ev.on('contacts.update', (contacts) => {
+            const contactsUpdate = (newContacts) => {
+                for (const contact of newContacts) {
+                    if(store.contacts[contact.id]){
+                        Object.assign(store.contacts[contact.id], contact);
+                    }else{
+                        store.contacts[contact.id] = contact;
+                    }
+                }
+                return;
+            };
+
+            contactsUpdate(contacts);
+        });
 
         return sock;
     }

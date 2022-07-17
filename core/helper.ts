@@ -23,10 +23,10 @@ const resolve = async function (messageInstance: proto.IWebMessageInfo, client: 
     BotsApp.isTextReply = (BotsApp.mimeType === 'extendedTextMessage' && messageInstance.message?.extendedTextMessage?.contextInfo?.stanzaId) ? true : false;
     BotsApp.replyMessageId = messageInstance.message?.extendedTextMessage?.contextInfo?.stanzaId;
     BotsApp.replyParticipant = messageInstance.message?.extendedTextMessage?.contextInfo?.participant.replace(/:.*@/g, '@');;
-    BotsApp.replyMessage = messageInstance.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation;
+    BotsApp.replyMessage = messageInstance.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation || messageInstance.message?.extendedTextMessage?.contextInfo?.quotedMessage?.extendedTextMessage?.text;
     BotsApp.body = BotsApp.mimeType === 'conversation' ? messageInstance.message?.conversation : (BotsApp.mimeType == 'imageMessage') ? messageInstance.message?.imageMessage.caption : (BotsApp.mimeType == 'videoMessage') ? messageInstance.message?.videoMessage.caption : (BotsApp.mimeType == 'extendedTextMessage') ? messageInstance.message?.extendedTextMessage?.text : (BotsApp.mimeType == 'buttonsResponseMessage') ? messageInstance.message?.buttonsResponseMessage.selectedDisplayText : null;
     BotsApp.isCmd = prefixRegex.test(BotsApp.body);
-    BotsApp.commandName = BotsApp.isCmd ? BotsApp.body.slice(1).trim().split(/ +/).shift().toLowerCase() : null;
+    BotsApp.commandName = BotsApp.isCmd ? BotsApp.body.slice(1).trim().split(/ +/).shift().toLowerCase().split('\n')[0] : null;
     BotsApp.isImage = BotsApp.type === "image";
     BotsApp.isReplyImage = messageInstance.message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage ? true : false;
     BotsApp.imageCaption = BotsApp.isImage ? messageInstance.message?.imageMessage.caption : null;

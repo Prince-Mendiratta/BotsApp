@@ -47,7 +47,7 @@ module.exports = {
                                 fs.readFileSync(imagePath),
                                 MessageType.image,
                             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                            inputSanitization.deleteFiles(fileName, imagePath);
+                            await inputSanitization.deleteFiles(fileName, imagePath);
                             return await client.deleteMessage(BotsApp.chatId, {
                                 id: downloading.key.id,
                                 remoteJid: BotsApp.chatId,
