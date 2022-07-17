@@ -87,6 +87,11 @@ setInterval(() => {
             msgRetryCounterMap,
             // implement to handle retries
             getMessage: async key => {
+                if(store) {
+                    const msg = await store.loadMessage(key.remoteJid!, key.id!, undefined)
+                    return msg?.message || undefined
+                }
+                
                 return {
                     conversation: '-pls ignore-'
                 }
@@ -121,7 +126,7 @@ setInterval(() => {
                         key: chat.key,
                     }
                 }
-                sock.sendMessage(chat.key.remoteJid, reactionMessage);
+                await sock.sendMessage(chat.key.remoteJid, reactionMessage);
                 console.log(chalk.redBright.bold(`[INFO] ${BotsApp.commandName} command executed.`));
                 const command = commandHandler.get(BotsApp.commandName);
                 var args = BotsApp.body.trim().split(/\s+/).slice(1);
