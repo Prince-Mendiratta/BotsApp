@@ -18,7 +18,7 @@ const resolve = async function (messageInstance: proto.IWebMessageInfo, client: 
     BotsApp.chatId = messageInstance.key.remoteJid;
     BotsApp.fromMe = messageInstance.key.fromMe;
     BotsApp.owner = client.user.id.replace(/:.*@/g, '@');
-    BotsApp.mimeType = messageInstance.message ? (Object.keys(messageInstance.message)[0] === 'senderKeyDistributionMessage' ? Object.keys(messageInstance.message)[2] : Object.keys(messageInstance.message)[0]) : null;
+    BotsApp.mimeType = messageInstance.message ? (Object.keys(messageInstance.message)[0] === 'senderKeyDistributionMessage' ? Object.keys(messageInstance.message)[2] : (Object.keys(messageInstance.message)[0] === 'messageContextInfo' ? Object.keys(messageInstance.message)[1] : Object.keys(messageInstance.message)[0])) : null;
     BotsApp.type = BotsApp.mimeType === 'imageMessage' ? 'image' : (BotsApp.mimeType === 'videoMessage') ? 'video' : (BotsApp.mimeType === 'conversation' || BotsApp.mimeType == 'extendedTextMessage') ? 'text' : (BotsApp.mimeType === 'audioMessage') ? 'audio' : (BotsApp.mimeType === 'stickerMessage') ? 'sticker' : (BotsApp.mimeType === 'senderKeyDistributionMessage' && messageInstance.message?.senderKeyDistributionMessage?.groupId === 'status@broadcast') ? 'status' : null;
     BotsApp.isTextReply = (BotsApp.mimeType === 'extendedTextMessage' && messageInstance.message?.extendedTextMessage?.contextInfo?.stanzaId) ? true : false;
     BotsApp.replyMessageId = messageInstance.message?.extendedTextMessage?.contextInfo?.stanzaId;
