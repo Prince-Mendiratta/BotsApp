@@ -30,33 +30,46 @@ module.exports = {
                 return;
             }
             await client.getGroupMetaData(BotsApp.chatId, BotsApp);
-            console.log(BotsApp);
             let members = [];
             for (var i = 0; i < BotsApp.groupMembers.length; i++) {
                 members[i] = BotsApp.groupMembers[i].id;
             }
             if (BotsApp.isTextReply) {
-                client.sendMessage(
+                let quote = await client.store.loadMessage(BotsApp.chatId, BotsApp.replyMessageId, undefined);
+                await client.sock.sendMessage(
                     BotsApp.chatId,
-                    STRINGS.tagall.TAG_MESSAGE,
-                    MessageType.text,
                     {
-                        contextInfo: {
-                            stanzaId: BotsApp.replyMessageId,
-                            participant: BotsApp.replyParticipant,
-                            quotedMessage: {
-                                conversation: BotsApp.replyMessage,
-                            },
-                            mentionedJid: members,
-                        },
+                        text: STRINGS.tagall.TAG_MESSAGE,
+                        mentions: members
+                    },
+                    {
+                        quoted: quote
                     }
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                )
+                // client.sendMessage(
+                //     BotsApp.chatId,
+                //     STRINGS.tagall.TAG_MESSAGE,
+                //     MessageType.text,
+                //     {
+                //         contextInfo: {
+                //             stanzaId: BotsApp.replyMessageId,
+                //             participant: BotsApp.replyParticipant,
+                //             quotedMessage: {
+                //                 conversation: BotsApp.replyMessage,
+                //             },
+                //             mentionedJid: members,
+                //         },
+                //     }
+                // ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
             if (args.length) {
                 client.sendMessage(
                     BotsApp.chatId,
-                    args.join(" "),
+                    BotsApp.body.replace(
+                        BotsApp.body[0] + BotsApp.commandName + " ",
+                        ""
+                    ),
                     MessageType.text,
                     {
                         contextInfo: {
