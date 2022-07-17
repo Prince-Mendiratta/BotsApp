@@ -112,7 +112,7 @@ setInterval(() => {
             
             let chat: proto.IWebMessageInfo = m.messages[0];
             let BotsApp: BotsApp = await resolve(chat, sock);
-            console.log(BotsApp);
+            // console.log(BotsApp);
             let client : Client = new Client(sock, store);
             if(BotsApp.isCmd){
                 let isBlacklist: boolean = await Blacklist.getBlacklistUser(BotsApp.sender, BotsApp.chatId);
