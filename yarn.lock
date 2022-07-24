@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@adiwajshing/baileys@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.npmjs.org/@adiwajshing/baileys/-/baileys-4.2.0.tgz#649907beacd80a10b766c3dd12b11d489cf36f79"
-  integrity sha512-lNS6V8uDn8PrbH3YZM+4531v8/RVXGzVSJztp5GyKyjI8h1LHD2ZVq7NahK6jBBGR/zXz+OyDG+jJJhTHgJdlA==
+"@adiwajshing/baileys@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.npmjs.org/@adiwajshing/baileys/-/baileys-4.3.0.tgz#64a3f1385fb6da948f936740463d500df55fc0f5"
+  integrity sha512-t8W6pzpt884ZXEZvuRANiD93k8YOH8ikTlIM0MhzRJMcsBEL9+4w1Q8gWZraymOXH/YRtdJ1icWw77Y38QPC9g==
   dependencies:
     "@hapi/boom" "^9.1.3"
     axios "^0.24.0"
