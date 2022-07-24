@@ -18,7 +18,7 @@ export = {
     demo: { isEnabled: false, },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            if(!BotsApp.isTextReply || (BotsApp.isTextReply && !BotsApp.replyMessage)){
+            if (!BotsApp.isTextReply || (BotsApp.isTextReply && !BotsApp.replyMessage)) {
                 await client.sendMessage(
                     BotsApp.chatId,
                     quote.NO_REPLY,
@@ -31,19 +31,24 @@ export = {
                 quote.PROCESSING,
                 MessageType.text
             );
-            const contact = client.store.contacts[BotsApp.replyParticipant];
+            console.log(JSON.stringify(chat));
+            const contact = client.store?.contacts[BotsApp.replyParticipant] || undefined;
             let quotedReply = BotsApp.replyMessage.replace(/```/g, '');
             let name = contact?.name || contact?.notify || (BotsApp.replyParticipant === BotsApp.owner ? client.sock.user.name : BotsApp.replyParticipant.split("@")[0]);
             let fileName = './tmp/quote-' + chat.key.id;
             let stickerPath = './tmp/quote-' + chat.key.id + ".webp";
             let url: String;
             try {
-                url = await client.sock.profilePictureUrl(BotsApp.replyParticipant);
-            }catch(err){
-                if (err.data === 404 || err.data === 401) {
-                    url = "https://i.imgur.com/vjLIqgO.png";
-                } else {
-                    await inputSanitization.handleError(err, client, BotsApp);
+                url = await client.sock.profilePictureUrl(BotsApp.replyParticipant, "image");
+            } catch (err) {
+                try {
+                    url = await client.sock.profilePictureUrl(BotsApp.replyParticipant);
+                } catch {
+                    if (err.data === 404 || err.data === 401) {
+                        url = "https://i.imgur.com/vjLIqgO.png";
+                    } else {
+                        await inputSanitization.handleError(err, client, BotsApp);
+                    }
                 }
             }
             let img = await getQuotly(quotedReply, name, url);
@@ -114,5 +119,5 @@ const getQuotly = async (text: String, name: Object, url: String) => {
         ]
     }
     let res = await Axios.post('https://bot.lyo.su/quote/generate', body);
-    return Buffer.alloc(res.data.result.image.length ,res.data.result.image, "base64");
+    return Buffer.alloc(res.data.result.image.length, res.data.result.image, "base64");
 }

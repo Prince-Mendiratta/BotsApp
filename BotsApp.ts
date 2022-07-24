@@ -25,7 +25,7 @@ const sequelize: Sequelize = config.DATABASE;
 const GENERAL: any = STRINGS.general;
 const msgRetryCounterMap: MessageRetryMap = {};
 const logger: Logger = P({ timestamp: () => `,"time":"${new Date().toJSON()}"` }).child({})
-logger.level = 'error'
+logger.level = 'fatal'
 
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
