@@ -162,41 +162,43 @@ setInterval(() => {
                     if (upsert.type !== 'notify') {
                         return;
                     }
-                    let chat: proto.IWebMessageInfo = upsert.messages[0];
-                    let BotsApp: BotsApp = await resolve(chat, sock);
-                    // console.log(BotsApp);
-                    if (BotsApp.isCmd) {
-                        let isBlacklist: boolean = await Blacklist.getBlacklistUser(BotsApp.sender, BotsApp.chatId);
-                        const cleared: boolean = await clearance(BotsApp, client, isBlacklist);
-                        if (!cleared) {
-                            return;
-                        }
-                        const reactionMessage = {
-                            react: {
-                                text: "🪄",
-                                key: chat.key,
-                            }
-                        }
-                        await sock.sendMessage(chat.key.remoteJid, reactionMessage);
-                        console.log(chalk.redBright.bold(`[INFO] ${BotsApp.commandName} command executed.`));
-                        const command = commandHandler.get(BotsApp.commandName);
-                        var args = BotsApp.body.trim().split(/\s+/).slice(1);
-                        if (!command) {
-                            client.sendMessage(BotsApp.chatId, "```Woops, invalid command! Use```  *.help*  ```to display the command list.```", MessageType.text);
-                            return;
-                        } else if (command && BotsApp.commandName == "help") {
-                            try {
-                                command.handle(client, chat, BotsApp, args, commandHandler);
+                    for(const msg of upsert.messages){
+                        let chat: proto.IWebMessageInfo = msg;
+                        let BotsApp: BotsApp = await resolve(chat, sock);
+                        // console.log(BotsApp);
+                        if (BotsApp.isCmd) {
+                            let isBlacklist: boolean = await Blacklist.getBlacklistUser(BotsApp.sender, BotsApp.chatId);
+                            const cleared: boolean = await clearance(BotsApp, client, isBlacklist);
+                            if (!cleared) {
                                 return;
+                            }
+                            const reactionMessage = {
+                                react: {
+                                    text: "🪄",
+                                    key: chat.key,
+                                }
+                            }
+                            await sock.sendMessage(chat.key.remoteJid, reactionMessage);
+                            console.log(chalk.redBright.bold(`[INFO] ${BotsApp.commandName} command executed.`));
+                            const command = commandHandler.get(BotsApp.commandName);
+                            var args = BotsApp.body.trim().split(/\s+/).slice(1);
+                            if (!command) {
+                                client.sendMessage(BotsApp.chatId, "```Woops, invalid command! Use```  *.help*  ```to display the command list.```", MessageType.text);
+                                return;
+                            } else if (command && BotsApp.commandName == "help") {
+                                try {
+                                    command.handle(client, chat, BotsApp, args, commandHandler);
+                                    return;
+                                } catch (err) {
+                                    console.log(chalk.red("[ERROR] ", err));
+                                    return;
+                                }
+                            }
+                            try {
+                                await command.handle(client, chat, BotsApp, args).catch(err => console.log("[ERROR] " + err));
                             } catch (err) {
                                 console.log(chalk.red("[ERROR] ", err));
-                                return;
                             }
-                        }
-                        try {
-                            await command.handle(client, chat, BotsApp, args).catch(err => console.log("[ERROR] " + err));
-                        } catch (err) {
-                            console.log(chalk.red("[ERROR] ", err));
                         }
                     }
                 }
