@@ -2,7 +2,7 @@ import { Boom } from '@hapi/boom'
 import P, { Logger } from 'pino'
 import makeWASocket, { MessageRetryMap, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, WASocket, proto, Contact } from '@adiwajshing/baileys'
 // @ts-ignore
-import useRemoteFileAuthState from './core/dbAuth.js'
+import { useRemoteFileAuthState } from './core/dbAuth.js'
 import fs from 'fs'
 import { join } from 'path'
 import config from './config'
