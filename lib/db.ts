@@ -226,7 +226,7 @@ const data = {
             "```Reply/tag/enter contact number of the person to be promoted.```",
     },
     quote: {
-        DESCRIPTION: "```Quote someone's text and convert it to sticker.```",
+        DESCRIPTION: "Quote someone's text and convert it to sticker.",
         EXTENDED_DESCRIPTION: "```Reply to any person's text to convert it to text.```",
         NO_REPLY: "```Please reply to a text message.```",
         PROCESSING: "```Quoting text, please wait!```"
