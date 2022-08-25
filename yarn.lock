@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@adiwajshing/baileys@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.npmjs.org/@adiwajshing/baileys/-/baileys-4.3.0.tgz#64a3f1385fb6da948f936740463d500df55fc0f5"
-  integrity sha512-t8W6pzpt884ZXEZvuRANiD93k8YOH8ikTlIM0MhzRJMcsBEL9+4w1Q8gWZraymOXH/YRtdJ1icWw77Y38QPC9g==
+"@adiwajshing/baileys@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.npmjs.org/@adiwajshing/baileys/-/baileys-4.4.0.tgz#6c39c74a29324d22aec67ddbfda890a8e5d85e37"
+  integrity sha512-5gEnkJBgraLL0USzndxto8ofYhWyMFZVkpZ4rD1nPqrjBjGMt+k+YDpllpFpOfA0yxWZb6nPrr04ikQv++dz2Q==
   dependencies:
     "@hapi/boom" "^9.1.3"
     axios "^0.24.0"
@@ -2305,9 +2305,9 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libsignal@git+https://github.com/adiwajshing/libsignal-node.git":
+"libsignal@git+https://github.com/adiwajshing/libsignal-node":
   version "2.0.1"
-  resolved "git+https://github.com/adiwajshing/libsignal-node.git#11dbd962ea108187c79a7c46fe4d6f790e23da97"
+  resolved "git+https://github.com/adiwajshing/libsignal-node#11dbd962ea108187c79a7c46fe4d6f790e23da97"
   dependencies:
     curve25519-js "^0.0.4"
     protobufjs "6.8.8"

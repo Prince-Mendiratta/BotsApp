@@ -10,7 +10,7 @@
     "author": "Prince Mendiratta",
     "license": "ISC",
     "dependencies": {
-        "@adiwajshing/baileys": "^4.3.0",
+        "@adiwajshing/baileys": "^4.4.0",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@nuintun/qrcode": "^3.0.1",
         "@vitalets/google-translate-api": "^7.0.0",
