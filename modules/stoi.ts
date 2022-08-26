@@ -18,7 +18,7 @@ module.exports = {
         // Task starts here
         try {
             // Function to convert media to sticker
-            const convertToImage = async (stickerId: string, replyChat: { message: proto.IStickerMessage; type: any; }) => {
+            const convertToImage = async (stickerId: string, replyChat: { message: proto.Message.IStickerMessage; type: any; }) => {
                 var downloading = await client.sendMessage(
                     BotsApp.chatId,
                     STOI.DOWNLOADING,

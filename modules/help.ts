@@ -36,11 +36,11 @@ module.exports = {
                 });
 
                 if(command.demo?.isEnabled) {
-                    var buttons: proto.IButton[] = [];
+                    var buttons: proto.Message.ButtonsMessage.IButton[] = [];
                     helpMessage += format(HELP.COMMAND_INTERFACE_TEMPLATE, triggers, command.extendedDescription) + HELP.FOOTER;
                     if(command.demo.text instanceof Array){
                         for (var i in command.demo.text){
-                            var button: proto.IButton = {
+                            var button: proto.Message.ButtonsMessage.IButton = {
                                 buttonId: 'id' + i,
                                 buttonText: {displayText: command.demo.text[i]},
                                 type: 1
