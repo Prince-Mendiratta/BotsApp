@@ -40,7 +40,7 @@
         "unofficial-carbon-now": "^1.0.3",
         "urban-dictionary": "^3.0.2",
         "yt-search": "^2.10.1",
-        "ytdl-core": "^4.9.1"
+        "ytdl-core": "^4.11.2"
     },
     "devDependencies": {
         "@types/node": "^17.0.32",
