@@ -46,7 +46,7 @@ module.exports = {
                             fromMe: true,
                         });
                     }
-                    client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
+                    await client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
                 } catch (error) {
                     throw error;
                 }
@@ -90,12 +90,12 @@ module.exports = {
                             fromMe: true,
                         });
                     }
-                    client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
+                    await client.sendMessage(BotsApp.chatId, Msg, MessageType.text);
                 } catch (error) {
                     throw error;
                 }
                 inputSanitization.deleteFiles(fileName);
-                return await client.deleteMessage(BotsApp.chatId, {
+                return client.deleteMessage(BotsApp.chatId, {
                     id: processing.key.id,
                     remoteJid: BotsApp.chatId,
                     fromMe: true,

@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-"@adiwajshing/baileys@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/@adiwajshing/baileys/-/baileys-4.1.0.tgz#7dbcc788b28a7d69a95e6f5f97cf4db3178d6e96"
-  integrity sha512-365E0lkHa9brjJRgKwhNpmUT/lNpzopBsBjCXYgvdSiJ/c3b8yyIoW7+AOyuwR1CQ1CW86IiPpdaqfb+wiDg7w==
+"@adiwajshing/baileys@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.npmjs.org/@adiwajshing/baileys/-/baileys-4.4.0.tgz#6c39c74a29324d22aec67ddbfda890a8e5d85e37"
+  integrity sha512-5gEnkJBgraLL0USzndxto8ofYhWyMFZVkpZ4rD1nPqrjBjGMt+k+YDpllpFpOfA0yxWZb6nPrr04ikQv++dz2Q==
   dependencies:
     "@hapi/boom" "^9.1.3"
     axios "^0.24.0"
-    curve25519-js "^0.0.4"
+    futoin-hkdf "^1.5.0"
     libsignal "git+https://github.com/adiwajshing/libsignal-node"
-    music-metadata "^7.4.1"
+    music-metadata "^7.12.3"
     node-cache "^5.1.2"
     pino "^7.0.0"
-    protobufjs "^6.10.1"
+    protobufjs "^6.11.3"
     ws "^8.0.0"
 
 "@adiwajshing/keyed-db@^0.2.4":
@@ -1773,6 +1773,11 @@ function-bind@^1.1.1:
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
+futoin-hkdf@^1.5.0:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/futoin-hkdf/-/futoin-hkdf-1.5.1.tgz#141f00427bc9950b38a42aa786b99c318b9b688d"
+  integrity sha512-g5d0Qp7ks55hYmYmfqn4Nz18XH49lcCR+vvIvHT92xXnsJaGZmY1EtWQWilJ6BQp57heCIXM/rRo+AFep8hGgg==
+
 gauge@^3.0.0:
   version "3.0.2"
   resolved "https://registry.npmjs.org/gauge/-/gauge-3.0.2.tgz#03bf4441c044383908bcfa0656ad91803259b395"
@@ -2582,7 +2587,7 @@ ms@2.1.3, ms@^2.0.0, ms@^2.1.1:
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-music-metadata@^7.4.1:
+music-metadata@^7.12.3:
   version "7.12.3"
   resolved "https://registry.npmjs.org/music-metadata/-/music-metadata-7.12.3.tgz#47d2414a959352c9d310074d39182e9be71e1419"
   integrity sha512-6pZngaroNxGBf8KZjE8reGZJiS533eJq7dBFsyoiEAZIORQAxmVVx20ABh9W2tsLT+5mKYyDzcNi5GuHf3jitg==
@@ -3043,10 +3048,10 @@ protobufjs@6.8.8:
     "@types/node" "^10.1.0"
     long "^4.0.0"
 
-protobufjs@^6.10.1:
-  version "6.11.2"
-  resolved "https://registry.npmjs.org/protobufjs/-/protobufjs-6.11.2.tgz#de39fabd4ed32beaa08e9bb1e30d08544c1edf8b"
-  integrity sha512-4BQJoPooKJl2G9j3XftkIXjoC9C0Av2NOrWmbLWT1vH32GcSUHjM0Arra6UfTsVyfMAuFzaLucXn1sadxJydAw==
+protobufjs@^6.11.3:
+  version "6.11.3"
+  resolved "https://registry.npmjs.org/protobufjs/-/protobufjs-6.11.3.tgz#637a527205a35caa4f3e2a9a4a13ddffe0e7af74"
+  integrity sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
@@ -3978,10 +3983,10 @@ yt-search@^2.10.1:
     minimist "~1.2.5"
     node-fzf "~0.5.1"
 
-ytdl-core@^4.9.1:
-  version "4.11.0"
-  resolved "https://registry.npmjs.org/ytdl-core/-/ytdl-core-4.11.0.tgz#79a3ea94d9d662b4b3acecdb1372ed3f1a9ea9db"
-  integrity sha512-Q3hCLiUA9AOGQXzPvno14GN+HgF9wsO1ZBHlj0COTcyxjIyFpWvMfii0UC4/cAbVaIjEdbWB71GdcGuc4J1Lmw==
+ytdl-core@^4.11.2:
+  version "4.11.2"
+  resolved "https://registry.npmjs.org/ytdl-core/-/ytdl-core-4.11.2.tgz#c2341916b9757171741a2fa118b6ffbb4ffd92f7"
+  integrity sha512-D939t9b4ZzP3v0zDvehR2q+KgG97UTgrTKju3pOPGQcXtl4W6W5z0EpznzcJFu+OOpl7S7Ge8hv8zU65QnxYug==
   dependencies:
     m3u8stream "^0.8.6"
     miniget "^4.2.2"

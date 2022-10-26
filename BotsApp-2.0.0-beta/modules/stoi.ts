@@ -18,7 +18,7 @@ module.exports = {
         // Task starts here
         try {
             // Function to convert media to sticker
-            const convertToImage = async (stickerId: string, replyChat: { message: proto.IStickerMessage; type: any; }) => {
+            const convertToImage = async (stickerId: string, replyChat: { message: proto.Message.IStickerMessage; type: any; }) => {
                 var downloading = await client.sendMessage(
                     BotsApp.chatId,
                     STOI.DOWNLOADING,
@@ -47,7 +47,7 @@ module.exports = {
                                 fs.readFileSync(imagePath),
                                 MessageType.image,
                             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                            inputSanitization.deleteFiles(fileName, imagePath);
+                            await inputSanitization.deleteFiles(fileName, imagePath);
                             return await client.deleteMessage(BotsApp.chatId, {
                                 id: downloading.key.id,
                                 remoteJid: BotsApp.chatId,

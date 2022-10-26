@@ -10,7 +10,7 @@
     "author": "Prince Mendiratta",
     "license": "ISC",
     "dependencies": {
-        "@adiwajshing/baileys": "^4.1.0",
+        "@adiwajshing/baileys": "^4.4.0",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@nuintun/qrcode": "^3.0.1",
         "@vitalets/google-translate-api": "^7.0.0",
@@ -40,7 +40,7 @@
         "unofficial-carbon-now": "^1.0.3",
         "urban-dictionary": "^3.0.2",
         "yt-search": "^2.10.1",
-        "ytdl-core": "^4.9.1"
+        "ytdl-core": "^4.11.2"
     },
     "devDependencies": {
         "@types/node": "^17.0.32",

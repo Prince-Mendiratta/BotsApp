@@ -96,7 +96,7 @@ const handleError = async (err, client, BotsApp, customMessage = "```Something w
         err: err
     }
     client.sendMessage(BotsApp.chatId, customMessage, MessageType.text);
-    client.sendMessage(BotsApp.logGroup, { text: format(ERROR_TEMPLATE, data) });
+    client.sendMessage(BotsApp.logGroup, format(ERROR_TEMPLATE, data), MessageType.text);
 }
 
 const saveBuffer = async (fileName: string, stream: Transform) => {
