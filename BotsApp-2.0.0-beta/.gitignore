@@ -1,0 +1,12 @@
+.DS_Store
+node_modules
+build/Release
+*.env
+.env.test
+tmp/*.*
+.vs/
+.idea/
+BotsApp.db
+yarn-error.log
+dist/
+session.data.json

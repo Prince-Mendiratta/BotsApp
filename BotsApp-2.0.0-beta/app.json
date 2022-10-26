@@ -1,0 +1,79 @@
+{
+    "name": "BotsApp",
+    "description": "The most user friendly and easy to use WhatsApp bot.",
+    "logo": "https://i.imgur.com/xw9lULI.jpg",
+    "keywords": [
+        "Whatsapp",
+        "WhatsApp bot",
+        "userbot",
+        "BotsApp",
+        "nodejs",
+        "WhatsApp Multi Device",
+        "WhatsApp Multi Device bot"
+    ],
+    "repository": "https://github.com/BotsAppOfficial/BotsApp",
+    "website": "https://mybotsapp.com",
+    "success_url": "",
+    "stack": "container",
+    "env": {
+        "STRING_SESSION": {
+            "description": "Your BotsApp session. Can be obtained via website or running npm start locally.",
+            "value": "",
+            "required": true
+        },
+        "HEROKU": {
+            "description": "Is the bot running on heroku? If you're seeing this, then probably it's true.",
+            "value": "true",
+            "required": false
+        },
+        "PREFIX": {
+            "description": "Regex pattern for the prefix. Leave default if you are not sure about this.",
+            "value": "^[.?!]",
+            "required": false
+        },
+        "COUNTRY_CODE": {
+            "description": "The default country code to be used in modules.",
+            "value": "91",
+            "required": false
+        },
+        "OCR_API_KEY": {
+            "description": "API key for using OCR (Optical Character Recognition) module. You can obtain this for free from https://ocr.space/",
+            "value": "",
+            "required": false
+        },
+        "WEATHER_API_KEY": {
+            "description": "API key for using weather module. You can obtain this for free from https://openweathermap.org/",
+            "value": "",
+            "required": false
+        },
+        "DEBUG": {
+            "description": "Set this to true to see detailed logs.",
+            "value": "false",
+            "required": false
+        },
+        "WORK_TYPE": {
+            "description": "Which mode should the bot work in? In private mode, only the bot number and sudo users can use the bot.",
+            "value": "private",
+            "required": false
+        },
+        "SUDO": {
+            "description": "List down the phone numbers in international format, separated by commas, who should have permission to use the bot. For example -> 917838xxxxxx,1875xxxxxxxx",
+            "value": "",
+            "required": false
+        }
+    },
+    "addons": [
+        {
+            "plan": "heroku-postgresql",
+            "options": {
+                "version": "13"
+            }
+        }
+    ],
+    "formation": {
+        "botsapp": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
