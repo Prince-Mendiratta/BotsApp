@@ -18,7 +18,7 @@ export = {
         try {
             client.sendMessage(
                 BotsApp.chatId,
-                outcomesIndex,
+                outcomes[outcomesIndex],
                 MessageType.text
             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
         } catch (err) {
