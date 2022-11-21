@@ -23,6 +23,10 @@ const clearance = async (BotsApp: BotsApp, client: Client, isBlacklist: boolean)
             return false;
         }
     }
+    else if(!config.ONLY_ALLOWED_CHATS.split(",").includes(BotsApp.chatId)) {
+        console.log(chalk.blueBright.bold(`[INFO] DISALLOWED CHAT: ${BotsApp.chatId}`))
+        return false;
+    }
     else if ((BotsApp.chatId === "917838204238-1634977991@g.us" || BotsApp.chatId === "120363020858647962@g.us" || BotsApp.chatId === "120363023294554225@g.us")) {
         console.log(chalk.blueBright.bold(`[INFO] Bot disabled in Support Groups.`));
         return false;
