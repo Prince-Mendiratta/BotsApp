@@ -42,7 +42,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 - Initial Release
 
-[Unreleased]: https://github.com/BotsAppOfficial/BotsApp/compare/v1.1.0...HEAD
-[1.1.0]: https://github.com/BotsAppOfficial/BotsApp/releases/tag/v1.1.0
-[1.0.1]: https://github.com/BotsAppOfficial/BotsApp/releases/tag/v1.0.1
-[1.0.0]: https://github.com/BotsAppOfficial/BotsApp/releases/tag/v1.0.0
+[Unreleased]: https://github.com/Prince-Mendiratta/BotsApp/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Prince-Mendiratta/BotsApp/releases/tag/v1.1.0
+[1.0.1]: https://github.com/Prince-Mendiratta/BotsApp/releases/tag/v1.0.1
+[1.0.0]: https://github.com/Prince-Mendiratta/BotsApp/releases/tag/v1.0.0

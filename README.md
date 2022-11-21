@@ -6,8 +6,8 @@
 # 💠[BotsApp](https://mybotsapp.com/)💠
 > Your Personal Assisstant, on WhatsApp!
 ---
-![GitHub top language](https://img.shields.io/github/languages/top/BotsAppOfficial/BotsApp) [![GitHub release](https://img.shields.io/github/release/BotsAppOfficial/BotsApp.svg)](https://github.com/bkimminich/juice-shop/releases/latest)
- ![GitHub contributors](https://img.shields.io/github/contributors/BotsAppOfficial/BotsApp) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/BotsAppOfficial/BotsApp) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/BotsAppOfficial/BotsApp) ![GitHub Repo stars](https://img.shields.io/github/stars/BotsAppOfficial/BotsApp?style=social) ![GitHub repo size](https://img.shields.io/github/repo-size/BotsAppOfficial/BotsApp)
+![GitHub top language](https://img.shields.io/github/languages/top/Prince-Mendiratta/BotsApp) [![GitHub release](https://img.shields.io/github/release/Prince-Mendiratta/BotsApp.svg)](https://github.com/bkimminich/juice-shop/releases/latest)
+ ![GitHub contributors](https://img.shields.io/github/contributors/Prince-Mendiratta/BotsApp) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/Prince-Mendiratta/BotsApp) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Prince-Mendiratta/BotsApp) ![GitHub Repo stars](https://img.shields.io/github/stars/Prince-Mendiratta/BotsApp?style=social) ![GitHub repo size](https://img.shields.io/github/repo-size/Prince-Mendiratta/BotsApp)
  
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/princemendiratta/botsapp?style=flat-square&label=Docker+Pulls) ![Docker Image Size](https://img.shields.io/docker/image-size/princemendiratta/botsapp?style=flat-square&label=Docker+Image+Size)
@@ -54,7 +54,7 @@ Voila! You have deployed your bot in 5 easy steps. Once the bot has started succ
 
 You can deploy the bot the heroku yourself using the button below!
 
-[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmainhttps://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FBotsAppOfficial%2FBotsApp%2Ftree%2Fmain)
+[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FPrince-Mendiratta%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FPrince-Mendiratta%2FBotsApp%2Ftree%2Fmainhttps://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FPrince-Mendiratta%2FBotsApp%2Ftree%2Fmain&template=https%3A%2F%2Fgithub.com%2FPrince-Mendiratta%2FBotsApp%2Ftree%2Fmain)
 
 ### Using Docker locally
 
@@ -63,7 +63,7 @@ To follow this method, you will need to have docker installed on your machine an
 To host the bot on your own device using docker, follow the following steps on your terminal / command prompt -
 
 ```bash
-wget -O BotsApp.tar.gz https://github.com/BotsAppOfficial/BotsApp/archive/refs/tags/v2.0.0-beta.tar.gz
+wget -O BotsApp.tar.gz https://github.com/Prince-Mendiratta/BotsApp/archive/refs/tags/v2.0.0-beta.tar.gz
 tar -xvzf BotsApp.tar.gz
 cd BotsApp-2.0.0-beta
 docker build -t botsapp .
@@ -79,7 +79,7 @@ To use this method, you will need ffmpeg, nodejs, npm installed on your device.
 To run the bot on your device manually, you can use the following commands -
 
 ```bash
-git clone https://github.com/BotsAppOfficial/BotsApp.git
+git clone https://github.com/Prince-Mendiratta/BotsApp.git
 cd BotsApp
 yarn
 npm start
@@ -100,7 +100,7 @@ Feel free to post your queries or concerns on any of the discussion forums menti
 
 [![Join Telegram Group](https://img.shields.io/badge/Join-Telegram%20Group-blue.svg?logo=Telegram)](https://t.me/BotsAppChat)
 
-[![Join Telegram Channel](https://img.shields.io/badge/Join-Telegram%20Channel-red.svg?logo=Telegram)](https://t.me/BotsAppOfficial)
+[![Join Telegram Channel](https://img.shields.io/badge/Join-Telegram%20Channel-red.svg?logo=Telegram)](https://t.me/Prince-Mendiratta)
 
 
 
@@ -136,9 +136,9 @@ Feel free to post your queries or concerns on any of the discussion forums menti
 - [X-tra-Telegram](https://github.com/Prince-Mendiratta/X-tra-Telegram)
 
 ## Copyright & License
-- Copyright (C) 2021 - 2022 by [BotsAppOfficial](https://github.com/BotsAppOfficial)
+- Copyright (C) 2021 - 2022 by [Prince-Mendiratta](https://github.com/Prince-Mendiratta)
 
-- Licensed under the terms by [GNU GENERAL PUBLIC LICENSE](https://github.com/BotsAppOfficial/BotsApp/blob/main/LICENSE)
+- Licensed under the terms by [GNU GENERAL PUBLIC LICENSE](https://github.com/Prince-Mendiratta/BotsApp/blob/main/LICENSE)
 
 ## Legal
 This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by WhatsApp or any of its affiliates or subsidiaries. This is an independent and unofficial software. Use at your own risk.

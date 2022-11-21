@@ -8,7 +8,7 @@ WORKDIR /BotsApp
 
 RUN git init --initial-branch=multi-device
 
-RUN git remote add origin https://github.com/BotsAppOfficial/BotsApp.git
+RUN git remote add origin https://github.com/Prince-Mendiratta/BotsApp.git
 
 RUN git fetch origin multi-device
 
