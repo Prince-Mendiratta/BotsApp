@@ -42,7 +42,7 @@ You can deploy BotsApp in minimal time without any prior knowledge using this me
 1. Clone/Fork and download the codes to your PC or server
 2. Open the folder in your terminal and run the following commands -
 ```bash 
-yarn install
+npm install
 ```
 3. Create the `config.env` file in the root directory and add the following fields -
 ```bash
