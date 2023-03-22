@@ -15,4 +15,4 @@ RUN yarn install
 
 # RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
 
-CMD [ "npm", "prod"]
+CMD [ "npm", "run", "prod"]
