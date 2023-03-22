@@ -2,7 +2,7 @@ import {config} from "../config.js";
 import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
 const sequelize: Sequelize = config.DATABASE;
-
+// @ts-ignore
 class Blacklist extends Model<InferAttributes<Blacklist>, InferCreationAttributes<Blacklist>> {
     declare JID: string;
     declare GRPID: string;

@@ -86,7 +86,7 @@ export default  {
             }
             if (args[0][0] == "@") {
                 const number = args[0].substring(1);
-                if (parseInt(args[0]) === NaN) {
+                if (isNaN(parseInt(args[0]))) {
                     client.sendMessage(
                         BotsApp.chatId,
                         STRINGS.remove.INPUT_ERROR,

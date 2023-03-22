@@ -16,7 +16,7 @@ const ERROR_TEMPLATE = db.general.ERROR_TEMPLATE
 const getCleanedContact = async (args: string[], client: Client, BotsApp: BotsApp) => {
     var jidNumber = '';
     var countryCode = config.COUNTRY_CODE;
-    if (parseInt(args[0]) === NaN || args[0][0] === "+" || args[0][0] === "@") {
+    if (isNaN(parseInt(args[0])) || args[0][0] === "+" || args[0][0] === "@") {
         if (args[0][0] === "@" || args[0][0] === "+") {
             jidNumber = args[0].substring(1, args[0].length + 1);
         }

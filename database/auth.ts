@@ -2,7 +2,7 @@ import {config} from "../config.js";
 import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
 const sequelize: Sequelize = config.DATABASE;
-
+// @ts-ignore
 class Auth extends Model<InferAttributes<Auth>, InferCreationAttributes<Auth>> {
     declare key: string;
     declare value: string;

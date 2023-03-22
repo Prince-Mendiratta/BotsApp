@@ -2,7 +2,7 @@ import {config} from "../config.js";
 import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
 const sequelize: Sequelize = config.DATABASE;
-
+// @ts-ignore
 class Greeting extends Model<InferAttributes<Greeting>, InferCreationAttributes<Greeting>> {
     declare chat: string;
     declare switched: string;
