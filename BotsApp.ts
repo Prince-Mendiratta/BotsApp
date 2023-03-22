@@ -2,7 +2,8 @@ import { Boom } from '@hapi/boom'
 import P, { Logger } from 'pino'
 import makeWASocket, { MessageRetryMap, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, WASocket, proto, Contact } from '@adiwajshing/baileys'
 // @ts-ignore
-import  useRemoteFileAuthState  from './core/dbAuth.cjs'
+import pkg from './core/dbAuth.cjs';
+const { useRemoteFileAuthState } = pkg;
 import fs from 'fs'
 import { join } from 'path'
 import {config} from './config.js'
@@ -83,7 +84,7 @@ setInterval(() => {
 
     const startSock = async () => {
         // @ts-ignore
-        const { state, saveCreds } = await useRemoteFileAuthState.useRemoteFileAuthState();
+        const { state, saveCreds } = await useRemoteFileAuthState();
         const { version, isLatest } = await fetchLatestBaileysVersion();
         //@ts-ignore
         const sock: WASocket = makeWASocket.default({

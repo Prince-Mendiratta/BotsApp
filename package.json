@@ -7,7 +7,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "tsc && node --max-old-space-size=512 --trace-warnings --optimize_for_size dist/BotsApp.js",
-        "prod": "yarn dlx -p typescript tsc && node --max-old-space-size=512 --trace-warnings --optimize_for_size dist/BotsApp.js"
+        "prod": "yarn dlx -p typescript@3.9.10 tsc && node --max-old-space-size=512 --trace-warnings --optimize_for_size dist/BotsApp.js"
     },
     "author": "Prince Mendiratta",
     "license": "ISC",
@@ -40,7 +40,7 @@
         "songlyrics": "^2.2.4",
         "sqlite3": "^5.0.2",
         "string-format": "^2.0.0",
-        "typescript": "^4.6.4",
+        "typescript": "^3.9.10",
         "unofficial-carbon-now": "^1.0.3",
         "urban-dictionary": "^3.0.2",
         "yt-search": "^2.10.1",
