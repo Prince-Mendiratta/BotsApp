@@ -10,8 +10,6 @@ services:
     volumes:
       - '.:/BotsApp'
       - '/BotsApp/node_modules'
-      - '/BotsApp/BotsApp.db'
-      - '/BotsApp/session.data.json'
     restart: 'always'
     #    ports:
     #      - '8031:8890'
