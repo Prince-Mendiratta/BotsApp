@@ -6,7 +6,11 @@ COPY . /BotsApp
 
 WORKDIR /BotsApp
 
-RUN npm install
+RUN corepack enable
+
+RUN yarn set version stable
+
+RUN yarn install
 
 # RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
 
