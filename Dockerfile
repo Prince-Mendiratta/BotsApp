@@ -10,6 +10,8 @@ RUN corepack enable
 
 RUN corepack prepare yarn@stable --activate
 
+RUN yarn global add typescript
+
 RUN yarn install
 
 # RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
