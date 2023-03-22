@@ -16,4 +16,4 @@ RUN yarn global add typescript
 
 # RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
 
-CMD [ "npm", "start"]
+CMD [ "npm", "prod"]
