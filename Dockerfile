@@ -8,7 +8,9 @@ WORKDIR /BotsApp
 
 RUN corepack enable
 
-# RUN yarn set version stable
+RUN corepack prepare yarn@stable --activate
+
+RUN yarn set version stable
 
 RUN yarn install
 
