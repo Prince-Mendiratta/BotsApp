@@ -10,8 +10,6 @@ RUN corepack enable
 
 RUN corepack prepare yarn@stable --activate
 
-RUN #yarn set version stable
-
 RUN yarn install
 
 # RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
