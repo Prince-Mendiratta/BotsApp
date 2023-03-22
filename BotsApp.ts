@@ -56,7 +56,6 @@ setInterval(() => {
                 chalk.magentaBright("[INFO] Successfully imported module"),
                 chalk.cyanBright.bold(`${file}`)
             )
-            console.log("setting", command, join(__dirname, 'modules', `${file}`));
             commandHandler.set(command.name, command);
         } catch (error) {
             console.log(
