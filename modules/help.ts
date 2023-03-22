@@ -1,15 +1,15 @@
-import Strings from "../lib/db";
+import Strings from "../lib/db.js";
 import format from "string-format";
-import inputSanitization from "../sidekick/input-sanitization";
-import config from "../config";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import {config} from "../config.js";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { AnyMediaMessageContent, AnyMessageContent, proto } from "@adiwajshing/baileys";
 import Command from "../sidekick/command";
 const HELP = Strings.help;
 
-module.exports = {
+export default  {
     name: "help",
     description: HELP.DESCRIPTION,
     extendedDescription: HELP.EXTENDED_DESCRIPTION,

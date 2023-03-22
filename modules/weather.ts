@@ -1,16 +1,16 @@
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import https from "https";
-import config from "../config";
-import Strings from "../lib/db";
+import {config} from "../config.js";
+import Strings from "../lib/db.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import format from "string-format";
 const WEATHER = Strings.weather;
 const apiKey = config.WEATHER_API_KEY;
 
-module.exports = {
+export default  {
     name: "weather",
     description: WEATHER.DESCRIPTION,
     extendedDescription: WEATHER.EXTENDED_DESCRIPTION,

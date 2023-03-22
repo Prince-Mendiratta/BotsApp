@@ -1,19 +1,19 @@
 import Jimp from "jimp";
 import fs from "fs";
 import ffmpeg from "fluent-ffmpeg";
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import qrCode from "qrcode-reader";
-import Strings from "../lib/db";
+import Strings from "../lib/db.js";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { Transform } from "stream";
 import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
 import { URL } from "url";
 
 const DECODE = Strings.decodeqr;
 
-module.exports = {
+export default  {
     name: "dqr",
     description: DECODE.DESCRIPTION,
     extendedDescription: DECODE.EXTENDED_DESCRIPTION,

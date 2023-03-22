@@ -24,4 +24,4 @@ const gitPull = async () : Promise<void> => {
     }
 }
 
-export = gitPull;
+export default gitPull;

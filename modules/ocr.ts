@@ -1,15 +1,15 @@
 import ocrSpace from "ocr-space-api-wrapper";
 import STRINGS from "../lib/db.js";
-import config from "../config";
-import inputSanitization from "../sidekick/input-sanitization";
+import {config} from "../config.js";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import Client from "../sidekick/client";
 import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { Transform } from "stream";
 const OCR = STRINGS.ocr;
 
-module.exports = {
+export default  {
     name: "ocr",
     description: OCR.DESCRIPTION,
     extendedDescription: OCR.EXTENDED_DESCRIPTION,

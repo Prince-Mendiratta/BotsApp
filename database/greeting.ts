@@ -1,4 +1,4 @@
-import config from "../config";
+import {config} from "../config.js";
 import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
 const sequelize: Sequelize = config.DATABASE;
@@ -117,7 +117,7 @@ async function deleteMessage(jid: string = null, type: string = null) : Promise<
     }
 }
 
-export = {
+export default {
     Greeting: Greeting,
     getMessage: getMessage,
     changeSettings: changeSettings,

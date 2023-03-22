@@ -2,24 +2,30 @@ import { Boom } from '@hapi/boom'
 import P, { Logger } from 'pino'
 import makeWASocket, { MessageRetryMap, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, WASocket, proto, Contact } from '@adiwajshing/baileys'
 // @ts-ignore
-import { useRemoteFileAuthState } from './core/dbAuth.js'
+import  useRemoteFileAuthState  from './core/dbAuth.cjs'
 import fs from 'fs'
 import { join } from 'path'
-import config from './config'
-import { banner } from './lib/banner'
+import {config} from './config.js'
+import { banner } from './lib/banner.js'
 import chalk from 'chalk'
 import Greetings from './database/greeting'
-import STRINGS from "./lib/db"
-import Blacklist from './database/blacklist'
-import clearance from './core/clearance'
+import STRINGS from "./lib/db.js"
+import Blacklist from './database/blacklist.js'
+import clearance from './core/clearance.js'
 import { start } from 'repl'
 import format from 'string-format';
-import resolve from './core/helper'
+import resolve from './core/helper.js'
 import { Sequelize } from 'sequelize/types'
-import Command from './sidekick/command'
-import BotsApp from './sidekick/sidekick'
-import Client from './sidekick/client'
-import { MessageType } from './sidekick/message-type'
+import Command from './sidekick/command.js'
+import BotsApp from './sidekick/sidekick.js'
+import Client from './sidekick/client.js'
+import { MessageType } from './sidekick/message-type.js'
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const sequelize: Sequelize = config.DATABASE;
 const GENERAL: any = STRINGS.general;
@@ -45,11 +51,12 @@ setInterval(() => {
     let moduleFiles: string[] = fs.readdirSync(join(__dirname, 'modules')).filter((file) => file.endsWith('.js'))
     for (let file of moduleFiles) {
         try {
-            const command: Command = require(join(__dirname, 'modules', `${file}`));
+            const command: Command = (await import(join(__dirname, 'modules', `${file}`))).default;
             console.log(
                 chalk.magentaBright("[INFO] Successfully imported module"),
                 chalk.cyanBright.bold(`${file}`)
             )
+            console.log("setting", command, join(__dirname, 'modules', `${file}`));
             commandHandler.set(command.name, command);
         } catch (error) {
             console.log(
@@ -76,9 +83,10 @@ setInterval(() => {
 
     const startSock = async () => {
         // @ts-ignore
-        const { state, saveCreds } = await useRemoteFileAuthState();
+        const { state, saveCreds } = await useRemoteFileAuthState.useRemoteFileAuthState();
         const { version, isLatest } = await fetchLatestBaileysVersion();
-        const sock: WASocket = makeWASocket({
+        //@ts-ignore
+        const sock: WASocket = makeWASocket.default({
             version,
             logger,
             printQRInTerminal: true,
@@ -209,4 +217,4 @@ setInterval(() => {
     }
 
     startSock();
-})().catch(err => console.log('[MAINERROR] : %s', chalk.redBright.bold(err)));;
+})().catch(err => console.log('[MAINERROR] : %s', chalk.redBright.bold(err)));

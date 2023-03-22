@@ -56,7 +56,16 @@ const data = {
         EXTENDED_DESCRIPTION:
             "```This module can be used to check if the bot is currently online or not.\n\nExample usage,```\n*.alive*",
         ALIVE_MSG:
-            "```💠 BotsApp has been integrated successfully. 💠\n\nUse the ```  *.help*  ``` command to get a list of plugins that will make your WhatsApp experience much easier.\n\nIf you are impressed with my service, consider supporting the Bot on GitHub-\n```https://github.com/Prince-Mendiratta/BotsApp\n\n```Check out our official website for any new updates.```",
+            "```💠 BotsApp has confbeen integrated successfully. 💠\n\nUse the ```  *.help*  ``` command to get a list of plugins that will make your WhatsApp experience much easier.\n\nIf you are impressed with my service, consider supporting the Bot on GitHub-\n```https://github.com/Prince-Mendiratta/BotsApp\n\n```Check out our official website for any new updates.```",
+    },
+    bing: {
+        DESCRIPTION: "Module to get response from the new bing.",
+        EXTENDED_DESCRIPTION:
+            "```Get messages from the new Bing API.\n\nExample usage,```\n*.bing <text>*",
+        NO_COOKIE_SET:
+            "*You have not yet set your Bing Cookie*",
+        EMPTY_MESSAGE:
+            "*Please tag or type a message*",
     },
     block: {
         DESCRIPTION: "Block contact",
@@ -201,7 +210,7 @@ const data = {
     news: {
         DESCRIPTION: "Fetch news in a mobile readable format",
         EXTENDED_DESCRIPTION:
-        "```Use this module to fetch news from a publication in mobile readable format from around 1500 publications. Enter text with the command```  *.news* .\n\nTo search for publications, use:-\n```.news search ``` _publication name_\n\nTo fetch news, use:-\n```.news fetch ``` _publication name_\n\nNews is fetched in epub format as it is more comfortable for reading in mobile devices. To read them in Android devices, you can use this application: https://play.google.com/store/apps/details?id=org.readera",
+            "```Use this module to fetch news from a publication in mobile readable format from around 1500 publications. Enter text with the command```  *.news* .\n\nTo search for publications, use:-\n```.news search ``` _publication name_\n\nTo fetch news, use:-\n```.news fetch ``` _publication name_\n\nNews is fetched in epub format as it is more comfortable for reading in mobile devices. To read them in Android devices, you can use this application: https://play.google.com/store/apps/details?id=org.readera",
         NO_COMMMAND: "```No arguments supplied. Use``` *.help news* ```for info on how to use the command.```",
         NO_PUB_NAME: "```No publication name supplied. Use``` *.help news* ```for info on how to use the command.```"
     },

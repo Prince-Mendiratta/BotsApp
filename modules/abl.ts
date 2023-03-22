@@ -1,14 +1,14 @@
-import Strings from "../lib/db";
+import Strings from "../lib/db.js";
 import format from "string-format";
-import inputSanitization from "../sidekick/input-sanitization";
-import Blacklist from "../database/blacklist";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Blacklist from "../database/blacklist.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 const abl = Strings.abl;
 
-module.exports = {
+export default  {
     name: "abl",
     description: abl.DESCRIPTION,
     extendedDescription: abl.EXTENDED_DESCRIPTION,

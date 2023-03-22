@@ -2,11 +2,11 @@
 
 // const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 // const chalk = require("chalk");
-// const inputSanitization = require("../sidekick/input-sanitization");
-// const strings = require("../lib/db")
+// const inputSanitization = require("../sidekick/input-sanitization.js");
+// const strings = require("../lib/db.js")
 // const CREATE = strings.create;
 
-// module.exports = {
+// export default  {
 //     name: "create",
 //     description: CREATE.DESCRIPTION,
 //     extendedDescription: CREATE.EXTENDED_DESCRIPTION,

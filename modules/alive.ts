@@ -1,13 +1,13 @@
-import Strings from "../lib/db";
+import Strings from "../lib/db.js";
 import format from "string-format";
-import inputSanitization from "../sidekick/input-sanitization";
-import { MessageType } from "../sidekick/message-type";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import { MessageType } from "../sidekick/message-type.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
 const alive = Strings.alive;
 
-export = {
+export default {
     name: "alive",
     description: alive.DESCRIPTION,
     extendedDescription: alive.EXTENDED_DESCRIPTION,

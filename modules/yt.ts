@@ -1,13 +1,13 @@
 import yts from "yt-search";
-import inputSanitization from "../sidekick/input-sanitization";
-import Strings from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Strings from "../lib/db.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 const YT = Strings.yt;
 
-module.exports = {
+export default {
     name: "yt",
     description: YT.DESCRIPTION,
     extendedDescription: YT.EXTENDED_DESCRIPTION,

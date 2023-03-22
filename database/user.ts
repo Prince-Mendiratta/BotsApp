@@ -1,4 +1,4 @@
-import config from "../config";
+import {config} from "../config.js";
 import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize } from "sequelize";
 
 const sequelize = config.DATABASE;
@@ -37,7 +37,7 @@ async function getUser(jid: string | null = null) {
     }
 }
 
-export = {
+export default {
     User: User,
     addUser: addUser,
     getUser: getUser

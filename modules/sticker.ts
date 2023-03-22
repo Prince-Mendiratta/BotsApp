@@ -1,8 +1,8 @@
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
-import inputSanitization from "../sidekick/input-sanitization";
-import { MessageType } from "../sidekick/message-type";
-import Strings from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import { MessageType } from "../sidekick/message-type.js";
+import Strings from "../lib/db.js";
 import Client from "../sidekick/client";
 import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
@@ -10,7 +10,7 @@ import { Transform } from "stream";
 
 const STICKER = Strings.sticker;
 
-export = {
+export default {
     name: "sticker",
     description: STICKER.DESCRIPTION,
     extendedDescription: STICKER.EXTENDED_DESCRIPTION,

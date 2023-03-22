@@ -1,13 +1,13 @@
 import chalk from 'chalk';
-import config from '../config';
-import { adminCommands, sudoCommands } from "../sidekick/input-sanitization"
-import STRINGS from "../lib/db";
-import Users from '../database/user';
+import {config} from '../config.js';
+import { adminCommands, sudoCommands } from "../sidekick/input-sanitization.js"
+import STRINGS from "../lib/db.js";
+import Users from '../database/user.js';
 import format from 'string-format';
-import BotsApp from '../sidekick/sidekick';
+import BotsApp from '../sidekick/sidekick.js';
 import { WASocket } from '@adiwajshing/baileys';
-import Client from '../sidekick/client';
-import { MessageType } from '../sidekick/message-type';
+import Client from '../sidekick/client.js';
+import { MessageType } from '../sidekick/message-type.js';
 
 const GENERAL = STRINGS.general;
 
@@ -110,4 +110,4 @@ const clearance = async (BotsApp: BotsApp, client: Client, isBlacklist: boolean)
     }
 }
 
-export = clearance;
+export default clearance;

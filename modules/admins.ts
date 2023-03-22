@@ -1,12 +1,12 @@
-import Strings from "../lib/db";
+import Strings from "../lib/db.js";
 const ADMINS = Strings.admins;
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 
-module.exports = {
+export default  {
     name: "admins",
     description: ADMINS.DESCRIPTION,
     extendedDescription: ADMINS.EXTENDED_DESCRIPTION,

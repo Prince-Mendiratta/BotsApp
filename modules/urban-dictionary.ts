@@ -1,14 +1,14 @@
 import got from "got";
-import inputSanitization from "../sidekick/input-sanitization";
-import STRINGS from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import STRINGS from "../lib/db.js";
 import format from "string-format";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import ud from "urban-dictionary";
 
-module.exports = {
+export default  {
     name: "ud",
     description: STRINGS.ud.DESCRIPTION,
     extendedDescription: STRINGS.ud.EXTENDED_DESCRIPTION,

@@ -2,13 +2,13 @@ import STRINGS from "../lib/db.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
-import inputSanitization from "../sidekick/input-sanitization";
+import { MessageType } from "../sidekick/message-type.js";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import Axios from "axios";
-import config from "../config";
+import {config} from "../config.js";
 const NEWS = STRINGS.news;
 
-module.exports = {
+export default  {
     name: "news",
     description: NEWS.DESCRIPTION,
     extendedDescription: NEWS.EXTENDED_DESCRIPTION,

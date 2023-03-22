@@ -1,14 +1,14 @@
-import inputSanitization from "../sidekick/input-sanitization";
-import Strings from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Strings from "../lib/db.js";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import format from "string-format";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 
 const MUTE = Strings.mute;
 
-module.exports = {
+export default  {
     name: "mute",
     description: MUTE.DESCRIPTION,
     extendedDescription: MUTE.EXTENDED_DESCRIPTION,

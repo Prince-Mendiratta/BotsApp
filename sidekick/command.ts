@@ -11,4 +11,4 @@ type Command = {
     handle: Function;
 }
 
-export = Command;
+export default Command;

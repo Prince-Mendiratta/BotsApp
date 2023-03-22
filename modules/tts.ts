@@ -4,11 +4,11 @@ import * as googleTTS from 'google-tts-api';
 import STRINGS from "../lib/db.js";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 
 const tts = STRINGS.tts;
 
-export = {
+export default {
     name: "tts",
     description: tts.DESCRIPTION,
     extendedDescription: tts.EXTENDED_DESCRIPTION,

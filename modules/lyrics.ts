@@ -1,14 +1,14 @@
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 import got, {Response} from "got";
-import inputSanitization from "../sidekick/input-sanitization";
-import STRINGS from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import STRINGS from "../lib/db.js";
 
-const songlyrics = require("songlyrics").default;
+const songlyrics = (await import("songlyrics")).default;
 
-module.exports = {
+export default  {
     name: "lyrics",
     description: STRINGS.lyrics.DESCRIPTION,
     extendedDescription: STRINGS.lyrics.EXTENDED_DESCRIPTION,

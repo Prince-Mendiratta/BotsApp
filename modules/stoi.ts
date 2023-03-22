@@ -1,15 +1,15 @@
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
-import inputSanitization from "../sidekick/input-sanitization";
-import Strings from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Strings from "../lib/db.js";
 import Client from "../sidekick/client";
 import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { Transform } from "stream";
 const STOI = Strings.stoi;
 
-module.exports = {
+export default  {
     name: "stoi",
     description: STOI.DESCRIPTION,
     extendedDescription: STOI.EXTENDED_DESCRIPTION,

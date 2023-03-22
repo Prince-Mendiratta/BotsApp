@@ -1,12 +1,12 @@
 import chalk from "chalk";
 import STRINGS from "../lib/db.js";
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 
-module.exports = {
+export default  {
     name: "remove",
     description: STRINGS.remove.DESCRIPTION,
     extendedDescription: STRINGS.remove.EXTENDED_DESCRIPTION,

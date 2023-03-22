@@ -1,16 +1,16 @@
 import chalk from "chalk";
 import String from "../lib/db.js";
 import * as Carbon from "unofficial-carbon-now";
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import format from "string-format";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 
 const CARBON = String.carbon;
 
-module.exports = {
+export default  {
     name: "carbon",
     description: CARBON.DESCRIPTION,
     extendedDescription: CARBON.EXTENDED_DESCRIPTION,

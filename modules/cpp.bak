@@ -1,20 +1,20 @@
 // Temporarily Disabled.
-import Strings from "../lib/db";
+import Strings from "../lib/db.js";
 import format from "string-format";
-import inputSanitization from "../sidekick/input-sanitization";
-import { MessageType } from "../sidekick/message-type";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import { MessageType } from "../sidekick/message-type.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
 import fs from "fs";
 import { promisify } from 'util';
-import config from "../config";
+import config from "../config.js";
 
 const CPP = Strings.cpp;
 const exec = promisify(require("child_process").exec);
 var execFile = require('child_process').execFile
 
-module.exports = {
+export default  {
     name: "cpp",
     description: CPP.DESCRIPTION,
     extendedDescription: CPP.EXTENDED_DESCRIPTION,

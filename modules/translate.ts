@@ -1,13 +1,13 @@
 import translate from "@vitalets/google-translate-api";
-import inputSanitization from "../sidekick/input-sanitization";
-import STRINGS from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import STRINGS from "../lib/db.js";
 import format from "string-format";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 
-module.exports = {
+export default  {
     name: "tr",
     description: STRINGS.tr.DESCRIPTION,
     extendedDescription: STRINGS.tr.EXTENDED_DESCRIPTION,

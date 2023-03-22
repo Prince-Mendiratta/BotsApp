@@ -1,13 +1,13 @@
-import Strings from "../lib/db";
-import inputSanitization from "../sidekick/input-sanitization";
-import Greetings from "../database/greeting";
+import Strings from "../lib/db.js";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Greetings from "../database/greeting.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 const GOODBYE = Strings.goodbye;
 
-module.exports = {
+export default  {
     name: "goodbye",
     description: GOODBYE.DESCRIPTION,
     extendedDescription: GOODBYE.EXTENDED_DESCRIPTION,

@@ -1,14 +1,14 @@
-import inputSanitization from "../sidekick/input-sanitization";
-import Strings from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Strings from "../lib/db.js";
 import { Encoder, QRByte, ErrorCorrectionLevel } from "@nuintun/qrcode";
 import fs from "fs";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 const QR = Strings.qr;
 
-module.exports = {
+export default  {
     name: "qr",
     description: QR.DESCRIPTION,
     extendedDescription: QR.EXTENDED_DESCRIPTION,

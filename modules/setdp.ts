@@ -1,15 +1,15 @@
 import fs from "fs";
 import ffmpeg from "fluent-ffmpeg";
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import String from "../lib/db.js";
 import Client from "../sidekick/client";
 import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { Transform } from "stream";
 const REPLY = String.setdp;
 
-module.exports = {
+export default  {
     name: "setdp",
     description: REPLY.DESCRIPTION,
     extendedDescription: REPLY.EXTENDED_DESCRIPTION,

@@ -1,12 +1,12 @@
-import inputSanitization from "../sidekick/input-sanitization";
-import STRINGS from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import STRINGS from "../lib/db.js";
 import got, {Response} from "got";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 
-module.exports = {
+export default  {
     name: "github",
     description: STRINGS.github.DESCRIPTION,
     extendedDescription: STRINGS.github.EXTENDED_DESCRIPTION,

@@ -1,11 +1,11 @@
 import STRINGS from "../lib/db.js";
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type"
+import { MessageType } from "../sidekick/message-type.js"
 
-module.exports = {
+export default  {
     name: "disappear",
     description: STRINGS.disappear.DESCRIPTION,
     extendedDescription: STRINGS.disappear.EXTENDED_DESCRIPTION,

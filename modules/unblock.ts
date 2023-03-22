@@ -1,12 +1,12 @@
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type"
-import inputSanitization from "../sidekick/input-sanitization";
-import Strings from "../lib/db";
+import { MessageType } from "../sidekick/message-type.js"
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Strings from "../lib/db.js";
 const Reply = Strings.unblock;
 
-module.exports = {
+export default  {
     name: "unblock",
     description: Reply.DESCRIPTION,
     extendedDescription: Reply.EXTENDED_DESCRIPTION,

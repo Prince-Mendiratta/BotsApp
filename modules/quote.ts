@@ -1,7 +1,7 @@
-import Strings from "../lib/db";
+import Strings from "../lib/db.js";
 import format from "string-format";
-import inputSanitization from "../sidekick/input-sanitization";
-import { MessageType } from "../sidekick/message-type";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import { MessageType } from "../sidekick/message-type.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
@@ -11,7 +11,7 @@ import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 const quote = Strings.quote;
 
-export = {
+export default {
     name: "quote",
     description: quote.DESCRIPTION,
     extendedDescription: quote.EXTENDED_DESCRIPTION,

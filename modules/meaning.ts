@@ -1,15 +1,15 @@
-import Strings from "../lib/db";
-import inputSanitization from "../sidekick/input-sanitization";
+import Strings from "../lib/db.js";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import googleDictionaryApi from "google-dictionary-api";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import format from "string-format";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 
 const MEANING = Strings.meaning;
 
-module.exports = {
+export default  {
     name: "meaning",
     description: MEANING.DESCRIPTION,
     extendedDescription: MEANING.EXTENDED_DESCRIPTION,

@@ -1,11 +1,11 @@
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import STRINGS from "../lib/db.js";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { proto } from "@adiwajshing/baileys";
 
-module.exports = {
+export default  {
     name: "tagall",
     description: STRINGS.tagall.DESCRIPTION,
     extendedDescription: STRINGS.tagall.EXTENDED_DESCRIPTION,

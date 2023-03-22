@@ -1,16 +1,16 @@
 import chalk from "chalk";
 import STRINGS from "../lib/db.js";
-import inputSanitization from "../sidekick/input-sanitization";
-import CONFIG from "../config";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import {config} from "../config.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import format from "string-format";
 import fs from 'fs';
 const ADD = STRINGS.add;
 
-module.exports = {
+export default  {
     name: "add",
     description: ADD.DESCRIPTION,
     extendedDescription: ADD.EXTENDED_DESCRIPTION,
@@ -52,7 +52,7 @@ module.exports = {
                 return;
             }
             if (args[0].length == 10 && !(parseInt(args[0]) === NaN)) {
-                number = CONFIG.COUNTRY_CODE + args[0];
+                number = config.COUNTRY_CODE + args[0];
             } else {
                 number = args[0];
             }

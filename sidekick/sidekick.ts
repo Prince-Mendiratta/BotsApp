@@ -40,4 +40,4 @@ class BotsApp {
     isReplyAnimatedSticker: boolean
 }
 
-export = BotsApp;
+export default BotsApp;

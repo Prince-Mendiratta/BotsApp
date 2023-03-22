@@ -1,9 +1,9 @@
 const { GroupSettingChange, MessageType } = require("@adiwajshing/baileys");
-const inputSanitization = require("../sidekick/input-sanitization");
-const Strings = require("../lib/db");
+const inputSanitization = require("../sidekick/input-sanitization.js");
+const Strings = require("../lib/db.js");
 const UNMUTE = Strings.unmute;
 
-module.exports = {
+export default  {
     name: "unmute",
     description: UNMUTE.DESCRIPTION,
     extendedDescription: UNMUTE.EXTENDED_DESCRIPTION,

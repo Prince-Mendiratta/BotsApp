@@ -1,12 +1,12 @@
-import inputSanitization from "../sidekick/input-sanitization";
+import inputSanitization from "../sidekick/input-sanitization.js";
 import String from "../lib/db.js";
 import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 const REPLY = String.promote;
 
-module.exports = {
+export default  {
     name: "promote",
     description: REPLY.DESCRIPTION,
     extendedDescription: REPLY.EXTENDED_DESCRIPTION,

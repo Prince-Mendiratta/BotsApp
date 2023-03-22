@@ -1,6 +1,6 @@
-import { AnyMessageContent, GroupMetadata, GroupParticipant, proto, WASocket } from "@adiwajshing/baileys";
-import { MessageType } from "./message-type";
-import BotsApp from "./sidekick";
+import {AnyMessageContent, GroupMetadata, GroupParticipant, proto, WASocket} from "@adiwajshing/baileys";
+import {MessageType} from "./message-type.js";
+import BotsApp from "./sidekick.js";
 
 class Client {
     sock: WASocket;
@@ -21,7 +21,7 @@ class Client {
             if (options?.contextInfo?.mentionedJid) {
                 ops.mentions = options.contextInfo.mentionedJid
             }
-            res = await this.sock.sendMessage(jid, ops);
+            res = await this.sock.sendMessage(jid, ops, options);
         } else if (type === MessageType.sticker) {
             res = await this.sock.sendMessage(jid, {
                 sticker: new Buffer(content)
@@ -97,4 +97,4 @@ class Client {
     }
 }
 
-export = Client;
+export default Client;

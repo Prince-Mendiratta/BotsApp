@@ -1,14 +1,14 @@
-import config from '../config';
+import {config} from '../config.js';
 import fs, { PathLike } from "fs";
 import chalk from "chalk";
 import { JSDOM } from "jsdom";
-import db from "../lib/db"
+import db from "../lib/db.js"
 import format from 'string-format';
 import { Transform } from "stream";
 import { writeFile } from 'fs/promises';
 import BotsApp from './sidekick';
 import Client from './client';
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { GroupParticipant } from '@adiwajshing/baileys';
 const { window } = new JSDOM();
 const ERROR_TEMPLATE = db.general.ERROR_TEMPLATE

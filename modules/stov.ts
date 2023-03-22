@@ -1,18 +1,18 @@
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
-import inputSanitization from "../sidekick/input-sanitization";
-import Strings from "../lib/db";
+import inputSanitization from "../sidekick/input-sanitization.js";
+import Strings from "../lib/db.js";
 import Client from "../sidekick/client";
 import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
-import { MessageType } from "../sidekick/message-type";
+import { MessageType } from "../sidekick/message-type.js";
 import { Transform } from "stream";
 import FormData from 'form-data';
 import Axios from "axios";
 import cheerio from "cheerio";
 const STOV = Strings.stov;
 
-module.exports = {
+export default  {
     name: "stov",
     description: STOV.DESCRIPTION,
     extendedDescription: STOV.EXTENDED_DESCRIPTION,
