@@ -11,3 +11,4 @@ yarn-error.log
 dist/
 session.data.json
 .yarn
+.yarnrc.yml
