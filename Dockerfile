@@ -1,4 +1,4 @@
-FROM princemendiratta/botsapp:latest
+FROM node:18.15.0 as node
 
 WORKDIR /
 
@@ -6,15 +6,7 @@ COPY . /BotsApp
 
 WORKDIR /BotsApp
 
-RUN git init --initial-branch=multi-device
-
-RUN git remote add origin https://github.com/Prince-Mendiratta/BotsApp.git
-
-RUN git fetch origin multi-device
-
-RUN git reset --hard origin/multi-device
-
-RUN yarn
+RUN yarn install
 
 # RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
 
