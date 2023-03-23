@@ -66,6 +66,8 @@ const data = {
             "*You have not yet set your Bing Cookie*",
         EMPTY_MESSAGE:
             "*Please tag or type a message*",
+        CONVERSATION_RESET:
+            "_Our conversation has been reset. You can now ask me a new question_",
     },
     block: {
         DESCRIPTION: "Block contact",

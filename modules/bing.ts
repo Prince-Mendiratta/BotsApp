@@ -80,12 +80,21 @@ export default {
                     } else {
                         client.sendMessage(
                             BotsApp.chatId,
-                            bing.EMPTY_MESSAGE,
+                            "_" + bing.EMPTY_MESSAGE + "_",
                             MessageType.text
                         );
                     }
                 } else {
-                    sendMessageToBing(api, message);
+                    if (message.trim() == 'reset') {
+                        delete contexts[BotsApp.sender];
+                        client.sendMessage(
+                            BotsApp.chatId,
+                            bing.CONVERSATION_RESET,
+                            MessageType.text
+                        );
+                    } else {
+                        sendMessageToBing(api, message);
+                    }
                 }
             }
         } catch (err) {
