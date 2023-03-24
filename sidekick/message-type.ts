@@ -15,5 +15,7 @@ export enum MessageType {
     sticker = 'stickerMessage',
     document = 'documentMessage',
     audio = 'audioMessage',
-    product = 'productMessage'
+    product = 'productMessage',
+
+    react='reactMessage',
 }

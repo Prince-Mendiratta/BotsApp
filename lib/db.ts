@@ -69,6 +69,17 @@ const data = {
         CONVERSATION_RESET:
             "_Our conversation has been reset. You can now ask me a new question_",
     },
+    gpt: {
+        DESCRIPTION: "Module to get response from ChatGPT.",
+        EXTENDED_DESCRIPTION:
+            "```Get messages from OpenAI ChatGPT.\n\nExample usage,```\n*.gpt <text>*",
+        NO_COOKIE_SET:
+            "*You have not yet set your OPEN AI Access Token*",
+        EMPTY_MESSAGE:
+            "*Please tag or type a message*",
+        CONVERSATION_RESET:
+            "_Our conversation has been reset. You can now ask me a new question_",
+    },
     block: {
         DESCRIPTION: "Block contact",
         EXTENDED_DESCRIPTION:

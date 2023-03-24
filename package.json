@@ -21,6 +21,7 @@
     "axios": "^0.27.2",
     "bing-chat": "^0.2.3",
     "chalk": "^4.1.1",
+    "chatgpt": "^5.1.2",
     "cheerio": "^1.0.0-rc.11",
     "dotenv": "^10.0.0",
     "ffmpeg": "^0.0.4",

@@ -44,10 +44,11 @@ const config = {
         logging: convertToLogLevel(process.env.DEBUG),
         dialectOptions: {ssl: {require: true, rejectUnauthorized: false}}
     }),
-    WORK_TYPE: process.env.WORK_TYPE === undefined ? "public" : process.env.WORK_TYPE,
+    WORK_TYPE: process.env.WORK_TYPE === undefined ? "private" : process.env.WORK_TYPE,
     SUDO: process.env.SUDO === undefined ? "" : process.env.SUDO,
     OFFLINE_RESPONSE: process.env.OFFLINE_RESPONSE === undefined ? true : process.env.OFFLINE_RESPONSE,
-    BING_COOKIE: process.env.BING_COOKIE ?? ''
+    BING_COOKIE: process.env.BING_COOKIE ?? '',
+    OPENAI_ACCESS_TOKEN: process.env.OPENAI_ACCESS_TOKEN ?? ''
 }
 
 export {config};
