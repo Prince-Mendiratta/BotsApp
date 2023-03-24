@@ -11,6 +11,47 @@ let BingChat = await import( 'bing-chat')
 const bing = Strings.bing;
 const contexts = {};
 
+//@ts-ignore
+const sendMessageToBing = async (api: BingChat, message: string, client: Client, BotsApp: BotsApp, chat: proto.IWebMessageInfo) => {
+    const mes = await client.sendMessage(
+        BotsApp.chatId,
+        bing.TYPING,
+        MessageType.text
+    );
+    if (Object.hasOwn(contexts, BotsApp.sender)) {
+        try {
+            const res = await api.sendMessage(message, contexts[BotsApp.sender])
+            await client.deleteMessage(BotsApp.chatId, mes.key)
+            await client.sendMessage(
+                BotsApp.chatId,
+                bing.HEADER_TEXT + res.text,
+                MessageType.text,
+                {quoted: chat},
+            );
+
+        } catch (err) {
+            await inputSanitization.handleError(err, client, BotsApp);
+        }
+
+    } else {
+        try {
+            const res = await api.sendMessage(message)
+
+            await client.deleteMessage(BotsApp.chatId, mes.key)
+
+            await client.sendMessage(
+                BotsApp.chatId,
+                bing.HEADER_TEXT + res.text,
+                MessageType.text,
+                {quoted: chat},
+            );
+            contexts[BotsApp.sender] = res
+        } catch (err) {
+            await inputSanitization.handleError(err, client, BotsApp);
+        }
+    }
+}
+
 export default {
     name: "bing",
     description: bing.DESCRIPTION,
@@ -18,53 +59,6 @@ export default {
     demo: {isEnabled: true, text: ".bing"},
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            //@ts-ignore
-            const sendMessageToBing = async (api: BingChat, message: string) => {
-                const mes = await client.sendMessage(
-                    BotsApp.chatId,
-                    "_Bing is typing..._",
-                    MessageType.text
-                );
-                console.log(mes.key);
-                if (Object.hasOwn(contexts, BotsApp.sender)) {
-                    try {
-                        const res = await api.sendMessage(message, contexts[BotsApp.sender])
-                        await client.deleteMessage(BotsApp.chatId, mes.key)
-                        await client.sendMessage(
-                            BotsApp.chatId,
-                            "*From Bing: type .bing reset to start a new conversation* \n" + res.text,
-                            MessageType.text,
-                            {quoted: chat},
-                        );
-
-                        console.log(res.text)
-                    } catch (err) {
-                        await inputSanitization.handleError(err, client, BotsApp);
-                    }
-
-                } else {
-                    try {
-                        const res = await api.sendMessage(message)
-
-                        await client.deleteMessage(BotsApp.chatId, mes.key)
-
-                        await client.sendMessage(
-                            BotsApp.chatId,
-                            "*From Bing: type .bing reset to start a new conversation*\n " + res.text,
-                            MessageType.text,
-                            {quoted: chat},
-                        );
-                        contexts[BotsApp.sender] = res
-
-                        console.log(res.text)
-                    } catch (err) {
-                        await inputSanitization.handleError(err, client, BotsApp);
-                    }
-                }
-            }
-
-
-            console.log(BotsApp.sender, BotsApp, chat)
             if (config.BING_COOKIE.trim().length == 0) {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -78,7 +72,7 @@ export default {
                 const message = BotsApp.body.slice(5)
                 if (message.trim().length == 0) {
                     if (BotsApp.isTextReply && BotsApp.replyMessage.trim().length > 0) {
-                        sendMessageToBing(api, BotsApp.replyMessage);
+                        sendMessageToBing(api, BotsApp.replyMessage, client, BotsApp, chat);
                     } else {
                         await client.sendMessage(
                             BotsApp.chatId,
@@ -96,7 +90,7 @@ export default {
                         );
 
                     } else {
-                        sendMessageToBing(api, message);
+                        sendMessageToBing(api, message, client, BotsApp, chat);
                     }
                 }
             }

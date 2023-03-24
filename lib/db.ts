@@ -68,6 +68,10 @@ const data = {
             "*Please tag or type a message*",
         CONVERSATION_RESET:
             "_Our conversation has been reset. You can now ask me a new question_",
+        TYPING:
+            "_Bing is typing ..._",
+        HEADER_TEXT:
+            "*Bing: type .bing reset to start a new conversation* \n"
     },
     gpt: {
         DESCRIPTION: "Module to get response from ChatGPT.",
@@ -79,6 +83,10 @@ const data = {
             "*Please tag or type a message*",
         CONVERSATION_RESET:
             "_Our conversation has been reset. You can now ask me a new question_",
+        TYPING:
+            "_ChatGPT is typing ..._",
+        HEADER_TEXT:
+            "*ChatGPT: type .gpt reset to start a new conversation* \n"
     },
     block: {
         DESCRIPTION: "Block contact",

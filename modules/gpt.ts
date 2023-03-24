@@ -11,6 +11,49 @@ let ChatGPT = await import( 'chatgpt')
 const gpt = Strings.gpt;
 const contexts = {};
 
+// @ts-ignore
+const sendMessageToChatGPT = async (api: BingChat, message: string, client: Client, BotsApp: BotsApp, chat: proto.IWebMessageInfo) => {
+    const mes = await client.sendMessage(
+        BotsApp.chatId,
+        gpt.TYPING,
+        MessageType.text
+    );
+    if (Object.hasOwn(contexts, BotsApp.sender)) {
+        try {
+            const res = await api.sendMessage(message, {
+                conversationId: contexts[BotsApp.sender].conversationId,
+                parentMessageId: contexts[BotsApp.sender].id
+            })
+            await client.deleteMessage(BotsApp.chatId, mes.key)
+            await client.sendMessage(
+                BotsApp.chatId,
+                gpt.HEADER_TEXT + res.text,
+                MessageType.text,
+                {quoted: chat},
+            );
+        } catch (err) {
+            await inputSanitization.handleError(err, client, BotsApp);
+        }
+
+    } else {
+        try {
+            const res = await api.sendMessage(message)
+
+            await client.deleteMessage(BotsApp.chatId, mes.key)
+
+            await client.sendMessage(
+                BotsApp.chatId,
+                gpt.HEADER_TEXT + res.text,
+                MessageType.text,
+                {quoted: chat},
+            );
+            contexts[BotsApp.sender] = res
+        } catch (err) {
+            await inputSanitization.handleError(err, client, BotsApp);
+        }
+    }
+}
+
 export default {
     name: "gpt",
     description: gpt.DESCRIPTION,
@@ -18,57 +61,6 @@ export default {
     demo: {isEnabled: true, text: ".gpt"},
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            //@ts-ignore
-            const sendMessageToBing = async (api: BingChat, message: string) => {
-                const mes = await client.sendMessage(
-                    BotsApp.chatId,
-                    "_ChatGPT is typing..._",
-                    MessageType.text
-                );
-                console.log(mes.key);
-                if (Object.hasOwn(contexts, BotsApp.sender)) {
-                    try {
-                        const res = await api.sendMessage(message, {
-                            conversationId: contexts[BotsApp.sender].conversationId,
-                            parentMessageId: contexts[BotsApp.sender].id
-                        })
-                        await client.deleteMessage(BotsApp.chatId, mes.key)
-                        await client.sendMessage(
-                            BotsApp.chatId,
-                            "*From ChatGPT: type .gpt reset to start a new conversation* \n" + res.text,
-                            MessageType.text,
-                            {quoted: chat},
-                        );
-
-
-                        console.log(res.text)
-                    } catch (err) {
-                        await inputSanitization.handleError(err, client, BotsApp);
-                    }
-
-                } else {
-                    try {
-                        const res = await api.sendMessage(message)
-
-                        await client.deleteMessage(BotsApp.chatId, mes.key)
-
-                         await client.sendMessage(
-                            BotsApp.chatId,
-                            "*From ChatGPT: type .gpt reset to start a new conversation* \n" + res.text,
-                            MessageType.text,
-                            {quoted: chat},
-                        );
-                        contexts[BotsApp.sender] = res
-
-                        console.log(res.text)
-                    } catch (err) {
-                        await inputSanitization.handleError(err, client, BotsApp);
-                    }
-                }
-            }
-
-
-            console.log(BotsApp.sender, BotsApp, chat)
             if (config.OPENAI_ACCESS_TOKEN.trim().length == 0) {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -79,10 +71,10 @@ export default {
                 const api = new ChatGPT.ChatGPTUnofficialProxyAPI({
                     accessToken: config.OPENAI_ACCESS_TOKEN
                 })
-                const message = BotsApp.body.slice(5)
+                const message = BotsApp.body.slice(4)
                 if (message.trim().length == 0) {
                     if (BotsApp.isTextReply && BotsApp.replyMessage.trim().length > 0) {
-                        await sendMessageToBing(api, BotsApp.replyMessage);
+                        await sendMessageToChatGPT(api, BotsApp.replyMessage, client, BotsApp, chat);
                     } else {
                         client.sendMessage(
                             BotsApp.chatId,
@@ -99,7 +91,7 @@ export default {
                             MessageType.text
                         );
                     } else {
-                        await sendMessageToBing(api, message);
+                        await sendMessageToChatGPT(api, message, client, BotsApp, chat);
                     }
                 }
             }
