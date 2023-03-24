@@ -7,7 +7,7 @@
         "allowSyntheticDefaultImports": true,
         "allowJs": true,
         "sourceMap": true,
-      "moduleResolution": "node",
+        "moduleResolution": "node",
 
         "skipLibCheck": true,
         "strict": false,

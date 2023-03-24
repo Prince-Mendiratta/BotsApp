@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node --max-old-space-size=512 --trace-warnings --optimize_for_size dist/BotsApp.js",
-    "prod": "yarn dlx -p typescript@4.6.4 tsc && node --max-old-space-size=512 --trace-warnings --optimize_for_size dist/BotsApp.js"
+    "start": "tsc && node --max-old-space-size=512 --trace-warnings --optimize_for_size dist/BotsApp.js"
   },
   "author": "Prince Mendiratta",
   "license": "ISC",
