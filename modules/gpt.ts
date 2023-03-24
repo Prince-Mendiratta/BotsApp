@@ -82,7 +82,7 @@ export default {
                 const message = BotsApp.body.slice(5)
                 if (message.trim().length == 0) {
                     if (BotsApp.isTextReply && BotsApp.replyMessage.trim().length > 0) {
-                        sendMessageToBing(api, BotsApp.replyMessage);
+                        await sendMessageToBing(api, BotsApp.replyMessage);
                     } else {
                         client.sendMessage(
                             BotsApp.chatId,
@@ -99,7 +99,7 @@ export default {
                             MessageType.text
                         );
                     } else {
-                        sendMessageToBing(api, message);
+                        await sendMessageToBing(api, message);
                     }
                 }
             }

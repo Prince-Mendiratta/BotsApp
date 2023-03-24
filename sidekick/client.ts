@@ -22,7 +22,7 @@ class Client {
                 ops.mentions = options.contextInfo.mentionedJid
             }
             res = await this.sock.sendMessage(jid, ops, options);
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
@@ -30,7 +30,7 @@ class Client {
             res = await this.sock.sendMessage(jid, {
                 sticker: new Buffer(content)
             })
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
@@ -39,7 +39,7 @@ class Client {
                 audio: content,
                 mimetype: 'audio/mp4'
             })
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
@@ -51,7 +51,7 @@ class Client {
                 ops.caption = options.caption;
             }
             res = await this.sock.sendMessage(jid, ops);
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
@@ -60,13 +60,13 @@ class Client {
                 audio: content,
                 mimetype: 'audio/mp3'
             });
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
         } else if (type === MessageType.buttonsMessage) {
             res = await this.sock.sendMessage(jid, content);
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
@@ -78,7 +78,7 @@ class Client {
                 ops.caption = options.caption;
             }
             res = await this.sock.sendMessage(jid, ops);
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
@@ -96,7 +96,7 @@ class Client {
             // console.log(ops2);
             await this.sock.sendMessage(jid, ops);
             res = await this.sock.sendMessage(jid, ops2);
-            this.sendMessage(jid, {
+            await this.sendMessage(jid, {
                 text: "🪄",
                 key: res.key,
             }, MessageType.react);
@@ -104,10 +104,6 @@ class Client {
             res = await this.sock.sendMessage(jid, {
                 react: content
             });
-            this.sendMessage(jid, {
-                text: "🪄",
-                key: res.key,
-            }, MessageType.react);
         }
         return res;
     };
