@@ -6,7 +6,7 @@ services:
     container_name: botsapp
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: local.Dockerfile
     volumes:
       - '.:/BotsApp'
       - '/BotsApp/node_modules'
