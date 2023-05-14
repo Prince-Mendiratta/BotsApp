@@ -43,9 +43,13 @@ module.exports = {
 
             if (args.length === 1) {         // If the user only specifies the action, it will take the number from the reply
                 if (args[0] === "list" || args[0] === "info") {
+                    
+                    let userCount: number = SUDOString.split(",").filter((item) => item !== "").length;     //filter empty strings
                     client.sendMessage(
                         BotsApp.chatId,
-                        "```Sudo Users:\n" + SUDOString.split(",").join("\n") + "\n\nTotal: " + SUDOString.split(",").length + "```",
+                        SUDOString === "" ?
+                            sudo.NO_SUDO_USERS :
+                            "```Sudo Users:\n" + SUDOString.split(",").join("\n") + "\n\nTotal: " + userCount + "```",
                         MessageType.text
                     );
                     return

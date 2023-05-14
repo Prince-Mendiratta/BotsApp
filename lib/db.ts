@@ -127,11 +127,6 @@ const data = {
         EXTENDED_DESCRIPTION:
             "```Toggle disappearing messages by using command``` *.dissapear* .",
     },
-    flip: {
-        DESCRIPTION: "Flip a coin",
-        EXTENDED_DESCRIPTION:
-            "```Flip a coin by using command``` *.flip* .",
-    },
     getdp: {
         DESCRIPTION: "Get display picture",
         EXTENDED_DESCRIPTION:
@@ -245,12 +240,6 @@ const data = {
         PROCESSING: "```Generating QR code. Please wait...```",
         IMAGE_CAPTION: "```Here's your QR image.```",
     },
-    random: {
-        DESCRIPTION: "Given a list of items, pick a random one.",
-        EXTENDED_DESCRIPTION:
-            "```Choose a random value by using command``` *.random WatchTV WashDishes ...* .",
-        NO_ARG: "```Please enter at least one value to be picked. For example .random Value1 Value2```",
-    },
     rbl: {
         DESCRIPTION: "Module to enable a blacklist person or group to use the bot.",
         EXTENDED_DESCRIPTION:
@@ -340,6 +329,7 @@ const data = {
         ADD_ERROR: "```Number already in sudo.```",
         REMOVE_ERROR: "```Number to remove not found.```",
         NUMBER_NOT_FOUND: "```There was an error while processing the number.```",
+        NO_SUDO_USERS: "```There are no sudo users.```",
     },
     tr: {
         DESCRIPTION: "Language Translator",
