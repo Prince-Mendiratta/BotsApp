@@ -39,6 +39,7 @@ module.exports = {
             // };
             var phone_number: string;
             var SUDOString: string = config.SUDO;
+            let isReplayAction = false;
 
             if (args.length === 1) {         // If the user only specifies the action, it will take the number from the reply
                 if (args[0] === "list" || args[0] === "info") {
@@ -54,6 +55,7 @@ module.exports = {
                 if (BotsApp.isTextReply) {
                     const JID = chat.message.extendedTextMessage.contextInfo.participant;
                     phone_number = JID.substring(0, JID.indexOf("@"));
+                    isReplayAction = true;
                 } else {
                     client.sendMessage(
                         BotsApp.chatId,
@@ -64,8 +66,8 @@ module.exports = {
                 }
             }
 
-            else if (args.length === 2) {       // If the user specifies the action and the number, it will take the number from the args
-                phone_number = args[1];
+            if (args.length === 2 || isReplayAction) {       // If the user specifies the action and the number, it will take the number from the args
+                phone_number = isReplayAction ? phone_number : args[1];
                 let SUDOStringArray = SUDOString.split(",");
 
                 if (args[0] === "add") {
@@ -101,22 +103,15 @@ module.exports = {
                     config.SUDO = SUDOString;
                     return;
 
-                } else {
-                    client.sendMessage(
-                        BotsApp.chatId,
-                        "```Unrecognised action for .sudo command. Try add/remove.```",
-                        MessageType.text
-                    );
-                    return
                 }
-            } else {        // If the user doesn't specify the action, it will send an error message
-                client.sendMessage(
-                    BotsApp.chatId,
-                    sudo.ACTION_NOT_SPECIFIED,
-                    MessageType.text
-                );
-                return
             }
+            // If the user does not specify the action, it will send an error message
+            client.sendMessage(
+                BotsApp.chatId,
+                sudo.ACTION_NOT_SPECIFIED,
+                MessageType.text
+            );
+            return
         } catch (error) {
             await inputSanitization.handleError(error, client, BotsApp);
         }
