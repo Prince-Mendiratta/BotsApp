@@ -41,9 +41,6 @@ module.exports = {
             var SUDOString: string = config.SUDO;
 
             if (args.length === 1) {         // If the user only specifies the action, it will take the number from the reply
-                console.log("args[0]", SUDOString)
-                console.log("BotsApp.isTextReply", BotsApp.isTextReply);
-
                 if (args[0] === "list" || args[0] === "info") {
                     client.sendMessage(
                         BotsApp.chatId,
@@ -57,8 +54,6 @@ module.exports = {
                 if (BotsApp.isTextReply) {
                     const JID = chat.message.extendedTextMessage.contextInfo.participant;
                     phone_number = JID.substring(0, JID.indexOf("@"));
-                    console.log("JID", JID)
-                    console.log("phone_number", phone_number)
                 } else {
                     client.sendMessage(
                         BotsApp.chatId,
@@ -68,47 +63,53 @@ module.exports = {
                     return
                 }
             }
-            
-            else if (args[0] === "add" && args.length === 2) {        // If the user specifies the action as add, it will add the number to the SUDO list
-                phone_number = args[1];
 
-                if (SUDOString.includes(phone_number)) {        // If the number is already in the SUDO list, it will send an error message
+            else if (args.length === 2) {       // If the user specifies the action and the number, it will take the number from the args
+                phone_number = args[1];
+                let SUDOStringArray = SUDOString.split(",");
+
+                if (args[0] === "add") {
+                    // If the number is already in the SUDO list, it will send an error message
+                    if (SUDOStringArray.includes(phone_number)) {
+                        client.sendMessage(
+                            BotsApp.chatId,
+                            sudo.ADD_ERROR,
+                            MessageType.text
+                        );
+                        return
+                    }
+                    //add to array
+                    SUDOStringArray.push(phone_number);
+                    SUDOString = SUDOStringArray.join(",");
+                    // setEnvValue("SUDO", SUDOString);
+                    config.SUDO = SUDOString;
+                    return;
+
+                } else if (args[0] === "remove") {
+                    if (!SUDOStringArray.includes(phone_number)) {
+                        client.sendMessage(
+                            BotsApp.chatId,
+                            sudo.REMOVE_ERROR,
+                            MessageType.text
+                        );
+                        return
+                    }
+                    //remove from array
+                    SUDOStringArray = SUDOStringArray.filter((item) => item !== phone_number);
+                    SUDOString = SUDOStringArray.join(",");
+                    // setEnvValue("SUDO", SUDOString);
+                    config.SUDO = SUDOString;
+                    return;
+
+                } else {
                     client.sendMessage(
                         BotsApp.chatId,
-                        sudo.ADD_ERROR,
+                        "```Unrecognised action for .sudo command. Try add/remove.```",
                         MessageType.text
                     );
                     return
                 }
-                //SUDOString -> 5491134017315,5491136666828
-                SUDOString = SUDOString + "," + phone_number;
-                // setEnvValue("SUDO", SUDOString);
-                config.SUDO = SUDOString;
-                return;
-            // } else if (args[0] === "remove") {
-            //     if (!config.SUDO.includes(number)) {
-            //         client.sendMessage(
-            //             BotsApp.chatId,
-            //             sudo.REMOVE_ERROR,
-            //             MessageType.text
-            //         );
-            //         return
-            //     }
-            //     var re = new RegExp(number, "g");
-            //     SUDOString = SUDOString.replace(re, "");
-            //     // setEnvValue("SUDO", SUDOString);
-            //     config.SUDO = SUDOString;
-            //     return;
-            // } else {
-            //     console.log("Incorrect attribute");
-            //     client.sendMessage(
-            //         BotsApp.chatId,
-            //         "```Unrecognised action for .sudo command. Try add/remove.```",
-            //         MessageType.text
-            //     );
-            //     return
-            }
-            else {        // If the user doesn't specify the action, it will send an error message
+            } else {        // If the user doesn't specify the action, it will send an error message
                 client.sendMessage(
                     BotsApp.chatId,
                     sudo.ACTION_NOT_SPECIFIED,
