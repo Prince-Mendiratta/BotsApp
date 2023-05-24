@@ -279,6 +279,12 @@ const data = {
         NOT_A_GROUP: "```This command is only applicable in a group chat.```",
         ICON_CHANGED: "```Changing icon/group image...```",
     },
+    smeta: {
+        DESCRIPTION: "Module to add metadata to a sticker.",
+        EXTENDED_DESCRIPTION:
+            "```Use this module to add metadata to a sticker. Reply to a sticker with the command```  *.smeta <emoji>*  ```to add metadata to the sticker.```",
+            
+    },
     song: {
         DESCRIPTION: "Download songs",
         EXTENDED_DESCRIPTION:
