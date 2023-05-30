@@ -282,7 +282,7 @@ const data = {
     smeta: {
         DESCRIPTION: "Module to add or change metadata to a sticker such as emojis associated with the sticker, pack name, author name and shape of the sticker.",
         EXTENDED_DESCRIPTION:
-            "```Use this module to add/change metadata to a sticker. Reply to a sticker with the command```  *.smeta <emoji> <shape> <packname> <authorname>*  ```to add/change metadata to the sticker.``` \n\n```<emoji> - Emoji to be used for searching in the sticker whatsapp's menu.```  \n```<Shape> - Type of the sticker's shape: default, crop, full, circle, rounded.```  \n```<packname> - Name of the sticker pack.```  \n```<authorname> - Name of the sticker pack author.```  \n\n```For example,```  *.smeta 🤣 circle myPack anAuthor*\n\nTo avoid using a particular metadata, use the keyword```  *null*  ```in place of the metadata.```  \n\n```For example,```  *.smeta null null myPack anAuthor*",
+            "```Use this module to add/change metadata to a sticker. Reply to a sticker with the command```  *.smeta <emoji> <shape> <packname> <authorname>*  ```to add/change metadata to the sticker.``` \n\n```<emoji> - Emoji to be used for searching in the sticker whatsapp's menu.```  \n```<Shape> - Type of the sticker's shape: default, crop, full, circle, rounded.```  \n```<packname> - Name of the sticker pack.```  \n```<authorname> - Name of the sticker pack author.```  \n\n```For example\n```  *.smeta 🤣 circle myPack anAuthor*\n  *.smeta ❤️*\n\nTo avoid using the emoji or shape metadata in the command, use the keyword```  *null*  ```in place of the metadata.```  \n\n```For example```\n*.smeta null null myPack anAuthor*",
     },
     song: {
         DESCRIPTION: "Download songs",
