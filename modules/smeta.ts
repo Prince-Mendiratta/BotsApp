@@ -11,6 +11,13 @@ import { Sticker, createSticker, StickerTypes, Categories } from 'wa-sticker-for
 
 const smeta = Strings.smeta;
 
+function getStickerType(arg: string): StickerTypes {
+    if (Object.values(StickerTypes).includes(arg as StickerTypes)) {
+        return arg as StickerTypes;
+    }
+    return StickerTypes.FULL;
+}
+
 export = {
     name: "smeta",
     description: smeta.DESCRIPTION,
@@ -19,12 +26,11 @@ export = {
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         
             if (BotsApp.isReplySticker) {
-                //.meta EMOJI1 EMOJI2 EMOJI3
-                //convert from string to Categories
+                //it allows more than 1 emoji but its a secret for now
+                //convert from string separate by commas to Categories
                 const arg_emojis: Categories[] = [];
-                for (let i = 0; i < args.length; i++) {
-                    arg_emojis.push(args[i] as Categories);
-                    console.log(args[i]);
+                for (let i = 0; i < args[0].split(",").length; i++) {
+                    arg_emojis.push(args[0].split(",")[i] as Categories);
                 }
                 
                 var replyChatObject: any = {
@@ -38,13 +44,13 @@ export = {
                 await inputSanitization.saveBuffer(filePath, stream);
                 
                 const sticker = new Sticker(filePath, {
-                    pack: 'My Pack', // The pack name
-                    author: 'Me', // The author name
-                    type: StickerTypes.FULL, // The sticker type
                     categories: arg_emojis,
-                    id: '12345', // The sticker id
-                    quality: 50, // The quality of the output file
-                    background: '#000000' // The sticker background color (only for full stickers)
+                    type: getStickerType(args[1]),
+                    pack: args[2] ?? 'Botsapp',
+                    author: args[3] ?? 'Botsapp',
+                    // id: '12345', // The sticker id
+                    // quality: 100, // The quality of the output file
+                    // background: '#000000' // The sticker background color (only for full stickers)
                 })
                 await sticker.toFile(fileWebp)
                 await client.sendMessage(
