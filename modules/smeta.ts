@@ -27,20 +27,17 @@ export = {
                     console.log(args[i]);
                 }
                 
-                console.log("AAAAAAA");
                 var replyChatObject: any = {
                     message: chat.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage,
                     type: 'sticker'
                 };
-                console.log("BBBBBBBBBB");
                 var stickerId = chat.message.extendedTextMessage.contextInfo.stanzaId;
-                const fileName = "./tmp/convert_to_image-" + stickerId;
+                const filePath = "./tmp/convert_to_image-" + stickerId;
+                const fileWebp = './tmp/sticker-' + stickerId + '.webp';
                 const stream: Transform = await downloadContentFromMessage(replyChatObject.message, replyChatObject.type)
-                await inputSanitization.saveBuffer(fileName, stream);
-                const imagePath = "./tmp/image-" + stickerId + ".png";
-                console.log("CCCCCCC");
+                await inputSanitization.saveBuffer(filePath, stream);
                 
-                const sticker = new Sticker(imagePath, {
+                const sticker = new Sticker(filePath, {
                     pack: 'My Pack', // The pack name
                     author: 'Me', // The author name
                     type: StickerTypes.FULL, // The sticker type
@@ -49,17 +46,13 @@ export = {
                     quality: 50, // The quality of the output file
                     background: '#000000' // The sticker background color (only for full stickers)
                 })
-                console.log("DDDDDDDD");
-                await sticker.toFile('./tmp/sticker-' + stickerId + '.webp')
-                console.log("EEEEEEEE");
+                await sticker.toFile(fileWebp)
                 await client.sendMessage(
                     BotsApp.chatId,
-                    fs.readFileSync('./tmp/sticker-' + stickerId + '.webp'),
+                    fs.readFileSync(fileWebp),
                     MessageType.sticker,
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
-                console.log("FFFFFFFF");
-                await inputSanitization.deleteFiles(fileName, imagePath);
-                console.log("GGGGGGGG");
+                await inputSanitization.deleteFiles(filePath, fileWebp);                
             }
         }
                 
