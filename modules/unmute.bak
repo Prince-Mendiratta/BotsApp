@@ -1,4 +1,4 @@
-const { GroupSettingChange, MessageType } = require("@adiwajshing/baileys");
+const { GroupSettingChange, MessageType } = require("@whiskeysockets/baileys");
 const inputSanitization = require("../sidekick/input-sanitization");
 const Strings = require("../lib/db");
 const UNMUTE = Strings.unmute;

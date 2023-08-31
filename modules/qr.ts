@@ -5,7 +5,7 @@ import fs from "fs";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 const QR = Strings.qr;
 
 module.exports = {

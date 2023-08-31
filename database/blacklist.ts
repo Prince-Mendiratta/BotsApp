@@ -3,12 +3,14 @@ import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize }
 
 const sequelize: Sequelize = config.DATABASE;
 
+// @ts-ignore
 class Blacklist extends Model<InferAttributes<Blacklist>, InferCreationAttributes<Blacklist>> {
     declare JID: string;
     declare GRPID: string;
 }
 
 Blacklist.init({
+    // @ts-ignore
     JID: {
         type: DataTypes.STRING,
         allowNull: false,

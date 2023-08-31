@@ -4,7 +4,7 @@ import Strings from "../lib/db";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 const GETDP = Strings.getdp;
 
 module.exports = {

@@ -8,7 +8,7 @@ import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import { Transform } from "stream";
-import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
+import { downloadContentFromMessage, proto } from "@whiskeysockets/baileys";
 import { URL } from "url";
 
 const DECODE = Strings.decodeqr;

@@ -1,4 +1,4 @@
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import format from 'string-format';
 import * as googleTTS from 'google-tts-api';
 import STRINGS from "../lib/db.js";

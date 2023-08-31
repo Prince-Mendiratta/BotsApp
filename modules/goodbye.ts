@@ -2,7 +2,7 @@ import Strings from "../lib/db";
 import inputSanitization from "../sidekick/input-sanitization";
 import Greetings from "../database/greeting";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 const GOODBYE = Strings.goodbye;

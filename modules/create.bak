@@ -1,6 +1,6 @@
 // Doesn't really look all that useful...
 
-// const { MessageType, Mimetype } = require("@adiwajshing/baileys");
+// const { MessageType, Mimetype } = require("@whiskeysockets/baileys");
 // const chalk = require("chalk");
 // const inputSanitization = require("../sidekick/input-sanitization");
 // const strings = require("../lib/db")

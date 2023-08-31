@@ -3,6 +3,7 @@ import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize }
 
 const sequelize: Sequelize = config.DATABASE;
 
+// @ts-ignore
 class Greeting extends Model<InferAttributes<Greeting>, InferCreationAttributes<Greeting>> {
     declare chat: string;
     declare switched: string;
@@ -11,6 +12,7 @@ class Greeting extends Model<InferAttributes<Greeting>, InferCreationAttributes<
 }
 
 Greeting.init({
+    // @ts-ignore
     chat: {
         type: DataTypes.STRING,
         allowNull: false

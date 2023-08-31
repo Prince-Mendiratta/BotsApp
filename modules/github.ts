@@ -4,7 +4,7 @@ import got, {Response} from "got";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 
 module.exports = {
     name: "github",

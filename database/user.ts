@@ -3,11 +3,13 @@ import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize }
 
 const sequelize = config.DATABASE;
 
+// @ts-ignore
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare JID: string;
 }
 
 User.init({
+    // @ts-ignore
         JID: {
             type: DataTypes.STRING,
             allowNull: false,

@@ -10,10 +10,10 @@
     "author": "Prince Mendiratta",
     "license": "ISC",
     "dependencies": {
-        "@adiwajshing/baileys": "^4.4.0",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@nuintun/qrcode": "^3.0.1",
         "@vitalets/google-translate-api": "^7.0.0",
+        "@whiskeysockets/baileys": "^6.4.1",
         "axios": "^0.27.2",
         "chalk": "^4.1.1",
         "cheerio": "^1.0.0-rc.11",
@@ -43,7 +43,7 @@
         "ytdl-core": "^4.11.2"
     },
     "devDependencies": {
-        "@types/node": "^17.0.32",
+        "@types/node": "^20.5.7",
         "@types/string-format": "^2.0.0",
         "@types/urban-dictionary": "^3.0.0",
         "@types/ws": "^8.5.3"

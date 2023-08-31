@@ -3,7 +3,7 @@ import inputSanitization from "../sidekick/input-sanitization";
 import STRINGS from "../lib/db";
 import format from "string-format";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import ud from "urban-dictionary";

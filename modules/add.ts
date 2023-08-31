@@ -3,7 +3,7 @@ import STRINGS from "../lib/db.js";
 import inputSanitization from "../sidekick/input-sanitization";
 import CONFIG from "../config";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import format from "string-format";
@@ -43,7 +43,7 @@ module.exports = {
                 return;
             }
             let number;
-            if (parseInt(args[0]) === NaN || args[0][0] === "+" || args[0].length < 10) {
+            if (Number.isNaN(parseInt(args[0])) || args[0][0] === "+" || args[0].length < 10) {
                 client.sendMessage(
                     BotsApp.chatId,
                     ADD.NUMBER_SYNTAX_ERROR,
@@ -51,7 +51,7 @@ module.exports = {
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
-            if (args[0].length == 10 && !(parseInt(args[0]) === NaN)) {
+            if (args[0].length == 10 && !(Number.isNaN(parseInt(args[0])))) {
                 number = CONFIG.COUNTRY_CODE + args[0];
             } else {
                 number = args[0];

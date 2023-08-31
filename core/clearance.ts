@@ -5,7 +5,6 @@ import STRINGS from "../lib/db";
 import Users from '../database/user';
 import format from 'string-format';
 import BotsApp from '../sidekick/sidekick';
-import { WASocket } from '@adiwajshing/baileys';
 import Client from '../sidekick/client';
 import { MessageType } from '../sidekick/message-type';
 

@@ -2,7 +2,7 @@ import chalk from "chalk";
 import STRINGS from "../lib/db.js";
 import inputSanitization from "../sidekick/input-sanitization";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 
@@ -86,7 +86,7 @@ module.exports = {
             }
             if (args[0][0] == "@") {
                 const number = args[0].substring(1);
-                if (parseInt(args[0]) === NaN) {
+                if (Number.isNaN(parseInt(args[0]))) {
                     client.sendMessage(
                         BotsApp.chatId,
                         STRINGS.remove.INPUT_ERROR,

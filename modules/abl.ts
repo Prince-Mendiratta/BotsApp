@@ -3,7 +3,7 @@ import format from "string-format";
 import inputSanitization from "../sidekick/input-sanitization";
 import Blacklist from "../database/blacklist";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 const abl = Strings.abl;

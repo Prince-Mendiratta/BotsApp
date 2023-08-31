@@ -1,6 +1,6 @@
 import STRINGS from "../lib/db.js";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import inputSanitization from "../sidekick/input-sanitization";

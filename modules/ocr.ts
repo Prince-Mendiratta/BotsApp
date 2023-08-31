@@ -3,7 +3,7 @@ import STRINGS from "../lib/db.js";
 import config from "../config";
 import inputSanitization from "../sidekick/input-sanitization";
 import Client from "../sidekick/client";
-import { downloadContentFromMessage, proto } from "@adiwajshing/baileys";
+import { downloadContentFromMessage, proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import { Transform } from "stream";

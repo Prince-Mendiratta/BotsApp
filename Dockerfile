@@ -16,6 +16,6 @@ RUN git reset --hard origin/multi-device
 
 RUN yarn
 
-# RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@adiwajshing/baileys/
+# RUN cp -r /root/Baileys/lib /BotsApp/node_modules/@whiskeysockets/baileys/
 
 CMD [ "npm", "start"]

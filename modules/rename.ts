@@ -3,7 +3,7 @@ import fs from "fs";
 import inputSanitization from "../sidekick/input-sanitization";
 import Strings from "../lib/db";
 import Client from "../sidekick/client";
-import { downloadContentFromMessage, MediaType, proto } from "@adiwajshing/baileys";
+import { downloadContentFromMessage, MediaType, proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import { JSDOM } from "jsdom";

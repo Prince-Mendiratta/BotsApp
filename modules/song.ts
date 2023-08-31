@@ -6,7 +6,7 @@ import yts from "yt-search";
 import inputSanitization from "../sidekick/input-sanitization";
 import STRINGS from "../lib/db.js";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 const SONG = STRINGS.song;

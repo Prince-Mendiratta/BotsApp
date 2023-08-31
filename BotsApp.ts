@@ -1,6 +1,7 @@
 import { Boom } from '@hapi/boom'
 import P, { Logger } from 'pino'
-import makeWASocket, { MessageRetryMap, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, WASocket, proto, Contact } from '@adiwajshing/baileys'
+import NodeCache from 'node-cache'
+import makeWASocket, { useMultiFileAuthState, isJidBroadcast, makeCacheableSignalKeyStore, DisconnectReason, fetchLatestBaileysVersion, makeInMemoryStore, WASocket, proto, Contact } from '@whiskeysockets/baileys'
 // @ts-ignore
 import { useRemoteFileAuthState } from './core/dbAuth.js'
 import fs from 'fs'
@@ -23,7 +24,7 @@ import { MessageType } from './sidekick/message-type'
 
 const sequelize: Sequelize = config.DATABASE;
 const GENERAL: any = STRINGS.general;
-const msgRetryCounterMap: MessageRetryMap = {};
+const msgRetryCounterCache = new NodeCache();
 const logger: Logger = P({ timestamp: () => `,"time":"${new Date().toJSON()}"` }).child({})
 logger.level = 'fatal'
 
@@ -76,25 +77,28 @@ setInterval(() => {
 
     const startSock = async () => {
         // @ts-ignore
-        const { state, saveCreds } = await useRemoteFileAuthState();
+        // const { state, saveCreds } = await useRemoteFileAuthState();
+        const { state, saveCreds } = await useMultiFileAuthState('auth')
         const { version, isLatest } = await fetchLatestBaileysVersion();
         const sock: WASocket = makeWASocket({
             version,
             logger,
             printQRInTerminal: true,
-            auth: state,
+            auth: {
+                creds: state.creds,
+                keys: makeCacheableSignalKeyStore(state.keys, logger),
+            },
             browser: ["BotsApp", "Chrome", "4.0.0"],
-            msgRetryCounterMap,
+            shouldIgnoreJid: jid => isJidBroadcast(jid),
+            msgRetryCounterCache,
             // implement to handle retries
             getMessage: async key => {
                 if (store) {
-                    const msg = await store.loadMessage(key.remoteJid!, key.id!, undefined)
+                    const msg = await store.loadMessage(key.remoteJid!, key.id!)
                     return msg?.message || undefined
                 }
 
-                return {
-                    conversation: '-pls ignore-'
-                }
+                return proto.Message.fromObject({})
             }
         });
 

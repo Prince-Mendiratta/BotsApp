@@ -3,6 +3,7 @@ import { DataTypes, InferAttributes, Model, InferCreationAttributes, Sequelize }
 
 const sequelize: Sequelize = config.DATABASE;
 
+// @ts-ignore
 class Auth extends Model<InferAttributes<Auth>, InferCreationAttributes<Auth>> {
     declare key: string;
     declare value: string;
@@ -10,6 +11,7 @@ class Auth extends Model<InferAttributes<Auth>, InferCreationAttributes<Auth>> {
 }
 
 Auth.init({
+    // @ts-ignore
         key: {
             type: DataTypes.STRING(1000000),
             allowNull: false,

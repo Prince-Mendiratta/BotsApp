@@ -2,7 +2,7 @@ import fs from 'fs'
 import config from '../config'
 import chalk from 'chalk'
 import BotsAppClass from '../sidekick/sidekick'
-import { Contact, GroupMetadata, GroupParticipant, proto, WASocket } from '@adiwajshing/baileys'
+import { Contact, GroupMetadata, GroupParticipant, proto, WASocket } from '@whiskeysockets/baileys'
 
 
 const resolve = async function (messageInstance: proto.IWebMessageInfo, client: WASocket) {

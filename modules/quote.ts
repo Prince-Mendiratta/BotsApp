@@ -3,7 +3,7 @@ import format from "string-format";
 import inputSanitization from "../sidekick/input-sanitization";
 import { MessageType } from "../sidekick/message-type";
 import Client from "../sidekick/client";
-import { proto } from "@adiwajshing/baileys";
+import { proto } from "@whiskeysockets/baileys";
 import BotsApp from "../sidekick/sidekick";
 import Axios from "axios";
 import { writeFile } from 'fs/promises';

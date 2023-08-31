@@ -1,4 +1,4 @@
-import {GroupParticipant} from '@adiwajshing/baileys'
+import {GroupParticipant} from '@whiskeysockets/baileys'
 
 class BotsApp {
 
