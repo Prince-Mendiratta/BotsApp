@@ -131,7 +131,8 @@ export const adminCommands = [
     "setdp",
     "tagall",
     "abl",
-    "rbl"
+    "rbl",
+    "sudo"
 ];
 
-export const sudoCommands = ["block", "unblock"];
+export const sudoCommands = ["block", "unblock", "sudo"];
