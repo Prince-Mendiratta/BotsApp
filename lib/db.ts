@@ -127,6 +127,11 @@ const data = {
         EXTENDED_DESCRIPTION:
             "```Toggle disappearing messages by using command``` *.dissapear* .",
     },
+    flip: {
+        DESCRIPTION: "Flip a coin",
+        EXTENDED_DESCRIPTION:
+            "```Flip a coin by using command``` *.flip* .",
+    },
     getdp: {
         DESCRIPTION: "Get display picture",
         EXTENDED_DESCRIPTION:
