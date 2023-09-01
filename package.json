@@ -39,6 +39,7 @@
         "typescript": "^4.6.4",
         "unofficial-carbon-now": "^1.0.3",
         "urban-dictionary": "^3.0.2",
+        "wa-sticker-formatter": "^4.4.4",
         "yt-search": "^2.10.1",
         "ytdl-core": "^4.11.2"
     },
