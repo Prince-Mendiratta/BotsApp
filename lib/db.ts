@@ -322,6 +322,15 @@ const data = {
         ERROR:
             "```Woops, something went wrong. Try again later, or proabaly not with this again...```",
     },
+    sudo: {
+        DESCRIPTION: "Module to add or remove members from sudo",
+        EXTENDED_DESCRIPTION: "```Use this module to add or remove members from sudo. For example use```  *.sudo add @<member-to-add>*  ```to add a member to sudo.```. Also *.sudo info* to get a list about the current sudo members.",
+        ACTION_NOT_SPECIFIED: "```Action not found or not specified.```",
+        ADD_ERROR: "```Number already in sudo.```",
+        REMOVE_ERROR: "```Number to remove not found.```",
+        NUMBER_NOT_FOUND: "```There was an error while processing the number.```",
+        NO_SUDO_USERS: "```There are no sudo users.```",
+    },
     tr: {
         DESCRIPTION: "Language Translator",
         EXTENDED_DESCRIPTION:
